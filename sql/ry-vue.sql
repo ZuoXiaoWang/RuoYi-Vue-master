@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 28/03/2023 15:59:09
+ Date: 28/03/2023 16:45:36
 */
 
 SET NAMES utf8mb4;
@@ -260,16 +260,16 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table
 -- ----------------------------
-INSERT INTO `gen_table` VALUES (4, 'sys_area', '区域管理', NULL, NULL, 'SysArea', 'crud', 'com.ruoyi.system', 'system', 'area', '区域管理', 'lile', '0', '/', '{\"parentMenuId\":1}', 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26', NULL);
-INSERT INTO `gen_table` VALUES (5, 'sys_patrol_line', '', NULL, NULL, 'SysPatrolLine', 'crud', 'com.ruoyi.system', 'system', 'line', NULL, 'ruoyi', '0', '/', NULL, 'admin', '2023-03-27 15:23:50', '', NULL, NULL);
-INSERT INTO `gen_table` VALUES (6, 'sys_patrol_point', '', NULL, NULL, 'SysPatrolPoint', 'crud', 'com.ruoyi.system', 'system', 'point', NULL, 'ruoyi', '0', '/', NULL, 'admin', '2023-03-27 15:23:50', '', NULL, NULL);
-INSERT INTO `gen_table` VALUES (9, 'sys_personnel', '员工管理', NULL, NULL, 'SysPersonnel', 'crud', 'com.ruoyi.system', 'system', 'personnel', '员工管理', 'lile', '0', '/', '{\"parentMenuId\":1}', 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04', NULL);
-INSERT INTO `gen_table` VALUES (10, 'sys_personnel_post', '员工岗位关联表', NULL, NULL, 'SysPersonnelPost', 'crud', 'com.ruoyi.system', 'system', 'post', '了', 'ruoyi', '0', '/', '{}', 'admin', '2023-03-28 11:19:59', '', '2023-03-28 11:21:09', NULL);
+INSERT INTO `gen_table` VALUES (11, 'sys_area', '区域', NULL, NULL, 'SysArea', 'crud', 'com.ruoyi.system', 'system', 'area', '区域管理', 'lile', '0', '/', '{\"parentMenuId\":1}', 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48', NULL);
+INSERT INTO `gen_table` VALUES (12, 'sys_area_patrol_point', '区域和巡更点关联表', NULL, NULL, 'SysAreaPatrolPoint', 'crud', 'com.ruoyi.system', 'system', 'point', '区域和巡更点关联表', 'lile', '0', '/', '{}', 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:08:25', NULL);
+INSERT INTO `gen_table` VALUES (13, 'sys_patrol_line', '巡更线', NULL, NULL, 'SysPatrolLine', 'crud', 'com.ruoyi.system', 'system', 'line', '巡更线管理', 'lile', '0', '/', '{\"parentMenuId\":1}', 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53', NULL);
+INSERT INTO `gen_table` VALUES (14, 'sys_patrol_line_patrol_point', '巡更线和巡更点关联表', NULL, NULL, 'SysPatrolLinePatrolPoint', 'crud', 'com.ruoyi.system', 'system', 'point', '巡更线与寻根点', 'ruoyi', '0', '/', '{}', 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:08:16', NULL);
+INSERT INTO `gen_table` VALUES (15, 'sys_patrol_point', '寻根点', NULL, NULL, 'SysPatrolPoint', 'crud', 'com.ruoyi.system', 'system', 'point', '巡更点管理', 'lile', '0', '/', '{\"parentMenuId\":1}', 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:11:26', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -299,93 +299,44 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 120 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 153 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table_column
 -- ----------------------------
-INSERT INTO `gen_table_column` VALUES (41, '4', 'area_id', '区域ID', 'bigint', 'Long', 'areaId', '1', '1', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (42, '4', 'area_name', '区域名称', 'varchar(30)', 'String', 'areaName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (43, '4', 'area_leader', '负责人', 'varchar(20)', 'String', 'areaLeader', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (44, '4', 'area_leader_phone', '负责人手机号', 'varchar(11)', 'String', 'areaLeaderPhone', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (45, '4', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 5, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (46, '4', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'datetime', '', 6, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (47, '4', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'input', '', 7, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (48, '4', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'datetime', '', 8, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (49, '4', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 9, 'admin', '2023-03-27 15:23:50', '', '2023-03-27 15:28:26');
-INSERT INTO `gen_table_column` VALUES (50, '5', 'patrol_line_id', '巡更线路编号', 'bigint', 'Long', 'patrolLineId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (51, '5', 'patrol_line_name', '巡更线路名称', 'varchar(30)', 'String', 'patrolLineName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (52, '5', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 3, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (53, '5', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', '', 4, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (54, '5', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'input', '', 5, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (55, '5', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', '', 6, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (56, '5', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 7, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (57, '6', 'patrol_point_id', '巡更点ID', 'bigint', 'Long', 'patrolPointId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (58, '6', 'patrol_point_name', '巡更点名称', 'varchar(30)', 'String', 'patrolPointName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (59, '6', 'patrol_point_describe', '巡更点描述', 'varchar(800)', 'String', 'patrolPointDescribe', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'textarea', '', 3, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (60, '6', 'patrol_point_url', '巡更点二维码', 'varchar(500)', 'String', 'patrolPointUrl', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'textarea', '', 4, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (61, '6', 'patrol_point_latitude', '巡更点纬度', 'decimal(10,8)', 'BigDecimal', 'patrolPointLatitude', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 5, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (62, '6', 'patrol_point_longitude', '巡更点经度', 'decimal(10,8)', 'BigDecimal', 'patrolPointLongitude', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 6, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (63, '6', 'patrol_point_altitude', '巡更点高度', 'decimal(10,8)', 'BigDecimal', 'patrolPointAltitude', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 7, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (64, '6', 'patrol_point_status', '状态(0启用 1未启用)', 'char(1)', 'String', 'patrolPointStatus', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'radio', '', 8, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (65, '6', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 9, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (66, '6', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', '', 10, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (67, '6', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'input', '', 11, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (68, '6', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', '', 12, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (69, '6', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 13, 'admin', '2023-03-27 15:23:50', '', NULL);
-INSERT INTO `gen_table_column` VALUES (102, '9', 'personnel_id', '员工ID', 'bigint', 'Long', 'personnelId', '1', '1', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (103, '9', 'dept_id', '部门ID', 'bigint', 'Long', 'deptId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (104, '9', 'post_id', '岗位ID', 'bigint', 'Long', 'postId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (105, '9', 'personnel_login_name', '用户账号', 'varchar(30)', 'String', 'personnelLoginName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 4, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (106, '9', 'personnel_password', '密码', 'varchar(100)', 'String', 'personnelPassword', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 5, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (107, '9', 'personnel_name', '员工名字', 'varchar(30)', 'String', 'personnelName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 6, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (108, '9', 'personnel_phone', '手机号码', 'varchar(11)', 'String', 'personnelPhone', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 7, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (109, '9', 'personnel_sex', '性别', 'char(1)', 'String', 'personnelSex', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'sys_user_sex', 8, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (110, '9', 'personnel_status', '状态', 'char(1)', 'String', 'personnelStatus', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'radio', 'sys_staff_status', 9, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (111, '9', 'personnel_entry_time', '入职时间', 'datetime', 'Date', 'personnelEntryTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 10, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (112, '9', 'personnel_resignation_time', '离职时间', 'datetime', 'Date', 'personnelResignationTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 11, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (113, '9', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 12, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (114, '9', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 13, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (115, '9', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'datetime', '', 14, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (116, '9', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'input', '', 15, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (117, '9', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'datetime', '', 16, 'admin', '2023-03-27 15:37:28', '', '2023-03-27 15:39:04');
-INSERT INTO `gen_table_column` VALUES (118, '10', 'personnel_id', '员工id', 'bigint', 'Long', 'personnelId', '1', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 1, 'admin', '2023-03-28 11:19:59', '', '2023-03-28 11:21:09');
-INSERT INTO `gen_table_column` VALUES (119, '10', 'post_id', '岗位id', 'bigint', 'Long', 'postId', '1', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2023-03-28 11:19:59', '', '2023-03-28 11:21:09');
-
--- ----------------------------
--- Table structure for sys_area
--- ----------------------------
-DROP TABLE IF EXISTS `sys_area`;
-CREATE TABLE `sys_area`  (
-  `area_id` bigint NOT NULL AUTO_INCREMENT COMMENT '区域ID',
-  `area_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '区域名称',
-  `area_leader` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '负责人',
-  `area_leader_phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '负责人手机号',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`area_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_area
--- ----------------------------
-
--- ----------------------------
--- Table structure for sys_area_patrol_point
--- ----------------------------
-DROP TABLE IF EXISTS `sys_area_patrol_point`;
-CREATE TABLE `sys_area_patrol_point`  (
-  `area_id` bigint NOT NULL COMMENT '区域ID',
-  `patrol_point_id` bigint NOT NULL COMMENT '巡更点ID',
-  PRIMARY KEY (`area_id`, `patrol_point_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_area_patrol_point
--- ----------------------------
+INSERT INTO `gen_table_column` VALUES (120, '11', 'area_id', '区域ID', 'bigint', 'Long', 'areaId', '1', '1', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (121, '11', 'area_name', '区域名称', 'varchar(30)', 'String', 'areaName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (122, '11', 'area_leader', '负责人', 'varchar(20)', 'String', 'areaLeader', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (123, '11', 'area_leader_phone', '负责人手机号', 'varchar(11)', 'String', 'areaLeaderPhone', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (124, '11', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 5, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (125, '11', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'datetime', '', 6, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (126, '11', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'input', '', 7, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (127, '11', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'datetime', '', 8, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (128, '11', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 9, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:04:48');
+INSERT INTO `gen_table_column` VALUES (129, '12', 'area_id', '区域ID', 'bigint', 'Long', 'areaId', '1', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 1, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:08:25');
+INSERT INTO `gen_table_column` VALUES (130, '12', 'patrol_point_id', '巡更点ID', 'bigint', 'Long', 'patrolPointId', '1', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:08:25');
+INSERT INTO `gen_table_column` VALUES (131, '13', 'patrol_line_id', '巡更线路编号', 'bigint', 'Long', 'patrolLineId', '1', '1', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (132, '13', 'patrol_line_name', '巡更线路名称', 'varchar(30)', 'String', 'patrolLineName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (133, '13', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 3, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (134, '13', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'datetime', '', 4, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (135, '13', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'input', '', 5, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (136, '13', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'datetime', '', 6, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (137, '13', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 7, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:06:53');
+INSERT INTO `gen_table_column` VALUES (138, '14', 'patrol_line_id', '巡更线路ID', 'bigint', 'Long', 'patrolLineId', '1', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 1, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:08:16');
+INSERT INTO `gen_table_column` VALUES (139, '14', 'patrol_point_id', '巡更点ID', 'bigint', 'Long', 'patrolPointId', '1', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2023-03-28 16:03:00', '', '2023-03-28 16:08:16');
+INSERT INTO `gen_table_column` VALUES (140, '15', 'patrol_point_id', '巡更点ID', 'bigint', 'Long', 'patrolPointId', '1', '1', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:26');
+INSERT INTO `gen_table_column` VALUES (141, '15', 'patrol_point_name', '巡更点名称', 'varchar(30)', 'String', 'patrolPointName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:26');
+INSERT INTO `gen_table_column` VALUES (142, '15', 'patrol_point_describe', '巡更点描述', 'varchar(800)', 'String', 'patrolPointDescribe', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'textarea', '', 3, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (143, '15', 'patrol_point_url', '巡更点二维码', 'varchar(500)', 'String', 'patrolPointUrl', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'textarea', '', 4, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (144, '15', 'patrol_point_latitude', '巡更点纬度', 'decimal(10,8)', 'BigDecimal', 'patrolPointLatitude', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 5, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (145, '15', 'patrol_point_longitude', '巡更点经度', 'decimal(10,8)', 'BigDecimal', 'patrolPointLongitude', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 6, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (146, '15', 'patrol_point_altitude', '巡更点高度', 'decimal(10,8)', 'BigDecimal', 'patrolPointAltitude', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 7, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (147, '15', 'patrol_point_status', '状态', 'char(1)', 'String', 'patrolPointStatus', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'radio', 'sys_normal_disable', 8, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (148, '15', 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 9, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (149, '15', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'datetime', '', 10, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (150, '15', 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'input', '', 11, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (151, '15', 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '0', '0', NULL, NULL, 'EQ', 'datetime', '', 12, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
+INSERT INTO `gen_table_column` VALUES (152, '15', 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 13, 'admin', '2023-03-28 16:03:01', '', '2023-03-28 16:11:27');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -662,7 +613,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2014 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2032 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -760,6 +711,24 @@ INSERT INTO `sys_menu` VALUES (2010, '员工管理新增', 2008, 2, '#', '', NUL
 INSERT INTO `sys_menu` VALUES (2011, '员工管理修改', 2008, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:personnel:edit', '#', 'admin', '2023-03-27 15:58:09', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2012, '员工管理删除', 2008, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:personnel:remove', '#', 'admin', '2023-03-27 15:58:09', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2013, '员工管理导出', 2008, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:personnel:export', '#', 'admin', '2023-03-27 15:58:09', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2014, '区域管理', 1, 1, 'area', 'system/area/index', NULL, 1, 0, 'C', '0', '0', 'system:area:list', '#', 'admin', '2023-03-28 16:13:18', '', NULL, '区域管理菜单');
+INSERT INTO `sys_menu` VALUES (2015, '区域管理查询', 2014, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:area:query', '#', 'admin', '2023-03-28 16:13:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2016, '区域管理新增', 2014, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:area:add', '#', 'admin', '2023-03-28 16:13:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2017, '区域管理修改', 2014, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:area:edit', '#', 'admin', '2023-03-28 16:13:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2018, '区域管理删除', 2014, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:area:remove', '#', 'admin', '2023-03-28 16:13:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2019, '区域管理导出', 2014, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:area:export', '#', 'admin', '2023-03-28 16:13:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2020, '巡更线管理', 1, 1, 'line', 'system/line/index', NULL, 1, 0, 'C', '0', '0', 'system:line:list', '#', 'admin', '2023-03-28 16:13:30', '', NULL, '巡更线管理菜单');
+INSERT INTO `sys_menu` VALUES (2021, '巡更线管理查询', 2020, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:line:query', '#', 'admin', '2023-03-28 16:13:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2022, '巡更线管理新增', 2020, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:line:add', '#', 'admin', '2023-03-28 16:13:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2023, '巡更线管理修改', 2020, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:line:edit', '#', 'admin', '2023-03-28 16:13:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2024, '巡更线管理删除', 2020, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:line:remove', '#', 'admin', '2023-03-28 16:13:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2025, '巡更线管理导出', 2020, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:line:export', '#', 'admin', '2023-03-28 16:13:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2026, '区域和巡更点关联表', 3, 1, 'point', 'system/point/index', NULL, 1, 0, 'C', '0', '0', 'system:point:list', '#', 'admin', '2023-03-28 16:13:41', '', NULL, '区域和巡更点关联表菜单');
+INSERT INTO `sys_menu` VALUES (2027, '区域和巡更点关联表查询', 2026, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:point:query', '#', 'admin', '2023-03-28 16:13:41', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2028, '区域和巡更点关联表新增', 2026, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:point:add', '#', 'admin', '2023-03-28 16:13:42', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2029, '区域和巡更点关联表修改', 2026, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:point:edit', '#', 'admin', '2023-03-28 16:13:42', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2030, '区域和巡更点关联表删除', 2026, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:point:remove', '#', 'admin', '2023-03-28 16:13:42', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2031, '区域和巡更点关联表导出', 2026, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:point:export', '#', 'admin', '2023-03-28 16:13:42', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -811,7 +780,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 182 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 193 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -898,39 +867,17 @@ INSERT INTO `sys_oper_log` VALUES (178, '员工管理', 2, 'com.ruoyi.web.contro
 INSERT INTO `sys_oper_log` VALUES (179, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '192.168.0.9', '内网IP', '{\"children\":[],\"component\":\"system/personnel/index\",\"createTime\":\"2023-03-27 15:58:09\",\"icon\":\"peoples\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2008,\"menuName\":\"员工管理\",\"menuType\":\"C\",\"orderNum\":1,\"params\":{},\"parentId\":1,\"path\":\"personnel\",\"perms\":\"system:personnel:list\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 15:55:41', 134);
 INSERT INTO `sys_oper_log` VALUES (180, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '192.168.0.9', '内网IP', '{\"children\":[],\"component\":\"system/personnel/index\",\"createTime\":\"2023-03-27 15:58:09\",\"icon\":\"people\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2008,\"menuName\":\"员工管理\",\"menuType\":\"C\",\"orderNum\":1,\"params\":{},\"parentId\":1,\"path\":\"personnel\",\"perms\":\"system:personnel:list\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 15:56:06', 131);
 INSERT INTO `sys_oper_log` VALUES (181, '参数管理', 2, 'com.ruoyi.web.controller.system.SysConfigController.edit()', 'PUT', 1, 'admin', NULL, '/system/config', '192.168.0.9', '内网IP', '{\"configId\":5,\"configKey\":\"sys.account.registerUser\",\"configName\":\"账号自助-是否开启用户注册功能\",\"configType\":\"Y\",\"configValue\":\"false\",\"createBy\":\"admin\",\"createTime\":\"2023-03-24 14:39:22\",\"params\":{},\"remark\":\"是否开启注册用户功能（true开启，false关闭）\",\"updateBy\":\"admin\",\"updateTime\":\"2023-03-24 15:04:53\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 15:57:25', 104);
-
--- ----------------------------
--- Table structure for sys_patrol_line
--- ----------------------------
-DROP TABLE IF EXISTS `sys_patrol_line`;
-CREATE TABLE `sys_patrol_line`  (
-  `patrol_line_id` bigint NOT NULL AUTO_INCREMENT COMMENT '巡更线路编号',
-  `patrol_line_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '巡更线路名称',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`patrol_line_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_patrol_line
--- ----------------------------
-
--- ----------------------------
--- Table structure for sys_patrol_line_patrol_point
--- ----------------------------
-DROP TABLE IF EXISTS `sys_patrol_line_patrol_point`;
-CREATE TABLE `sys_patrol_line_patrol_point`  (
-  `patrol_line_id` bigint NOT NULL COMMENT '巡更线路ID',
-  `patrol_point_id` bigint NOT NULL COMMENT '巡更点ID',
-  PRIMARY KEY (`patrol_line_id`, `patrol_point_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_patrol_line_patrol_point
--- ----------------------------
+INSERT INTO `sys_oper_log` VALUES (182, '代码生成', 3, 'com.ruoyi.generator.controller.GenController.remove()', 'DELETE', 1, 'admin', NULL, '/tool/gen/4,5,6,9,10', '192.168.0.9', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:02:28', 229);
+INSERT INTO `sys_oper_log` VALUES (183, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/tool/gen/importTable', '192.168.0.9', '内网IP', '{\"tables\":\"sys_area,sys_patrol_point,sys_patrol_line,sys_patrol_line_patrol_point,sys_area_patrol_point\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:03:01', 824);
+INSERT INTO `sys_oper_log` VALUES (184, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '192.168.0.9', '内网IP', '{\"businessName\":\"area\",\"className\":\"SysArea\",\"columns\":[{\"capJavaField\":\"AreaId\",\"columnComment\":\"区域ID\",\"columnId\":120,\"columnName\":\"area_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":false,\"isIncrement\":\"1\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"areaId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":11,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"AreaName\",\"columnComment\":\"区域名称\",\"columnId\":121,\"columnName\":\"area_name\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"areaName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":11,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"AreaLeader\",\"columnComment\":\"负责人\",\"columnId\":122,\"columnName\":\"area_leader\",\"columnType\":\"varchar(20)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"areaLeader\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":11,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"AreaLeaderPhone\",\"columnComment\":\"负责人手机号\",\"columnId\":123,\"columnName\":\"area_leader_phone\",\"columnType\":\"varchar(11)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"areaLeaderPhone\",\"jav', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:04:48', 235);
+INSERT INTO `sys_oper_log` VALUES (185, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '192.168.0.9', '内网IP', '{\"businessName\":\"point\",\"className\":\"SysAreaPatrolPoint\",\"columns\":[{\"capJavaField\":\"AreaId\",\"columnComment\":\"区域ID\",\"columnId\":129,\"columnName\":\"area_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"areaId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"PatrolPointId\",\"columnComment\":\"巡更点ID\",\"columnId\":130,\"columnName\":\"patrol_point_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"patrolPointId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"usableColumn\":false}],\"crud\":true,\"functionAuthor\":\"lile\",\"functionName\":\"区域和巡更点关联表\",\"genPath\":\"/\",\"genType\":\"0\",\"moduleName\":\"system\",\"options\":\"{}\",\"packageName\":\"com.ruoyi.system\",\"params\":{},\"sub\":false,\"tableComment\":\"区域和巡更点关联表\",\"tableId\":12,\"tableName\":\"sys_area_patrol_point\",\"tplCategory\":\"crud\",\"tree\":false}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:05:43', 123);
+INSERT INTO `sys_oper_log` VALUES (186, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '192.168.0.9', '内网IP', '{\"businessName\":\"line\",\"className\":\"SysPatrolLine\",\"columns\":[{\"capJavaField\":\"PatrolLineId\",\"columnComment\":\"巡更线路编号\",\"columnId\":131,\"columnName\":\"patrol_line_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":false,\"isIncrement\":\"1\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"patrolLineId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":13,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"PatrolLineName\",\"columnComment\":\"巡更线路名称\",\"columnId\":132,\"columnName\":\"patrol_line_name\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"patrolLineName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":13,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"CreateBy\",\"columnComment\":\"创建者\",\"columnId\":133,\"columnName\":\"create_by\",\"columnType\":\"varchar(64)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"0\",\"javaField\":\"createBy\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":true,\"tableId\":13,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"CreateTime\",\"columnComment\":\"创建时间\",\"columnId\":134,\"columnName\":\"create_time\",\"columnType\":\"datetime\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"datetime\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"0\",\"javaField\":\"createTime\",\"javaType\":\"Date\",\"list\":false,\"params\":{},\"pk\":false,\"', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:06:54', 187);
+INSERT INTO `sys_oper_log` VALUES (187, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '192.168.0.9', '内网IP', '{\"businessName\":\"point\",\"className\":\"SysPatrolLinePatrolPoint\",\"columns\":[{\"capJavaField\":\"PatrolLineId\",\"columnComment\":\"巡更线路ID\",\"columnId\":138,\"columnName\":\"patrol_line_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"javaField\":\"patrolLineId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":14,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"PatrolPointId\",\"columnComment\":\"巡更点ID\",\"columnId\":139,\"columnName\":\"patrol_point_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"javaField\":\"patrolPointId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":14,\"updateBy\":\"\",\"usableColumn\":false}],\"crud\":true,\"functionAuthor\":\"ruoyi\",\"functionName\":\"巡更线与寻根点\",\"genPath\":\"/\",\"genType\":\"0\",\"moduleName\":\"system\",\"options\":\"{}\",\"packageName\":\"com.ruoyi.system\",\"params\":{},\"sub\":false,\"tableComment\":\"巡更线和巡更点关联表\",\"tableId\":14,\"tableName\":\"sys_patrol_line_patrol_point\",\"tplCategory\":\"crud\",\"tree\":false}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:08:16', 103);
+INSERT INTO `sys_oper_log` VALUES (188, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '192.168.0.9', '内网IP', '{\"businessName\":\"point\",\"className\":\"SysAreaPatrolPoint\",\"columns\":[{\"capJavaField\":\"AreaId\",\"columnComment\":\"区域ID\",\"columnId\":129,\"columnName\":\"area_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"javaField\":\"areaId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"updateTime\":\"2023-03-28 16:05:43\",\"usableColumn\":false},{\"capJavaField\":\"PatrolPointId\",\"columnComment\":\"巡更点ID\",\"columnId\":130,\"columnName\":\"patrol_point_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:00\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"javaField\":\"patrolPointId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"updateTime\":\"2023-03-28 16:05:43\",\"usableColumn\":false}],\"crud\":true,\"functionAuthor\":\"lile\",\"functionName\":\"区域和巡更点关联表\",\"genPath\":\"/\",\"genType\":\"0\",\"moduleName\":\"system\",\"options\":\"{}\",\"packageName\":\"com.ruoyi.system\",\"params\":{},\"sub\":false,\"tableComment\":\"区域和巡更点关联表\",\"tableId\":12,\"tableName\":\"sys_area_patrol_point\",\"tplCategory\":\"crud\",\"tree\":false}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:08:25', 127);
+INSERT INTO `sys_oper_log` VALUES (189, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '192.168.0.9', '内网IP', '{\"businessName\":\"point\",\"className\":\"SysPatrolPoint\",\"columns\":[{\"capJavaField\":\"PatrolPointId\",\"columnComment\":\"巡更点ID\",\"columnId\":140,\"columnName\":\"patrol_point_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:01\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":false,\"isIncrement\":\"1\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"patrolPointId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"PatrolPointName\",\"columnComment\":\"巡更点名称\",\"columnId\":141,\"columnName\":\"patrol_point_name\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:01\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"patrolPointName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"PatrolPointDescribe\",\"columnComment\":\"巡更点描述\",\"columnId\":142,\"columnName\":\"patrol_point_describe\",\"columnType\":\"varchar(800)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:01\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"textarea\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"patrolPointDescribe\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"PatrolPointUrl\",\"columnComment\":\"巡更点二维码\",\"columnId\":143,\"columnName\":\"patrol_point_url\",\"columnType\":\"varchar(500)\",\"createBy\":\"admin\",\"createTime\":\"2023-03-28 16:03:01\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"textarea\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-03-28 16:11:27', 242);
+INSERT INTO `sys_oper_log` VALUES (190, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/tool/gen/batchGenCode', '192.168.0.9', '内网IP', '{\"tables\":\"sys_area,sys_area_patrol_point,sys_patrol_line,sys_patrol_line_patrol_point,sys_patrol_point\"}', NULL, 0, NULL, '2023-03-28 16:11:41', 1224);
+INSERT INTO `sys_oper_log` VALUES (191, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/tool/gen/batchGenCode', '192.168.0.9', '内网IP', '{\"tables\":\"sys_area,sys_area_patrol_point,sys_patrol_line,sys_patrol_line_patrol_point,sys_patrol_point\"}', NULL, 0, NULL, '2023-03-28 16:11:42', 908);
+INSERT INTO `sys_oper_log` VALUES (192, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/tool/gen/batchGenCode', '192.168.0.9', '内网IP', '{\"tables\":\"sys_area,sys_area_patrol_point,sys_patrol_line,sys_patrol_line_patrol_point,sys_patrol_point\"}', NULL, 0, NULL, '2023-03-28 16:11:43', 582);
 
 -- ----------------------------
 -- Table structure for sys_patrol_point
@@ -999,8 +946,6 @@ CREATE TABLE `sys_personnel_post`  (
 -- ----------------------------
 -- Records of sys_personnel_post
 -- ----------------------------
-INSERT INTO `sys_personnel_post` VALUES (2, 3);
-INSERT INTO `sys_personnel_post` VALUES (2, 4);
 INSERT INTO `sys_personnel_post` VALUES (3, 1);
 INSERT INTO `sys_personnel_post` VALUES (3, 4);
 
