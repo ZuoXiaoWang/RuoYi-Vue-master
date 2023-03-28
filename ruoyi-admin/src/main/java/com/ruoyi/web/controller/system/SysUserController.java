@@ -34,7 +34,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -246,6 +246,9 @@ public class SysUserController extends BaseController
     @GetMapping("/deptTree")
     public AjaxResult deptTree(SysDept dept)
     {
-        return success(deptService.selectDeptTreeList(dept));
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("posts", postService.selectPostAll());
+        ajax.put(AjaxResult.DATA_TAG, deptService.selectDeptTreeList(dept));
+        return ajax;
     }
 }

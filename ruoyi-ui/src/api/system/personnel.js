@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import {parseStrEmpty} from "@/utils/ruoyi";
 
 // 查询员工管理列表
 export function listPersonnel(query) {
@@ -12,7 +13,7 @@ export function listPersonnel(query) {
 // 查询员工管理详细
 export function getPersonnel(personnelId) {
   return request({
-    url: '/system/personnel/' + personnelId,
+    url: '/system/personnel/' + parseStrEmpty(personnelId),
     method: 'get'
   })
 }
@@ -40,5 +41,18 @@ export function delPersonnel(personnelId) {
   return request({
     url: '/system/personnel/' + personnelId,
     method: 'delete'
+  })
+}
+
+//员工密码重置
+export function resetPersonnelPwd(personnelId, personnelPassword) {
+  const data = {
+    personnelId,
+    personnelPassword
+  }
+  return request({
+    url: '/system/personnel/resetPwd',
+    method: 'put',
+    data: data
   })
 }

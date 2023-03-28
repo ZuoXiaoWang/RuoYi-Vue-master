@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,17 @@ public class SysPersonnel extends BaseEntity
 
     /** 岗位组 */
     private List<SysPost> posts;
+
+    /** 岗位组 */
+    private Long[] postIds;
+
+    public Long[] getPostIds() {
+        return postIds;
+    }
+
+    public void setPostIds(Long[] postIds) {
+        this.postIds = postIds;
+    }
 
     public Long getPersonnelId() {
         return personnelId;
@@ -191,6 +203,7 @@ public class SysPersonnel extends BaseEntity
                 ", personnelResignationTime=" + personnelResignationTime +
                 ", dept=" + dept +
                 ", posts=" + posts +
+                ", postIds=" + Arrays.toString(postIds) +
                 '}';
     }
 }

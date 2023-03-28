@@ -1,9 +1,17 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysRole;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.service.ISysPostService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,18 +37,19 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/personnel")
-public class SysPersonnelController extends BaseController
-{
+public class SysPersonnelController extends BaseController {
     @Autowired
     private ISysPersonnelService sysPersonnelService;
+
+    @Autowired
+    private ISysPostService postService;
 
     /**
      * 查询员工管理列表
      */
     @PreAuthorize("@ss.hasPermi('system:personnel:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysPersonnel sysPersonnel)
-    {
+    public TableDataInfo list(SysPersonnel sysPersonnel) {
         startPage();
         List<SysPersonnel> list = sysPersonnelService.selectSysPersonnelList(sysPersonnel);
         return getDataTable(list);
@@ -52,8 +61,7 @@ public class SysPersonnelController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:personnel:export')")
     @Log(title = "员工管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysPersonnel sysPersonnel)
-    {
+    public void export(HttpServletResponse response, SysPersonnel sysPersonnel) {
         List<SysPersonnel> list = sysPersonnelService.selectSysPersonnelList(sysPersonnel);
         ExcelUtil<SysPersonnel> util = new ExcelUtil<SysPersonnel>(SysPersonnel.class);
         util.exportExcel(response, list, "员工管理数据");
@@ -63,10 +71,28 @@ public class SysPersonnelController extends BaseController
      * 获取员工管理详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:personnel:query')")
-    @GetMapping(value = "/{personnelId}")
-    public AjaxResult getInfo(@PathVariable("personnelId") Long personnelId)
-    {
-        return success(sysPersonnelService.selectSysPersonnelByPersonnelId(personnelId));
+    @GetMapping(value = {"/", "/{personnelId}"})
+    public AjaxResult getInfo(@PathVariable(value = "personnelId", required = false) Long personnelId) {
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("posts", postService.selectPostAll());
+        if (StringUtils.isNotNull(personnelId)) {
+            SysPersonnel sysPersonnel = sysPersonnelService.selectSysPersonnelByPersonnelId(personnelId);
+            ajax.put(AjaxResult.DATA_TAG, sysPersonnel);
+            ajax.put("postIds", postService.selectPostListByPersonnelId(personnelId));
+        }
+        return ajax;
+    }
+
+    /**
+     * 重置密码
+     */
+    @PreAuthorize("@ss.hasPermi('system:personnel:resetPwd')")
+    @Log(title = "员工管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/resetPwd")
+    public AjaxResult resetPwd(@RequestBody SysPersonnel personnel) {
+        personnel.setPersonnelPassword(SecurityUtils.encryptPassword(personnel.getPersonnelPassword()));
+        personnel.setUpdateBy(getUsername());
+        return toAjax(sysPersonnelService.resetPwd(personnel));
     }
 
     /**
@@ -75,8 +101,12 @@ public class SysPersonnelController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:personnel:add')")
     @Log(title = "员工管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysPersonnel sysPersonnel)
-    {
+    public AjaxResult add(@RequestBody SysPersonnel sysPersonnel) {
+        if (!sysPersonnelService.checkPersonnelLoginNameUnique(sysPersonnel)) {
+            return error("新增员工'" + sysPersonnel.getPersonnelLoginName() + "'失败,登录账号已存在");
+        }
+        sysPersonnel.setCreateBy(getUsername());
+        sysPersonnel.setPersonnelPassword(SecurityUtils.encryptPassword(sysPersonnel.getPersonnelPassword()));
         return toAjax(sysPersonnelService.insertSysPersonnel(sysPersonnel));
     }
 
@@ -86,8 +116,10 @@ public class SysPersonnelController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:personnel:edit')")
     @Log(title = "员工管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysPersonnel sysPersonnel)
-    {
+    public AjaxResult edit(@RequestBody SysPersonnel sysPersonnel) {
+        if (!sysPersonnelService.checkPersonnelLoginNameUnique(sysPersonnel)) {
+            return error("修改员工'" + sysPersonnel.getPersonnelLoginName() + "'失败,登录账号已存在");
+        }
         return toAjax(sysPersonnelService.updateSysPersonnel(sysPersonnel));
     }
 
@@ -96,9 +128,8 @@ public class SysPersonnelController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:personnel:remove')")
     @Log(title = "员工管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{personnelIds}")
-    public AjaxResult remove(@PathVariable Long[] personnelIds)
-    {
+    @DeleteMapping("/{personnelIds}")
+    public AjaxResult remove(@PathVariable Long[] personnelIds) {
         return toAjax(sysPersonnelService.deleteSysPersonnelByPersonnelIds(personnelIds));
     }
 }

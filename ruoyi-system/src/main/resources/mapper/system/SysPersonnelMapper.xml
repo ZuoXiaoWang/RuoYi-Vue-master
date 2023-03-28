@@ -77,14 +77,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             sys_personnel AS s
                 LEFT JOIN sys_dept AS d ON s.dept_id = d.dept_id
-                LEFT JOIN sys_post AS p ON s.post_id = p.post_id
+                LEFT JOIN sys_personnel_post AS pp ON s.personnel_id = pp.personnel_id
+                LEFT JOIN sys_post AS p ON p.post_id = pp.post_id
     </sql>
 
     <select id="selectSysPersonnelList" parameterType="SysPersonnel" resultMap="SysPersonnelResult">
         <include refid="selectSysPersonnelVo"/>
         <where>
             <if test="deptId != null "> and s.dept_id = #{deptId}</if>
-            <if test="postId != null "> and s.post_id = #{postId}</if>
+            <if test="postId != null "> and p.post_id = #{postId}</if>
             <if test="personnelLoginName != null  and personnelLoginName != ''"> and s.personnel_login_name like concat('%', #{personnelLoginName}, '%')</if>
             <if test="personnelPassword != null  and personnelPassword != ''"> and s.personnel_password = #{personnelPassword}</if>
             <if test="personnelName != null  and personnelName != ''"> and s.personnel_name like concat('%', #{personnelName}, '%')</if>
@@ -98,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectSysPersonnelByPersonnelId" parameterType="Long" resultMap="SysPersonnelResult">
         <include refid="selectSysPersonnelVo"/>
-        where personnel_id = #{personnelId}
+        where s.personnel_id = #{personnelId}
     </select>
 
     <insert id="insertSysPersonnel" parameterType="SysPersonnel" useGeneratedKeys="true" keyProperty="personnelId">
@@ -107,37 +108,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null">dept_id,</if>
             <if test="postId != null">post_id,</if>
             <if test="personnelLoginName != null and personnelLoginName != ''">personnel_login_name,</if>
-            <if test="personnelPassword != null">personnel_password,</if>
+            <if test="personnelPassword != null and personnelPassword != ''">personnel_password,</if>
             <if test="personnelName != null and personnelName != ''">personnel_name,</if>
-            <if test="personnelPhone != null">personnel_phone,</if>
-            <if test="personnelSex != null">personnel_sex,</if>
-            <if test="personnelStatus != null">personnel_status,</if>
+            <if test="personnelPhone != null and personnelPhone != ''">personnel_phone,</if>
+            <if test="personnelSex != null and personnelSex != ''">personnel_sex,</if>
+            <if test="personnelStatus != null and personnelStatus != ''">personnel_status,</if>
             <if test="personnelEntryTime != null">personnel_entry_time,</if>
             <if test="personnelResignationTime != null">personnel_resignation_time,</if>
-            <if test="remark != null">remark,</if>
-            <if test="createBy != null">create_by,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deptId != null">#{deptId},</if>
             <if test="postId != null">#{postId},</if>
             <if test="personnelLoginName != null and personnelLoginName != ''">#{personnelLoginName},</if>
-            <if test="personnelPassword != null">#{personnelPassword},</if>
+            <if test="personnelPassword != null and personnelPassword != ''">#{personnelPassword},</if>
             <if test="personnelName != null and personnelName != ''">#{personnelName},</if>
-            <if test="personnelPhone != null">#{personnelPhone},</if>
-            <if test="personnelSex != null">#{personnelSex},</if>
-            <if test="personnelStatus != null">#{personnelStatus},</if>
+            <if test="personnelPhone != null and personnelPhone != ''">#{personnelPhone},</if>
+            <if test="personnelSex != null and personnelSex != ''">#{personnelSex},</if>
+            <if test="personnelStatus != null and personnelStatus != ''">#{personnelStatus},</if>
             <if test="personnelEntryTime != null">#{personnelEntryTime},</if>
             <if test="personnelResignationTime != null">#{personnelResignationTime},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="createBy != null">#{createBy},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
+
+    <select id="checkPersonnelLoginNameUnique" parameterType="String" resultMap="SysPersonnelResult">
+        select personnel_id, personnel_login_name from sys_personnel where personnel_login_name = #{personnelLoginName} limit 1
+    </select>
 
     <update id="updateSysPersonnel" parameterType="SysPersonnel">
         update sys_personnel
@@ -145,17 +150,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null">dept_id = #{deptId},</if>
             <if test="postId != null">post_id = #{postId},</if>
             <if test="personnelLoginName != null and personnelLoginName != ''">personnel_login_name = #{personnelLoginName},</if>
-            <if test="personnelPassword != null">personnel_password = #{personnelPassword},</if>
+            <if test="personnelPassword != null and personnelPassword != ''">personnel_password = #{personnelPassword},</if>
             <if test="personnelName != null and personnelName != ''">personnel_name = #{personnelName},</if>
-            <if test="personnelPhone != null">personnel_phone = #{personnelPhone},</if>
-            <if test="personnelSex != null">personnel_sex = #{personnelSex},</if>
-            <if test="personnelStatus != null">personnel_status = #{personnelStatus},</if>
+            <if test="personnelPhone != null and personnelPhone != ''">personnel_phone = #{personnelPhone},</if>
+            <if test="personnelSex != null and personnelSex != ''">personnel_sex = #{personnelSex},</if>
+            <if test="personnelStatus != null and personnelStatus != ''">personnel_status = #{personnelStatus},</if>
             <if test="personnelEntryTime != null">personnel_entry_time = #{personnelEntryTime},</if>
             <if test="personnelResignationTime != null">personnel_resignation_time = #{personnelResignationTime},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where personnel_id = #{personnelId}

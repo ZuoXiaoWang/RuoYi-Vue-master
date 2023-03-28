@@ -30,13 +30,23 @@
       <!--用户数据-->
       <el-col :span="20" :xs="24">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="岗位ID" prop="postId">
-        <el-input
-          v-model="queryParams.postId"
-          placeholder="请输入岗位ID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="岗位" prop="postId">
+        <el-select v-model="queryParams.postId" placeholder="请选择岗位">
+          <el-option
+            v-for="item in postOptions"
+            :key="item.postId"
+            :label="item.postName"
+            :value="item.postId"
+            :disabled="item.status == 1"
+          ></el-option>
+        </el-select>
+
+        <!--<el-input-->
+        <!--  v-model="queryParams.postId"-->
+        <!--  placeholder="请输入岗位ID"-->
+        <!--  clearable-->
+        <!--  @keyup.enter.native="handleQuery"-->
+        <!--/>-->
       </el-form-item>
       <el-form-item label="用户账号" prop="personnelLoginName">
         <el-input
@@ -137,16 +147,6 @@
           v-hasPermi="['system:personnel:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:personnel:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -157,7 +157,7 @@
       <el-table-column label="部门" align="center" prop="dept.deptName" />
       <el-table-column label="岗位" align="center" prop="posts[0].postName" />
       <el-table-column label="用户账号" align="center" prop="personnelLoginName" />
-      <el-table-column label="密码" align="center" prop="personnelPassword" />
+      <!--<el-table-column label="密码" align="center" prop="personnelPassword" />-->
       <el-table-column label="员工名字" align="center" prop="personnelName" />
       <el-table-column label="手机号码" align="center" prop="personnelPhone" />
       <el-table-column label="性别" align="center" prop="personnelSex">
@@ -197,6 +197,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:personnel:remove']"
           >删除</el-button>
+          <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)">
+            <el-button size="mini" type="text" icon="el-icon-d-arrow-right">更多</el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="handleResetPwd" icon="el-icon-key"
+                                v-hasPermi="['system:personnel:resetPwd']">重置密码</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -228,11 +235,12 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="用户账号" prop="personnelLoginName">
+        <el-form-item v-if="form.personnelId == undefined" label="用户账号" prop="personnelLoginName">
           <el-input v-model="form.personnelLoginName" placeholder="请输入用户账号" />
         </el-form-item>
-        <el-form-item label="密码" prop="personnelPassword">
-          <el-input v-model="form.personnelPassword" placeholder="请输入密码" />
+        <el-form-item v-if="form.personnelId == undefined" label="密码" prop="personnelPassword">
+          <el-input v-model="form.personnelPassword" placeholder="请输入密码" type="password"
+          maxlength="20" show-password/>
         </el-form-item>
         <el-form-item label="员工名字" prop="personnelName">
           <el-input v-model="form.personnelName" placeholder="请输入员工名字" />
@@ -288,12 +296,22 @@
 </template>
 
 <script>
-import { listPersonnel, getPersonnel, delPersonnel, addPersonnel, updatePersonnel } from "@/api/system/personnel";
+import {
+  listPersonnel,
+  getPersonnel,
+  delPersonnel,
+  addPersonnel,
+  updatePersonnel,
+  resetPersonnelPwd
+} from "@/api/system/personnel";
 import {deptTreeSelect} from "@/api/system/user";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Personnel",
   dicts: ['sys_staff_status', 'sys_user_sex'],
+  components: { Treeselect },
   data() {
     return {
       // 遮罩层
@@ -318,6 +336,8 @@ export default {
       postOptions: [],
       // 默认密码
       initPassword: undefined,
+      // 日期范围
+      dateRange: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -339,14 +359,31 @@ export default {
       },
       // 表单参数
       form: {},
+      defaultProps: {
+        children: "children",
+        label: "label"
+      },
       // 表单校验
       rules: {
         personnelLoginName: [
-          { required: true, message: "用户账号不能为空", trigger: "blur" }
+          { required: true, message: "账号不能为空", trigger: "blur" },
+          { min: 2, max: 20, message: '账号长度必须介于 2 和 20 之间', trigger: 'blur' }
         ],
         personnelName: [
-          { required: true, message: "员工名字不能为空", trigger: "blur" }
+          { required: true, message: "用户昵称不能为空", trigger: "blur" }
         ],
+        personnelPassword: [
+          { required: true, message: "用户密码不能为空", trigger: "blur" },
+          { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
+        ],
+        personnelPhone: [
+          {
+            required: true,
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            message: "请输入正确的手机号码",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },
@@ -362,6 +399,7 @@ export default {
     this.getConfigKey("sys.user.initPassword").then(response => {
       this.initPassword = response.msg;
     });
+
   },
   methods: {
     /** 查询员工管理列表 */
@@ -377,6 +415,7 @@ export default {
     getDeptTree() {
       deptTreeSelect().then(response => {
         this.deptOptions = response.data;
+        this.postOptions = response.posts;
       });
     },
     // 筛选节点
@@ -404,15 +443,16 @@ export default {
         personnelPassword: null,
         personnelName: null,
         personnelPhone: null,
-        personnelSex: null,
-        personnelStatus: null,
+        personnelSex: undefined,
+        personnelStatus: "0",
         personnelEntryTime: null,
         personnelResignationTime: null,
         remark: null,
         createBy: null,
         createTime: null,
         updateBy: null,
-        updateTime: null
+        updateTime: null,
+        postIdS: [],
       };
       this.resetForm("form");
     },
@@ -423,7 +463,10 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dataRange = [];
       this.resetForm("queryForm");
+      this.queryParams.deptId = undefined;
+      this.$refs.tree.setCurrentKey(null);
       this.handleQuery();
     },
     // 多选框选中数据
@@ -432,11 +475,28 @@ export default {
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
+    // 更多操作触发
+    handleCommand(command, row) {
+      switch (command) {
+        case "handleResetPwd":
+          this.handleResetPwd(row);
+          break;
+        case "handleAuthRole":
+          this.handleAuthRole(row);
+          break;
+        default:
+          break;
+      }
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      this.open = true;
-      this.title = "添加员工管理";
+      getPersonnel().then(response => {
+        this.postOptions = response.posts;
+        this.open = true;
+        this.title = "添加员工";
+        this.form.personnelPassword = this.initPassword;
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -444,13 +504,26 @@ export default {
       const personnelId = row.personnelId || this.ids
       getPersonnel(personnelId).then(response => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改员工管理";
         this.postOptions = response.posts;
-        this.deptOptions = response.dept;
         this.$set(this.form, "postIds", response.postIds);
-        this.$set(this.form, "roleIds", response.roleIds);
+        this.open = true;
+        this.title = "修改员工";
+        this.form.personnelPassword = "";
       });
+    },
+    /** 重置密码按钮操作 */
+    handleResetPwd(row) {
+      this.$prompt('请输入"' + row.personnelLoginName + '"的新密码', "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        closeOnClickModal: false,
+        inputPattern: /^.{5,20}$/,
+        inputErrorMessage: "用户密码长度必须介于 5 和 20 之间"
+      }).then(({ value }) => {
+        resetPersonnelPwd(row.personnelId, value).then(response => {
+          this.$modal.msgSuccess("修改成功，新密码是：" + value);
+        });
+      }).catch(() => {});
     },
     /** 提交按钮 */
     submitForm() {
