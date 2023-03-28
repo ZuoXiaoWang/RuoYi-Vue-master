@@ -121,6 +121,9 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
     @Override
     public int deleteSysPersonnelByPersonnelIds(Long[] personnelIds)
     {
+
+        // 删除员工岗位关联
+        sysPersonnelPostMapper.deletePersonnelPost(personnelIds);
         return sysPersonnelMapper.deleteSysPersonnelByPersonnelIds(personnelIds);
     }
 
@@ -133,6 +136,8 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
     @Override
     public int deleteSysPersonnelByPersonnelId(Long personnelId)
     {
+        // 删除员工岗位管理
+        sysPersonnelPostMapper.deletePersonnelPostByPersonnelId(personnelId);
         return sysPersonnelMapper.deleteSysPersonnelByPersonnelId(personnelId);
     }
 
