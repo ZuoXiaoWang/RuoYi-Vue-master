@@ -1,5 +1,8 @@
 package com.ruoyi.framework.web.service;
 
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
+import com.ruoyi.common.core.domain.model.AppLoginUser;
+import com.ruoyi.system.service.ISysPersonnelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +29,35 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
     @Autowired
     private ISysUserService userService;
-    
+
     @Autowired
     private SysPasswordService passwordService;
 
     @Autowired
     private SysPermissionService permissionService;
 
+    @Autowired
+    private ISysPersonnelService sysPersonnelService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
         SysUser user = userService.selectUserByUserName(username);
+        SysPersonnel sysPersonnel = sysPersonnelService.selectSysPersonnelByPersonnelLoginName(username);
         if (StringUtils.isNull(user))
         {
-            log.info("登录用户：{} 不存在.", username);
-            throw new ServiceException("登录用户：" + username + " 不存在");
+            if (StringUtils.isNull(sysPersonnel)){
+                log.info("登录用户：{} 不存在.", username);
+                throw new ServiceException("登录用户：" + username + " 不存在");
+            }
+            else if (UserStatus.DISABLE.getCode().equals(sysPersonnel.getPersonnelStatus())){
+                log.info("登录用户：{} 已被停用.", username);
+                throw new ServiceException("对不起，您的账号：" + username + " 已停用");
+            }
+
+            passwordService.personnelValidate(sysPersonnel);
+            return createPersonnelLoginUser(sysPersonnel);
+
         }
         else if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
         {
@@ -61,5 +78,9 @@ public class UserDetailsServiceImpl implements UserDetailsService
     public UserDetails createLoginUser(SysUser user)
     {
         return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+    }
+
+    public UserDetails createPersonnelLoginUser(SysPersonnel sysPersonnel){
+        return new AppLoginUser(sysPersonnel.getPersonnelId(), sysPersonnel.getDeptId(), sysPersonnel);
     }
 }

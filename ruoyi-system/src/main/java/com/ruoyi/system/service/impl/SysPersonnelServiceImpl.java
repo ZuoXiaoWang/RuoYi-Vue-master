@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysPersonnelPost;
-import com.ruoyi.system.domain.SysUserPost;
 import com.ruoyi.system.mapper.SysPersonnelPostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPersonnelMapper;
-import com.ruoyi.system.domain.SysPersonnel;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.system.service.ISysPersonnelService;
 
 /**
@@ -41,6 +39,11 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
     public SysPersonnel selectSysPersonnelByPersonnelId(Long personnelId)
     {
         return sysPersonnelMapper.selectSysPersonnelByPersonnelId(personnelId);
+    }
+
+    @Override
+    public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName) {
+        return sysPersonnelMapper.selectSysPersonnelByPersonnelLoginName(loginName);
     }
 
     /**

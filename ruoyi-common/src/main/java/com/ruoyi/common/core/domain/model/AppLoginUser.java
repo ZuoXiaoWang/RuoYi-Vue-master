@@ -1,21 +1,15 @@
 package com.ruoyi.common.core.domain.model;
 
-import java.util.Collection;
-import java.util.Set;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 
-/**
- * 登录用户身份权限
- *
- * @author ruoyi
- */
-public class LoginUser implements UserDetails
-{
-    private static final long serialVersionUID = 1L;
+import java.util.Collection;
+import java.util.Set;
 
+public class AppLoginUser implements UserDetails {
     /**
      * 用户ID
      */
@@ -61,15 +55,11 @@ public class LoginUser implements UserDetails
      */
     private String os;
 
-    /**
-     * 权限列表
-     */
-    private Set<String> permissions;
 
     /**
      * 用户信息
      */
-    private SysUser user;
+    private SysPersonnel sysPersonnel;
 
     public Long getUserId()
     {
@@ -101,40 +91,33 @@ public class LoginUser implements UserDetails
         this.token = token;
     }
 
-    public LoginUser()
+    public AppLoginUser()
     {
     }
 
-    public LoginUser(SysUser user, Set<String> permissions)
+    public AppLoginUser(SysPersonnel user, Set<String> permissions)
     {
-        this.user = user;
-        this.permissions = permissions;
+        this.sysPersonnel = user;
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions)
+    public AppLoginUser(Long userId, Long deptId, SysPersonnel user)
     {
         this.userId = userId;
         this.deptId = deptId;
-        this.user = user;
-        this.permissions = permissions;
-    }
-
-    public LoginUser(Long userId, Long deptId){
-        this.userId = userId;
-        this.deptId = deptId;
+        this.sysPersonnel = user;
     }
 
     @JSONField(serialize = false)
     @Override
     public String getPassword()
     {
-        return user.getPassword();
+        return sysPersonnel.getPersonnelPassword();
     }
 
     @Override
     public String getUsername()
     {
-        return user.getUserName();
+        return sysPersonnel.getPersonnelLoginName();
     }
 
     /**
@@ -243,24 +226,15 @@ public class LoginUser implements UserDetails
         this.expireTime = expireTime;
     }
 
-    public Set<String> getPermissions()
+
+    public SysPersonnel getUser()
     {
-        return permissions;
+        return sysPersonnel;
     }
 
-    public void setPermissions(Set<String> permissions)
+    public void setUser(SysPersonnel user)
     {
-        this.permissions = permissions;
-    }
-
-    public SysUser getUser()
-    {
-        return user;
-    }
-
-    public void setUser(SysUser user)
-    {
-        this.user = user;
+        this.sysPersonnel = user;
     }
 
     @Override

@@ -102,6 +102,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where s.personnel_id = #{personnelId}
     </select>
 
+    <select id="selectSysPersonnelByPersonnelLoginName" parameterType="String" resultMap="SysPersonnelResult">
+        <include refid="selectSysPersonnelVo"/>
+        where s.personnel_login_name = #{personnelLoginName}
+    </select>
+
     <insert id="insertSysPersonnel" parameterType="SysPersonnel" useGeneratedKeys="true" keyProperty="personnelId">
         insert into sys_personnel
         <trim prefix="(" suffix=")" suffixOverrides=",">

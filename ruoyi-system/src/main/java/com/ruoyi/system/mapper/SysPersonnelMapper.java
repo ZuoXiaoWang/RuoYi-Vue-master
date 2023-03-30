@@ -2,7 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
-import com.ruoyi.system.domain.SysPersonnel;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 
 /**
  * 员工管理Mapper接口
@@ -19,6 +19,8 @@ public interface SysPersonnelMapper
      * @return 员工管理
      */
     public SysPersonnel selectSysPersonnelByPersonnelId(Long personnelId);
+
+    public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName);
 
     /**
      * 查询员工管理列表

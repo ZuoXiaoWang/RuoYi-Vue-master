@@ -1,17 +1,14 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.common.core.domain.entity.SysRole;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.ISysPostService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,7 +21,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.SysPersonnel;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.system.service.ISysPersonnelService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -43,6 +40,9 @@ public class SysPersonnelController extends BaseController {
 
     @Autowired
     private ISysPostService postService;
+
+    @Autowired
+    private ISysUserService userService;
 
     /**
      * 查询员工管理列表
@@ -102,6 +102,10 @@ public class SysPersonnelController extends BaseController {
     @Log(title = "员工管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPersonnel sysPersonnel) {
+        if (!userService.checkUserNameUniqueByPersonnelLoginName(sysPersonnel))
+        {
+            return error("新增用户'" + sysPersonnel.getPersonnelLoginName() + "'失败，登录账号已存在");
+        }
         if (!sysPersonnelService.checkPersonnelLoginNameUnique(sysPersonnel)) {
             return error("新增员工'" + sysPersonnel.getPersonnelLoginName() + "'失败,登录账号已存在");
         }
