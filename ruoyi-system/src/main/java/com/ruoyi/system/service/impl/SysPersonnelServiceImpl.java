@@ -150,6 +150,11 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
         return sysPersonnelMapper.selectPersonnelListByPatrolId(patrolId);
     }
 
+    @Override
+    public List<Long> selectPersonnelListByRepairId(Long repairId) {
+        return sysPersonnelMapper.selectPersonnelListByRepairId(repairId);
+    }
+
     /**
      * 新增员工岗位信息
      *

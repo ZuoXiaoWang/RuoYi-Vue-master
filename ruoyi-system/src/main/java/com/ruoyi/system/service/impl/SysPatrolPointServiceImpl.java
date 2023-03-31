@@ -97,4 +97,9 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     public List<Long> selectPatrolPointListByPatrolId(Long patrolId) {
         return sysPatrolPointMapper.selectPatrolPointListByPatrolId(patrolId);
     }
+
+    @Override
+    public List<Long> selectPatrolPointListByRepairId(Long RepairId) {
+        return sysPatrolPointMapper.selectPatrolPointListByRepairId(RepairId);
+    }
 }

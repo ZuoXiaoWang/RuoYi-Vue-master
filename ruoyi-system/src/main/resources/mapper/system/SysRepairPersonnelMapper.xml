@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRepairPersonnelMapper">
+
+    <resultMap type="SysRepairPersonnel" id="SysRepairPersonnelResult">
+        <result property="repairId"    column="repair_id"    />
+        <result property="personnelId"    column="personnel_id"    />
+    </resultMap>
+
+    <sql id="selectSysRepairPersonnelVo">
+        select repair_id, personnel_id from sys_repair_personnel
+    </sql>
+
+    <select id="selectSysRepairPersonnelList" parameterType="SysRepairPersonnel" resultMap="SysRepairPersonnelResult">
+        <include refid="selectSysRepairPersonnelVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectSysRepairPersonnelByRepairId" parameterType="Long" resultMap="SysRepairPersonnelResult">
+        <include refid="selectSysRepairPersonnelVo"/>
+        where repair_id = #{repairId}
+    </select>
+
+    <insert id="insertSysRepairPersonnel" parameterType="SysRepairPersonnel">
+        insert into sys_repair_personnel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">repair_id,</if>
+            <if test="personnelId != null">personnel_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">#{repairId},</if>
+            <if test="personnelId != null">#{personnelId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysRepairPersonnel" parameterType="SysRepairPersonnel">
+        update sys_repair_personnel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personnelId != null">personnel_id = #{personnelId},</if>
+        </trim>
+        where repair_id = #{repairId}
+    </update>
+
+    <delete id="deleteSysRepairPersonnelByRepairId" parameterType="Long">
+        delete from sys_repair_personnel where repair_id = #{repairId}
+    </delete>
+
+    <delete id="deleteSysRepairPersonnelByRepairIds" parameterType="String">
+        delete from sys_repair_personnel where repair_id in
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+
+    <insert id="batchRepairPersonnel">
+        insert into sys_repair_personnel(repair_id, personnel_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.repairId},#{item.personnelId})
+        </foreach>
+    </insert>
+</mapper>

@@ -72,4 +72,6 @@ public interface SysPersonnelMapper {
     public List<SysPersonnel> selectPersonnelAll();
 
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
+
+    public List<Long> selectPersonnelListByRepairId(Long repairId);
 }

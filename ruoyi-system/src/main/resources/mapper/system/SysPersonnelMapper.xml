@@ -210,4 +210,12 @@
                  left join sys_patrol pa on pa.patrol_id = pp.patrol_id
         where pa.patrol_id = #{patrolId}
     </select>
+
+    <select id="selectPersonnelListByRepairId" parameterType="Long" resultType="Long">
+        select p.personnel_id
+        from sys_personnel p
+                 left join sys_repair_personnel rp on rp.personnel_id = p.personnel_id
+                 left join sys_repair re on re.repair_id = rp.repair_id
+        where re.repair_id = #{repairId}
+    </select>
 </mapper>

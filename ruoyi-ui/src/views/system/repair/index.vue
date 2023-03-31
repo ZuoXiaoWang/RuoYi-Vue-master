@@ -1,32 +1,32 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="巡更任务名称" prop="patrolName">
+      <el-form-item label="维修任务名称" prop="repairName">
         <el-input
-          v-model="queryParams.patrolName"
-          placeholder="请输入巡更任务名称"
+          v-model="queryParams.repairName"
+          placeholder="请输入维修任务名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="巡更任务负责人" prop="patrolPrincipal">
+      <el-form-item label="维修任务负责人" prop="repairPrincipal">
         <el-input
-          v-model="queryParams.patrolPrincipal"
-          placeholder="请输入巡更任务负责人"
+          v-model="queryParams.repairPrincipal"
+          placeholder="请输入维修任务负责人"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="负责人联系方式" prop="patrolPhone">
+      <el-form-item label="负责人联系方式" prop="repairPhone">
         <el-input
-          v-model="queryParams.patrolPhone"
+          v-model="queryParams.repairPhone"
           placeholder="请输入负责人联系方式"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="巡更任务状态" prop="patrolStatus">
-        <el-select v-model="queryParams.patrolStatus" placeholder="请选择巡更任务状态" clearable>
+      <el-form-item label="维修任务状态" prop="repairStatus">
+        <el-select v-model="queryParams.repairStatus" placeholder="请选择维修任务状态" clearable>
           <el-option
             v-for="dict in dict.type.sys_patrol_status"
             :key="dict.value"
@@ -35,28 +35,28 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="计划开始时间" prop="patrolStartTime">
+      <el-form-item label="计划开始时间" prop="repairStartTime">
         <el-date-picker clearable
-                        v-model="queryParams.patrolStartTime"
+                        v-model="queryParams.repairStartTime"
                         type="date"
                         value-format="yyyy-MM-dd"
                         placeholder="请选择计划开始时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="计划结束时间" prop="patrolEndTime">
+      <el-form-item label="实际开始时间" prop="repairActualStartTime">
         <el-date-picker clearable
-                        v-model="queryParams.patrolEndTime"
+                        v-model="queryParams.repairActualStartTime"
                         type="date"
                         value-format="yyyy-MM-dd"
-                        placeholder="请选择计划结束时间">
+                        placeholder="请选择实际开始时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="任务创建时间" prop="patrolCreateTime">
+      <el-form-item label="实际结束时间" prop="repairActualEndTime">
         <el-date-picker clearable
-                        v-model="queryParams.patrolCreateTime"
+                        v-model="queryParams.repairActualEndTime"
                         type="date"
                         value-format="yyyy-MM-dd"
-                        placeholder="请选择任务创建时间">
+                        placeholder="请选择实际结束时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -73,7 +73,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:patrol:add']"
+          v-hasPermi="['system:repair:add']"
         >新增
         </el-button>
       </el-col>
@@ -85,7 +85,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:patrol:edit']"
+          v-hasPermi="['system:repair:edit']"
         >修改
         </el-button>
       </el-col>
@@ -97,7 +97,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:patrol:remove']"
+          v-hasPermi="['system:repair:remove']"
         >删除
         </el-button>
       </el-col>
@@ -108,38 +108,38 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:patrol:export']"
+          v-hasPermi="['system:repair:export']"
         >导出
         </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="patrolList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="巡更任务编号" align="center" prop="patrolId"/>
-      <el-table-column label="巡更任务名称" align="center" prop="patrolName"/>
-      <el-table-column label="巡更任务描述" align="center" prop="patrolDescribe"/>
-      <el-table-column label="巡更任务负责人" align="center" prop="patrolPrincipal"/>
-      <el-table-column label="负责人联系方式" align="center" prop="patrolPhone"/>
-      <el-table-column label="巡更任务状态" align="center" prop="patrolStatus">
+      <el-table-column label="维修任务编号" align="center" prop="repairId"/>
+      <el-table-column label="维修任务名称" align="center" prop="repairName"/>
+      <el-table-column label="维修任务描述" align="center" prop="repairDescribe"/>
+      <el-table-column label="维修任务负责人" align="center" prop="repairPrincipal"/>
+      <el-table-column label="负责人联系方式" align="center" prop="repairPhone"/>
+      <el-table-column label="维修任务状态" align="center" prop="repairStatus">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_patrol_status" :value="scope.row.patrolStatus"/>
+          <dict-tag :options="dict.type.sys_patrol_status" :value="scope.row.repairStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="计划开始时间" align="center" prop="patrolStartTime" width="180">
+      <el-table-column label="计划开始时间" align="center" prop="repairStartTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.patrolStartTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.repairStartTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="计划结束时间" align="center" prop="patrolEndTime" width="180">
+      <el-table-column label="实际开始时间" align="center" prop="repairActualStartTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.patrolEndTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.repairActualStartTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="任务创建时间" align="center" prop="patrolCreateTime" width="180">
+      <el-table-column label="实际结束时间" align="center" prop="repairActualEndTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.patrolCreateTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.repairActualEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark"/>
@@ -150,7 +150,7 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:patrol:edit']"
+            v-hasPermi="['system:repair:edit']"
           >修改
           </el-button>
           <el-button
@@ -158,7 +158,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:patrol:remove']"
+            v-hasPermi="['system:repair:remove']"
           >删除
           </el-button>
         </template>
@@ -173,23 +173,23 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改巡更任务管理对话框 -->
+    <!-- 添加或修改维修任务对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="巡更任务名称" prop="patrolName">
-          <el-input v-model="form.patrolName" placeholder="请输入巡更任务名称"/>
+        <el-form-item label="维修任务名称" prop="repairName">
+          <el-input v-model="form.repairName" placeholder="请输入维修任务名称"/>
         </el-form-item>
-        <el-form-item label="巡更任务描述" prop="patrolDescribe">
-          <el-input v-model="form.patrolDescribe" type="textarea" placeholder="请输入内容"/>
+        <el-form-item label="维修任务描述" prop="repairDescribe">
+          <el-input v-model="form.repairDescribe" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
-        <el-form-item label="巡更任务负责人" prop="patrolPrincipal">
-          <el-input v-model="form.patrolPrincipal" placeholder="请输入巡更任务负责人"/>
+        <el-form-item label="维修任务负责人" prop="repairPrincipal">
+          <el-input v-model="form.repairPrincipal" placeholder="请输入维修任务负责人"/>
         </el-form-item>
-        <el-form-item label="负责人联系方式" prop="patrolPhone">
-          <el-input v-model="form.patrolPhone" placeholder="请输入负责人联系方式"/>
+        <el-form-item label="负责人联系方式" prop="repairPhone">
+          <el-input v-model="form.repairPhone" placeholder="请输入负责人联系方式"/>
         </el-form-item>
-        <el-form-item label="巡更任务状态" prop="patrolStatus">
-          <el-radio-group v-model="form.patrolStatus">
+        <el-form-item label="维修任务状态" prop="repairStatus">
+          <el-radio-group v-model="form.repairStatus">
             <el-radio
               v-for="dict in dict.type.sys_patrol_status"
               :key="dict.value"
@@ -197,51 +197,51 @@
             >{{ dict.label }}
             </el-radio>
           </el-radio-group>
-          <el-form-item label="巡更人员" prop="PersonnelId">
-            <el-select v-model="form.personnelIds" multiple placeholder="请选择巡更人员">
-              <el-option
-                v-for="item in personnelOptions"
-                :key="item.personnelId"
-                :label="item.personnelName"
-                :value="item.personnelId"
-                :disabled="item.status == 1"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="点位" prop="PatrolPointId">
-            <el-select v-model="form.patrolPointIds" multiple placeholder="请选择点位">
-              <el-option
-                v-for="item in patrolPointOptions"
-                :key="item.patrolPointId"
-                :label="item.patrolPointName"
-                :value="item.patrolPointId"
-                :disabled="item.status == 1"
-              ></el-option>
-            </el-select>
-          </el-form-item>
         </el-form-item>
-        <el-form-item label="计划开始时间" prop="patrolStartTime">
+        <el-form-item label="巡更人员" prop="PersonnelId">
+          <el-select v-model="form.personnelIds" multiple placeholder="请选择巡更人员">
+            <el-option
+              v-for="item in personnelOptions"
+              :key="item.personnelId"
+              :label="item.personnelName"
+              :value="item.personnelId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="点位" prop="PatrolPointId">
+          <el-select v-model="form.patrolPointIds" multiple placeholder="请选择点位">
+            <el-option
+              v-for="item in patrolPointOptions"
+              :key="item.patrolPointId"
+              :label="item.patrolPointName"
+              :value="item.patrolPointId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="计划开始时间" prop="repairStartTime">
           <el-date-picker clearable
-                          v-model="form.patrolStartTime"
+                          v-model="form.repairStartTime"
                           type="date"
                           value-format="yyyy-MM-dd"
                           placeholder="请选择计划开始时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="计划结束时间" prop="patrolEndTime">
+        <el-form-item label="实际开始时间" prop="repairActualStartTime">
           <el-date-picker clearable
-                          v-model="form.patrolEndTime"
+                          v-model="form.repairActualStartTime"
                           type="date"
                           value-format="yyyy-MM-dd"
-                          placeholder="请选择计划结束时间">
+                          placeholder="请选择实际开始时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="任务创建时间" prop="patrolCreateTime">
+        <el-form-item label="实际结束时间" prop="repairActualEndTime">
           <el-date-picker clearable
-                          v-model="form.patrolCreateTime"
+                          v-model="form.repairActualEndTime"
                           type="date"
                           value-format="yyyy-MM-dd"
-                          placeholder="请选择任务创建时间">
+                          placeholder="请选择实际结束时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -257,10 +257,10 @@
 </template>
 
 <script>
-import {listPatrol, getPatrol, delPatrol, addPatrol, updatePatrol} from "@/api/system/patrol";
+import {listRepair, getRepair, delRepair, addRepair, updateRepair} from "@/api/system/repair";
 
 export default {
-  name: "Patrol",
+  name: "Repair",
   dicts: ['sys_patrol_status'],
   data() {
     return {
@@ -276,8 +276,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 巡更任务管理表格数据
-      patrolList: [],
+      // 维修任务表格数据
+      repairList: [],
       // 员工选项
       personnelOptions: [],
       // 点位选项
@@ -290,21 +290,21 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        patrolName: null,
-        patrolDescribe: null,
-        patrolPrincipal: null,
-        patrolPhone: null,
-        patrolStatus: null,
-        patrolStartTime: null,
-        patrolEndTime: null,
-        patrolCreateTime: null,
+        repairName: null,
+        repairDescribe: null,
+        repairPrincipal: null,
+        repairPhone: null,
+        repairStatus: null,
+        repairStartTime: null,
+        repairActualStartTime: null,
+        repairActualEndTime: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        patrolStatus: [
-          {required: true, message: "巡更任务状态不能为空", trigger: "change"}
+        repairStatus: [
+          {required: true, message: "维修任务状态不能为空", trigger: "change"}
         ],
       }
     };
@@ -313,11 +313,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询巡更任务管理列表 */
+    /** 查询维修任务列表 */
     getList() {
       this.loading = true;
-      listPatrol(this.queryParams).then(response => {
-        this.patrolList = response.rows;
+      listRepair(this.queryParams).then(response => {
+        this.repairList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -330,15 +330,15 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        patrolId: null,
-        patrolName: null,
-        patrolDescribe: null,
-        patrolPrincipal: null,
-        patrolPhone: null,
-        patrolStatus: null,
-        patrolStartTime: null,
-        patrolEndTime: null,
-        patrolCreateTime: null,
+        repairId: null,
+        repairName: null,
+        repairDescribe: null,
+        repairPrincipal: null,
+        repairPhone: null,
+        repairStatus: null,
+        repairStartTime: null,
+        repairActualStartTime: null,
+        repairActualEndTime: null,
         remark: null,
         createBy: null,
         createTime: null,
@@ -361,47 +361,46 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.patrolId)
+      this.ids = selection.map(item => item.repairId)
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      getPatrol().then(response => {
+      getRepair().then(response => {
         this.personnelOptions = response.personnels;
         this.patrolPointOptions = response.patrolPoints;
         this.open = true;
-        this.title = "添加巡更任务管理";
+        this.title = "添加维修任务";
       })
-
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const patrolId = row.patrolId || this.ids
-      getPatrol(patrolId).then(response => {
+      const repairId = row.repairId || this.ids
+      getRepair(repairId).then(response => {
         this.form = response.data;
         this.personnelOptions = response.personnels;
         this.$set(this.form, "personnelIds", response.personnelIds);
         this.patrolPointOptions = response.patrolPoints;
         this.$set(this.form, "patrolPointIds", response.patrolPointIds);
         this.open = true;
-        this.title = "修改巡更任务管理";
+        this.title = "修改维修任务";
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.patrolId != null) {
-            updatePatrol(this.form).then(response => {
+          if (this.form.repairId != null) {
+            updateRepair(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addPatrol(this.form).then(response => {
+            addRepair(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -412,9 +411,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const patrolIds = row.patrolId || this.ids;
-      this.$modal.confirm('是否确认删除巡更任务管理编号为"' + patrolIds + '"的数据项？').then(function () {
-        return delPatrol(patrolIds);
+      const repairIds = row.repairId || this.ids;
+      this.$modal.confirm('是否确认删除维修任务编号为"' + repairIds + '"的数据项？').then(function () {
+        return delRepair(repairIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -423,9 +422,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/patrol/export', {
+      this.download('system/repair/export', {
         ...this.queryParams
-      }, `patrol_${new Date().getTime()}.xlsx`)
+      }, `repair_${new Date().getTime()}.xlsx`)
     }
   }
 };

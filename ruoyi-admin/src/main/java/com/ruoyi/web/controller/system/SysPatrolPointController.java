@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.controller.AppBaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/point")
-public class SysPatrolPointController extends BaseController {
+public class SysPatrolPointController extends AppBaseController {
     @Autowired
     private ISysPatrolPointService sysPatrolPointService;
 
@@ -73,6 +74,7 @@ public class SysPatrolPointController extends BaseController {
     @Log(title = "巡更点管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolPoint sysPatrolPoint) {
+        sysPatrolPoint.setCreateBy(getAppUsername());
         return toAjax(sysPatrolPointService.insertSysPatrolPoint(sysPatrolPoint));
     }
 

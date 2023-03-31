@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRepairPatrolPointMapper">
+
+    <resultMap type="SysRepairPatrolPoint" id="SysRepairPatrolPointResult">
+        <result property="repairId"    column="repair_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
+    </resultMap>
+
+    <sql id="selectSysRepairPatrolPointVo">
+        select repair_id, patrol_point_id from sys_repair_patrol_point
+    </sql>
+
+    <select id="selectSysRepairPatrolPointList" parameterType="SysRepairPatrolPoint" resultMap="SysRepairPatrolPointResult">
+        <include refid="selectSysRepairPatrolPointVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectSysRepairPatrolPointByRepairId" parameterType="Long" resultMap="SysRepairPatrolPointResult">
+        <include refid="selectSysRepairPatrolPointVo"/>
+        where repair_id = #{repairId}
+    </select>
+
+    <insert id="insertSysRepairPatrolPoint" parameterType="SysRepairPatrolPoint">
+        insert into sys_repair_patrol_point
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">repair_id,</if>
+            <if test="patrolPointId != null">patrol_point_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">#{repairId},</if>
+            <if test="patrolPointId != null">#{patrolPointId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysRepairPatrolPoint" parameterType="SysRepairPatrolPoint">
+        update sys_repair_patrol_point
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id = #{patrolPointId},</if>
+        </trim>
+        where repair_id = #{repairId}
+    </update>
+
+    <delete id="deleteSysRepairPatrolPointByRepairId" parameterType="Long">
+        delete from sys_repair_patrol_point where repair_id = #{repairId}
+    </delete>
+
+    <delete id="deleteSysRepairPatrolPointByRepairIds" parameterType="String">
+        delete from sys_repair_patrol_point where repair_id in
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+
+    <insert id="batchRepairPatrolPoint">
+        insert into sys_repair_patrol_point(repair_id, patrol_point_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.repairId},#{item.patrolPointId})
+        </foreach>
+    </insert>
+</mapper>

@@ -62,4 +62,6 @@ public interface SysPatrolPointMapper {
     public List<SysPatrolPoint> selectPatrolPointAll();
 
     public List<Long> selectPatrolPointListByPatrolId(Long patrolId);
+
+    public List<Long> selectPatrolPointListByRepairId(Long repairId);
 }
