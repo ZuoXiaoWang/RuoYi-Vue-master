@@ -69,4 +69,8 @@ public interface SysPersonnelMapper
      * @return 结果
      */
     public int deleteSysPersonnelByPersonnelIds(Long[] personnelIds);
+
+    public List<SysPersonnel> selectPersonnelAll();
+
+    public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 }

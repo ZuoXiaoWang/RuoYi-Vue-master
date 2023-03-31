@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPersonnelMapper;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.system.service.ISysPersonnelService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 员工管理Service业务层处理
@@ -65,6 +66,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertSysPersonnel(SysPersonnel sysPersonnel)
     {
         sysPersonnel.setCreateTime(DateUtils.getNowDate());
@@ -104,6 +106,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateSysPersonnel(SysPersonnel sysPersonnel)
     {
         Long personnelId = sysPersonnel.getPersonnelId();
@@ -122,6 +125,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteSysPersonnelByPersonnelIds(Long[] personnelIds)
     {
 
@@ -137,11 +141,22 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteSysPersonnelByPersonnelId(Long personnelId)
     {
         // 删除员工岗位管理
         sysPersonnelPostMapper.deletePersonnelPostByPersonnelId(personnelId);
         return sysPersonnelMapper.deleteSysPersonnelByPersonnelId(personnelId);
+    }
+
+    @Override
+    public List<SysPersonnel> selectPersonnelAll() {
+        return sysPersonnelMapper.selectPersonnelAll();
+    }
+
+    @Override
+    public List<Long> selectPersonnelListByPatrolId(Long patrolId) {
+        return sysPersonnelMapper.selectPersonnelListByPatrolId(patrolId);
     }
 
     /**

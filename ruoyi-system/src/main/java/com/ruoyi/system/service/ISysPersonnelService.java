@@ -79,4 +79,8 @@ public interface ISysPersonnelService
      * @return 结果
      */
     public int deleteSysPersonnelByPersonnelId(Long personnelId);
+
+    public List<SysPersonnel> selectPersonnelAll();
+
+    public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 }

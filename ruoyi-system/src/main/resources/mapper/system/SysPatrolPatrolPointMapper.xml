@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPatrolPatrolPointMapper">
+
+    <resultMap type="SysPatrolPatrolPoint" id="SysPatrolPatrolPointResult">
+        <result property="patrolId"    column="patrol_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
+    </resultMap>
+
+    <sql id="selectSysPatrolPatrolPointVo">
+        select patrol_id, patrol_point_id from sys_patrol_patrol_point
+    </sql>
+
+    <select id="selectSysPatrolPatrolPointList" parameterType="SysPatrolPatrolPoint" resultMap="SysPatrolPatrolPointResult">
+        <include refid="selectSysPatrolPatrolPointVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectSysPatrolPatrolPointByPatrolId" parameterType="Long" resultMap="SysPatrolPatrolPointResult">
+        <include refid="selectSysPatrolPatrolPointVo"/>
+        where patrol_id = #{patrolId}
+    </select>
+
+    <insert id="insertSysPatrolPatrolPoint" parameterType="SysPatrolPatrolPoint">
+        insert into sys_patrol_patrol_point
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patrolId != null">patrol_id,</if>
+            <if test="patrolPointId != null">patrol_point_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patrolId != null">#{patrolId},</if>
+            <if test="patrolPointId != null">#{patrolPointId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysPatrolPatrolPoint" parameterType="SysPatrolPatrolPoint">
+        update sys_patrol_patrol_point
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id = #{patrolPointId},</if>
+        </trim>
+        where patrol_id = #{patrolId}
+    </update>
+
+    <delete id="deleteSysPatrolPatrolPointByPatrolId" parameterType="Long">
+        delete from sys_patrol_patrol_point where patrol_id = #{patrolId}
+    </delete>
+
+    <delete id="deleteSysPatrolPatrolPointByPatrolIds" parameterType="String">
+        delete from sys_patrol_patrol_point where patrol_id in
+        <foreach item="patrolId" collection="array" open="(" separator="," close=")">
+            #{patrolId}
+        </foreach>
+    </delete>
+
+    <insert id="batchPatrolPatrolPoint">
+        insert into sys_patrol_patrol_point(patrol_id, patrol_point_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.patrolId},#{item.patrol_pointId})
+        </foreach>
+    </insert>
+</mapper>

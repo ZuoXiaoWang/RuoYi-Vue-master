@@ -5,15 +5,15 @@ import com.ruoyi.system.domain.SysPatrolPoint;
 
 /**
  * 巡更点管理Service接口
- * 
+ *
  * @author lile
  * @date 2023-03-28
  */
-public interface ISysPatrolPointService 
+public interface ISysPatrolPointService
 {
     /**
      * 查询巡更点管理
-     * 
+     *
      * @param patrolPointId 巡更点管理主键
      * @return 巡更点管理
      */
@@ -21,7 +21,7 @@ public interface ISysPatrolPointService
 
     /**
      * 查询巡更点管理列表
-     * 
+     *
      * @param sysPatrolPoint 巡更点管理
      * @return 巡更点管理集合
      */
@@ -29,7 +29,7 @@ public interface ISysPatrolPointService
 
     /**
      * 新增巡更点管理
-     * 
+     *
      * @param sysPatrolPoint 巡更点管理
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface ISysPatrolPointService
 
     /**
      * 修改巡更点管理
-     * 
+     *
      * @param sysPatrolPoint 巡更点管理
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface ISysPatrolPointService
 
     /**
      * 批量删除巡更点管理
-     * 
+     *
      * @param patrolPointIds 需要删除的巡更点管理主键集合
      * @return 结果
      */
@@ -53,9 +53,13 @@ public interface ISysPatrolPointService
 
     /**
      * 删除巡更点管理信息
-     * 
+     *
      * @param patrolPointId 巡更点管理主键
      * @return 结果
      */
     public int deleteSysPatrolPointByPatrolPointId(Long patrolPointId);
+
+    public List<SysPatrolPoint> selectPatrolPointAll();
+
+    public List<Long> selectPatrolPointListByPatrolId(Long patrolId);
 }

@@ -92,7 +92,7 @@
         align="center"
         prop="tableName"
         :show-overflow-tooltip="true"
-        width="120"
+        width="250"
       />
       <el-table-column
         label="表描述"
