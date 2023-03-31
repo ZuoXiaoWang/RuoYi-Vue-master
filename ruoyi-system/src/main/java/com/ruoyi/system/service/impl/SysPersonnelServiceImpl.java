@@ -22,8 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2023-03-27
  */
 @Service
-public class SysPersonnelServiceImpl implements ISysPersonnelService
-{
+public class SysPersonnelServiceImpl implements ISysPersonnelService {
     @Autowired
     private SysPersonnelMapper sysPersonnelMapper;
 
@@ -37,8 +36,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 员工管理
      */
     @Override
-    public SysPersonnel selectSysPersonnelByPersonnelId(Long personnelId)
-    {
+    public SysPersonnel selectSysPersonnelByPersonnelId(Long personnelId) {
         return sysPersonnelMapper.selectSysPersonnelByPersonnelId(personnelId);
     }
 
@@ -54,8 +52,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 员工管理
      */
     @Override
-    public List<SysPersonnel> selectSysPersonnelList(SysPersonnel sysPersonnel)
-    {
+    public List<SysPersonnel> selectSysPersonnelList(SysPersonnel sysPersonnel) {
         return sysPersonnelMapper.selectSysPersonnelList(sysPersonnel);
     }
 
@@ -67,8 +64,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      */
     @Override
     @Transactional
-    public int insertSysPersonnel(SysPersonnel sysPersonnel)
-    {
+    public int insertSysPersonnel(SysPersonnel sysPersonnel) {
         sysPersonnel.setCreateTime(DateUtils.getNowDate());
         int rows = sysPersonnelMapper.insertSysPersonnel(sysPersonnel);
         // 新增员工岗位关联
@@ -80,8 +76,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
     public boolean checkPersonnelLoginNameUnique(SysPersonnel sysPersonnel) {
         Long personnelId = StringUtils.isNull(sysPersonnel.getPersonnelId()) ? -1L : sysPersonnel.getPersonnelId();
         SysPersonnel info = sysPersonnelMapper.checkPersonnelLoginNameUnique(sysPersonnel.getPersonnelLoginName());
-        if (StringUtils.isNotNull(info) && info.getPersonnelId().longValue() != personnelId.longValue())
-        {
+        if (StringUtils.isNotNull(info) && info.getPersonnelId().longValue() != personnelId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -94,8 +89,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      * @return 结果
      */
     @Override
-    public int resetPwd(SysPersonnel sysPersonnel)
-    {
+    public int resetPwd(SysPersonnel sysPersonnel) {
         return sysPersonnelMapper.updateSysPersonnel(sysPersonnel);
     }
 
@@ -107,8 +101,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      */
     @Override
     @Transactional
-    public int updateSysPersonnel(SysPersonnel sysPersonnel)
-    {
+    public int updateSysPersonnel(SysPersonnel sysPersonnel) {
         Long personnelId = sysPersonnel.getPersonnelId();
         // 删除员工与岗位关联
         sysPersonnelPostMapper.deletePersonnelPostByPersonnelId(personnelId);
@@ -126,8 +119,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      */
     @Override
     @Transactional
-    public int deleteSysPersonnelByPersonnelIds(Long[] personnelIds)
-    {
+    public int deleteSysPersonnelByPersonnelIds(Long[] personnelIds) {
 
         // 删除员工岗位关联
         sysPersonnelPostMapper.deletePersonnelPost(personnelIds);
@@ -142,8 +134,7 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      */
     @Override
     @Transactional
-    public int deleteSysPersonnelByPersonnelId(Long personnelId)
-    {
+    public int deleteSysPersonnelByPersonnelId(Long personnelId) {
         // 删除员工岗位管理
         sysPersonnelPostMapper.deletePersonnelPostByPersonnelId(personnelId);
         return sysPersonnelMapper.deleteSysPersonnelByPersonnelId(personnelId);
@@ -164,15 +155,12 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService
      *
      * @param sysPersonnel 员工对象
      */
-    public void insertPersonnelPost(SysPersonnel sysPersonnel)
-    {
+    public void insertPersonnelPost(SysPersonnel sysPersonnel) {
         Long[] posts = sysPersonnel.getPostIds();
-        if (StringUtils.isNotEmpty(posts))
-        {
+        if (StringUtils.isNotEmpty(posts)) {
             // 新增用户与岗位管理
             List<SysPersonnelPost> list = new ArrayList<SysPersonnelPost>(posts.length);
-            for (Long postId : posts)
-            {
+            for (Long postId : posts) {
                 SysPersonnelPost personnelPost = new SysPersonnelPost();
                 personnelPost.setPersonnelId(sysPersonnel.getPersonnelId());
                 personnelPost.setPostId(postId);

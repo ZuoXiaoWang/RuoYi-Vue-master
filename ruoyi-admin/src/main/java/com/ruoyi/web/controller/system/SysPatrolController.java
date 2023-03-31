@@ -35,8 +35,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/patrol")
-public class SysPatrolController extends AppBaseController
-{
+public class SysPatrolController extends AppBaseController {
     @Autowired
     private ISysPatrolService sysPatrolService;
 
@@ -51,8 +50,7 @@ public class SysPatrolController extends AppBaseController
      */
     @PreAuthorize("@ss.hasPermi('system:patrol:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysPatrol sysPatrol)
-    {
+    public TableDataInfo list(SysPatrol sysPatrol) {
         startPage();
         List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
         return getDataTable(list);
@@ -64,8 +62,7 @@ public class SysPatrolController extends AppBaseController
     @PreAuthorize("@ss.hasPermi('system:patrol:export')")
     @Log(title = "巡更任务管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysPatrol sysPatrol)
-    {
+    public void export(HttpServletResponse response, SysPatrol sysPatrol) {
         List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
         ExcelUtil<SysPatrol> util = new ExcelUtil<SysPatrol>(SysPatrol.class);
         util.exportExcel(response, list, "巡更任务管理数据");
@@ -75,9 +72,8 @@ public class SysPatrolController extends AppBaseController
      * 获取巡更任务管理详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:patrol:query')")
-    @GetMapping(value = { "/", "/{patrolId}" })
-    public AjaxResult getInfo(@PathVariable(value = "patrolId", required = false) Long patrolId)
-    {
+    @GetMapping(value = {"/", "/{patrolId}"})
+    public AjaxResult getInfo(@PathVariable(value = "patrolId", required = false) Long patrolId) {
         AjaxResult ajax = AjaxResult.success();
         ajax.put("personnels", personnelService.selectPersonnelAll());
         ajax.put("patrolPoints", patrolPointService.selectPatrolPointAll());
@@ -97,8 +93,7 @@ public class SysPatrolController extends AppBaseController
     @PreAuthorize("@ss.hasPermi('system:patrol:add')")
     @Log(title = "巡更任务管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysPatrol sysPatrol)
-    {
+    public AjaxResult add(@RequestBody SysPatrol sysPatrol) {
         sysPatrol.setCreateBy(getUsername());
         return toAjax(sysPatrolService.insertSysPatrol(sysPatrol));
     }
@@ -109,8 +104,7 @@ public class SysPatrolController extends AppBaseController
     @PreAuthorize("@ss.hasPermi('system:patrol:edit')")
     @Log(title = "巡更任务管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysPatrol sysPatrol)
-    {
+    public AjaxResult edit(@RequestBody SysPatrol sysPatrol) {
         return toAjax(sysPatrolService.updateSysPatrol(sysPatrol));
     }
 
@@ -119,9 +113,8 @@ public class SysPatrolController extends AppBaseController
      */
     @PreAuthorize("@ss.hasPermi('system:patrol:remove')")
     @Log(title = "巡更任务管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{patrolIds}")
-    public AjaxResult remove(@PathVariable Long[] patrolIds)
-    {
+    @DeleteMapping("/{patrolIds}")
+    public AjaxResult remove(@PathVariable Long[] patrolIds) {
         return toAjax(sysPatrolService.deleteSysPatrolByPatrolIds(patrolIds));
     }
 }

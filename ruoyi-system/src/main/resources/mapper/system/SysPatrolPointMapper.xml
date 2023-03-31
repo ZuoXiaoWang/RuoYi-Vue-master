@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysPatrolPointMapper">
 
     <resultMap type="SysPatrolPoint" id="SysPatrolPointResult">
-        <result property="patrolPointId"    column="patrol_point_id"    />
-        <result property="patrolPointName"    column="patrol_point_name"    />
-        <result property="patrolPointDescribe"    column="patrol_point_describe"    />
-        <result property="patrolPointUrl"    column="patrol_point_url"    />
-        <result property="patrolPointLatitude"    column="patrol_point_latitude"    />
-        <result property="patrolPointLongitude"    column="patrol_point_longitude"    />
-        <result property="patrolPointAltitude"    column="patrol_point_altitude"    />
-        <result property="patrolPointStatus"    column="patrol_point_status"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
+        <result property="patrolPointId" column="patrol_point_id"/>
+        <result property="patrolPointName" column="patrol_point_name"/>
+        <result property="patrolPointDescribe" column="patrol_point_describe"/>
+        <result property="patrolPointUrl" column="patrol_point_url"/>
+        <result property="patrolPointLatitude" column="patrol_point_latitude"/>
+        <result property="patrolPointLongitude" column="patrol_point_longitude"/>
+        <result property="patrolPointAltitude" column="patrol_point_altitude"/>
+        <result property="patrolPointStatus" column="patrol_point_status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectSysPatrolPointVo">
-        select patrol_point_id, patrol_point_name, patrol_point_describe, patrol_point_url, patrol_point_latitude, patrol_point_longitude, patrol_point_altitude, patrol_point_status, create_by, create_time, update_by, update_time, remark from sys_patrol_point
+        select patrol_point_id,
+               patrol_point_name,
+               patrol_point_describe,
+               patrol_point_url,
+               patrol_point_latitude,
+               patrol_point_longitude,
+               patrol_point_altitude,
+               patrol_point_status,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sys_patrol_point
     </sql>
 
     <select id="selectSysPatrolPointList" parameterType="SysPatrolPoint" resultMap="SysPatrolPointResult">
         <include refid="selectSysPatrolPointVo"/>
         <where>
-            <if test="patrolPointName != null  and patrolPointName != ''"> and patrol_point_name like concat('%', #{patrolPointName}, '%')</if>
-            <if test="patrolPointDescribe != null  and patrolPointDescribe != ''"> and patrol_point_describe = #{patrolPointDescribe}</if>
-            <if test="patrolPointUrl != null  and patrolPointUrl != ''"> and patrol_point_url = #{patrolPointUrl}</if>
-            <if test="patrolPointLatitude != null "> and patrol_point_latitude = #{patrolPointLatitude}</if>
-            <if test="patrolPointLongitude != null "> and patrol_point_longitude = #{patrolPointLongitude}</if>
-            <if test="patrolPointAltitude != null "> and patrol_point_altitude = #{patrolPointAltitude}</if>
-            <if test="patrolPointStatus != null  and patrolPointStatus != ''"> and patrol_point_status = #{patrolPointStatus}</if>
+            <if test="patrolPointName != null  and patrolPointName != ''">and patrol_point_name like concat('%',
+                #{patrolPointName}, '%')
+            </if>
+            <if test="patrolPointDescribe != null  and patrolPointDescribe != ''">and patrol_point_describe =
+                #{patrolPointDescribe}
+            </if>
+            <if test="patrolPointUrl != null  and patrolPointUrl != ''">and patrol_point_url = #{patrolPointUrl}</if>
+            <if test="patrolPointLatitude != null ">and patrol_point_latitude = #{patrolPointLatitude}</if>
+            <if test="patrolPointLongitude != null ">and patrol_point_longitude = #{patrolPointLongitude}</if>
+            <if test="patrolPointAltitude != null ">and patrol_point_altitude = #{patrolPointAltitude}</if>
+            <if test="patrolPointStatus != null  and patrolPointStatus != ''">and patrol_point_status =
+                #{patrolPointStatus}
+            </if>
         </where>
     </select>
 
@@ -42,7 +61,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where patrol_point_id = #{patrolPointId}
     </select>
 
-    <insert id="insertSysPatrolPoint" parameterType="SysPatrolPoint" useGeneratedKeys="true" keyProperty="patrolPointId">
+    <insert id="insertSysPatrolPoint" parameterType="SysPatrolPoint" useGeneratedKeys="true"
+            keyProperty="patrolPointId">
         insert into sys_patrol_point
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="patrolPointName != null">patrol_point_name,</if>
@@ -57,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolPointName != null">#{patrolPointName},</if>
             <if test="patrolPointDescribe != null">#{patrolPointDescribe},</if>
@@ -71,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSysPatrolPoint" parameterType="SysPatrolPoint">
@@ -94,7 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSysPatrolPointByPatrolPointId" parameterType="Long">
-        delete from sys_patrol_point where patrol_point_id = #{patrolPointId}
+        delete
+        from sys_patrol_point
+        where patrol_point_id = #{patrolPointId}
     </delete>
 
     <delete id="deleteSysPatrolPointByPatrolPointIds" parameterType="String">

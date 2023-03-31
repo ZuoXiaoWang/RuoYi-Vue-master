@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysPatrolPatrolPoint;
 import com.ruoyi.system.domain.SysPersonnelPost;
 
@@ -10,8 +11,7 @@ import com.ruoyi.system.domain.SysPersonnelPost;
  * @author ruoyi
  * @date 2023-03-31
  */
-public interface SysPatrolPatrolPointMapper
-{
+public interface SysPatrolPatrolPointMapper {
     /**
      * 查询【请填写功能名称】
      *
@@ -59,5 +59,6 @@ public interface SysPatrolPatrolPointMapper
      * @return 结果
      */
     public int deleteSysPatrolPatrolPointByPatrolIds(Long[] patrolIds);
+
     public int batchPatrolPatrolPoint(List<SysPatrolPatrolPoint> PatrolPatrolPointList);
 }

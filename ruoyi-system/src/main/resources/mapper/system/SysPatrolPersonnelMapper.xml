@@ -5,12 +5,13 @@
 <mapper namespace="com.ruoyi.system.mapper.SysPatrolPersonnelMapper">
 
     <resultMap type="SysPatrolPersonnel" id="SysPatrolPersonnelResult">
-        <result property="patrolId"    column="patrol_id"    />
-        <result property="personnelId"    column="personnel_id"    />
+        <result property="patrolId" column="patrol_id"/>
+        <result property="personnelId" column="personnel_id"/>
     </resultMap>
 
     <sql id="selectSysPatrolPersonnelVo">
-        select patrol_id, personnel_id from sys_patrol_personnel
+        select patrol_id, personnel_id
+        from sys_patrol_personnel
     </sql>
 
     <select id="selectSysPatrolPersonnelList" parameterType="SysPatrolPersonnel" resultMap="SysPatrolPersonnelResult">
@@ -45,7 +46,9 @@
     </update>
 
     <delete id="deleteSysPatrolPersonnelByPatrolId" parameterType="Long">
-        delete from sys_patrol_personnel where patrol_id = #{patrolId}
+        delete
+        from sys_patrol_personnel
+        where patrol_id = #{patrolId}
     </delete>
 
     <delete id="deleteSysPatrolPersonnelByPatrolIds" parameterType="String">

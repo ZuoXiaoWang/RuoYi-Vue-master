@@ -5,15 +5,17 @@
 <mapper namespace="com.ruoyi.system.mapper.SysPatrolPatrolPointMapper">
 
     <resultMap type="SysPatrolPatrolPoint" id="SysPatrolPatrolPointResult">
-        <result property="patrolId"    column="patrol_id"    />
-        <result property="patrolPointId"    column="patrol_point_id"    />
+        <result property="patrolId" column="patrol_id"/>
+        <result property="patrolPointId" column="patrol_point_id"/>
     </resultMap>
 
     <sql id="selectSysPatrolPatrolPointVo">
-        select patrol_id, patrol_point_id from sys_patrol_patrol_point
+        select patrol_id, patrol_point_id
+        from sys_patrol_patrol_point
     </sql>
 
-    <select id="selectSysPatrolPatrolPointList" parameterType="SysPatrolPatrolPoint" resultMap="SysPatrolPatrolPointResult">
+    <select id="selectSysPatrolPatrolPointList" parameterType="SysPatrolPatrolPoint"
+            resultMap="SysPatrolPatrolPointResult">
         <include refid="selectSysPatrolPatrolPointVo"/>
         <where>
         </where>
@@ -45,7 +47,9 @@
     </update>
 
     <delete id="deleteSysPatrolPatrolPointByPatrolId" parameterType="Long">
-        delete from sys_patrol_patrol_point where patrol_id = #{patrolId}
+        delete
+        from sys_patrol_patrol_point
+        where patrol_id = #{patrolId}
     </delete>
 
     <delete id="deleteSysPatrolPatrolPointByPatrolIds" parameterType="String">

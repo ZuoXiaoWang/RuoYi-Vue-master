@@ -10,8 +10,7 @@ import com.ruoyi.common.core.domain.entity.SysPersonnel;
  * @author lile
  * @date 2023-03-27
  */
-public interface ISysPersonnelService
-{
+public interface ISysPersonnelService {
     /**
      * 查询员工管理
      *
@@ -43,6 +42,7 @@ public interface ISysPersonnelService
 
     /**
      * 检查员工登录名是否唯一
+     *
      * @param sysPersonnel 员工
      * @return 结果
      */

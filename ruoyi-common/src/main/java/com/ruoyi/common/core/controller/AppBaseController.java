@@ -23,7 +23,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
 
-public class AppBaseController extends BaseController{
+public class AppBaseController extends BaseController {
     public AppLoginUser getAppLoginUser() {
         return SecurityUtils.getAppLoginUser();
     }
@@ -34,7 +34,7 @@ public class AppBaseController extends BaseController{
     }
 
 
-    public Long getAppDeptId(){
+    public Long getAppDeptId() {
         return getAppLoginUser().getDeptId();
     }
 

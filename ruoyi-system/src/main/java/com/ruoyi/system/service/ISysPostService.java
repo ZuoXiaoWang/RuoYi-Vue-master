@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
 import com.ruoyi.common.core.domain.entity.SysPost;
 
 /**
@@ -8,8 +9,7 @@ import com.ruoyi.common.core.domain.entity.SysPost;
  *
  * @author ruoyi
  */
-public interface ISysPostService
-{
+public interface ISysPostService {
     /**
      * 查询岗位信息集合
      *

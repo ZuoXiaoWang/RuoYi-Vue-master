@@ -37,26 +37,26 @@
       </el-form-item>
       <el-form-item label="计划开始时间" prop="patrolStartTime">
         <el-date-picker clearable
-          v-model="queryParams.patrolStartTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择计划开始时间">
+                        v-model="queryParams.patrolStartTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择计划开始时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="计划结束时间" prop="patrolEndTime">
         <el-date-picker clearable
-          v-model="queryParams.patrolEndTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择计划结束时间">
+                        v-model="queryParams.patrolEndTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择计划结束时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="任务创建时间" prop="patrolCreateTime">
         <el-date-picker clearable
-          v-model="queryParams.patrolCreateTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择任务创建时间">
+                        v-model="queryParams.patrolCreateTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择任务创建时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -74,7 +74,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['system:patrol:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -85,7 +86,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['system:patrol:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -96,7 +98,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['system:patrol:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -106,18 +109,19 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['system:patrol:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="patrolList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="巡更任务编号" align="center" prop="patrolId" />
-      <el-table-column label="巡更任务名称" align="center" prop="patrolName" />
-      <el-table-column label="巡更任务描述" align="center" prop="patrolDescribe" />
-      <el-table-column label="巡更任务负责人" align="center" prop="patrolPrincipal" />
-      <el-table-column label="负责人联系方式" align="center" prop="patrolPhone" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="巡更任务编号" align="center" prop="patrolId"/>
+      <el-table-column label="巡更任务名称" align="center" prop="patrolName"/>
+      <el-table-column label="巡更任务描述" align="center" prop="patrolDescribe"/>
+      <el-table-column label="巡更任务负责人" align="center" prop="patrolPrincipal"/>
+      <el-table-column label="负责人联系方式" align="center" prop="patrolPhone"/>
       <el-table-column label="巡更任务状态" align="center" prop="patrolStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_patrol_status" :value="scope.row.patrolStatus"/>
@@ -138,7 +142,7 @@
           <span>{{ parseTime(scope.row.patrolCreateTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -147,14 +151,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:patrol:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:patrol:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -171,13 +177,13 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="巡更任务名称" prop="patrolName">
-          <el-input v-model="form.patrolName" placeholder="请输入巡更任务名称" />
+          <el-input v-model="form.patrolName" placeholder="请输入巡更任务名称"/>
         </el-form-item>
         <el-form-item label="巡更任务描述" prop="patrolDescribe">
-          <el-input v-model="form.patrolDescribe" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.patrolDescribe" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
         <el-form-item label="巡更任务负责人" prop="patrolPrincipal">
-          <el-input v-model="form.patrolPrincipal" placeholder="请输入巡更任务负责人" />
+          <el-input v-model="form.patrolPrincipal" placeholder="请输入巡更任务负责人"/>
         </el-form-item>
         <el-form-item label="巡更人员" prop="PersonnelId">
           <el-select v-model="form.personnelIds" multiple placeholder="请选择巡更人员">
@@ -202,7 +208,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="负责人联系方式" prop="patrolPhone">
-          <el-input v-model="form.patrolPhone" placeholder="请输入负责人联系方式" />
+          <el-input v-model="form.patrolPhone" placeholder="请输入负责人联系方式"/>
         </el-form-item>
         <el-form-item label="巡更任务状态" prop="patrolStatus">
           <el-radio-group v-model="form.patrolStatus">
@@ -210,35 +216,36 @@
               v-for="dict in dict.type.sys_patrol_status"
               :key="dict.value"
               :label="dict.value"
-            >{{dict.label}}</el-radio>
+            >{{ dict.label }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="计划开始时间" prop="patrolStartTime">
           <el-date-picker clearable
-            v-model="form.patrolStartTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择计划开始时间">
+                          v-model="form.patrolStartTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择计划开始时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="计划结束时间" prop="patrolEndTime">
           <el-date-picker clearable
-            v-model="form.patrolEndTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择计划结束时间">
+                          v-model="form.patrolEndTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择计划结束时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="任务创建时间" prop="patrolCreateTime">
           <el-date-picker clearable
-            v-model="form.patrolCreateTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择任务创建时间">
+                          v-model="form.patrolCreateTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择任务创建时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -250,7 +257,7 @@
 </template>
 
 <script>
-import { listPatrol, getPatrol, delPatrol, addPatrol, updatePatrol } from "@/api/system/patrol";
+import {listPatrol, getPatrol, delPatrol, addPatrol, updatePatrol} from "@/api/system/patrol";
 
 export default {
   name: "Patrol",
@@ -297,7 +304,7 @@ export default {
       // 表单校验
       rules: {
         patrolStatus: [
-          { required: true, message: "巡更任务状态不能为空", trigger: "change" }
+          {required: true, message: "巡更任务状态不能为空", trigger: "change"}
         ],
       }
     };
@@ -355,7 +362,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.patrolId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -406,12 +413,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const patrolIds = row.patrolId || this.ids;
-      this.$modal.confirm('是否确认删除巡更任务管理编号为"' + patrolIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除巡更任务管理编号为"' + patrolIds + '"的数据项？').then(function () {
         return delPatrol(patrolIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

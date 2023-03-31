@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" >
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
       <el-form-item label="巡更点名称" prop="patrolPointName" label-width="100px">
         <el-input
           v-model="queryParams.patrolPointName"
@@ -69,7 +69,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['system:point:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -80,7 +81,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['system:point:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <!--<el-button-->
@@ -96,20 +98,20 @@
     </el-row>
 
     <el-table v-loading="loading" :data="pointList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="巡更点ID" align="center" prop="patrolPointId" />
-      <el-table-column label="巡更点名称" align="center" prop="patrolPointName" />
-      <el-table-column label="巡更点描述" align="center" prop="patrolPointDescribe" />
-      <el-table-column label="巡更点二维码" align="center" prop="patrolPointUrl" />
-      <el-table-column label="巡更点纬度" align="center" prop="patrolPointLatitude" />
-      <el-table-column label="巡更点经度" align="center" prop="patrolPointLongitude" />
-      <el-table-column label="巡更点高度" align="center" prop="patrolPointAltitude" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="巡更点ID" align="center" prop="patrolPointId"/>
+      <el-table-column label="巡更点名称" align="center" prop="patrolPointName"/>
+      <el-table-column label="巡更点描述" align="center" prop="patrolPointDescribe"/>
+      <el-table-column label="巡更点二维码" align="center" prop="patrolPointUrl"/>
+      <el-table-column label="巡更点纬度" align="center" prop="patrolPointLatitude"/>
+      <el-table-column label="巡更点经度" align="center" prop="patrolPointLongitude"/>
+      <el-table-column label="巡更点高度" align="center" prop="patrolPointAltitude"/>
       <el-table-column label="状态" align="center" prop="patrolPointStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.patrolPointStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -118,14 +120,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:point:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:point:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -142,22 +146,22 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="巡更点名称" prop="patrolPointName">
-          <el-input v-model="form.patrolPointName" placeholder="请输入巡更点名称" />
+          <el-input v-model="form.patrolPointName" placeholder="请输入巡更点名称"/>
         </el-form-item>
         <el-form-item label="巡更点描述" prop="patrolPointDescribe">
-          <el-input v-model="form.patrolPointDescribe" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.patrolPointDescribe" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
         <el-form-item label="巡更点二维码" prop="patrolPointUrl">
-          <el-input v-model="form.patrolPointUrl" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.patrolPointUrl" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
         <el-form-item label="巡更点纬度" prop="patrolPointLatitude">
-          <el-input v-model="form.patrolPointLatitude" placeholder="请输入巡更点纬度" />
+          <el-input v-model="form.patrolPointLatitude" placeholder="请输入巡更点纬度"/>
         </el-form-item>
         <el-form-item label="巡更点经度" prop="patrolPointLongitude">
-          <el-input v-model="form.patrolPointLongitude" placeholder="请输入巡更点经度" />
+          <el-input v-model="form.patrolPointLongitude" placeholder="请输入巡更点经度"/>
         </el-form-item>
         <el-form-item label="巡更点高度" prop="patrolPointAltitude">
-          <el-input v-model="form.patrolPointAltitude" placeholder="请输入巡更点高度" />
+          <el-input v-model="form.patrolPointAltitude" placeholder="请输入巡更点高度"/>
         </el-form-item>
         <el-form-item label="状态" prop="patrolPointStatus">
           <el-radio-group v-model="form.patrolPointStatus">
@@ -165,11 +169,12 @@
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
               :label="dict.value"
-            >{{dict.label}}</el-radio>
+            >{{ dict.label }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -181,7 +186,7 @@
 </template>
 
 <script>
-import { listPoint, getPoint, delPoint, addPoint, updatePoint } from "@/api/system/point";
+import {listPoint, getPoint, delPoint, addPoint, updatePoint} from "@/api/system/point";
 
 export default {
   name: "Point",
@@ -221,8 +226,7 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
   created() {
@@ -275,7 +279,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.patrolPointId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -317,12 +321,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const patrolPointIds = row.patrolPointId || this.ids;
-      this.$modal.confirm('是否确认删除巡更点管理编号为"' + patrolPointIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除巡更点管理编号为"' + patrolPointIds + '"的数据项？').then(function () {
         return delPoint(patrolPointIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

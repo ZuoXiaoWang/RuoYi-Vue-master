@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysPersonnelPost;
 import com.ruoyi.system.domain.SysUserPost;
 
@@ -10,8 +11,7 @@ import com.ruoyi.system.domain.SysUserPost;
  * @author ruoyi
  * @date 2023-03-28
  */
-public interface SysPersonnelPostMapper
-{
+public interface SysPersonnelPostMapper {
     /**
      * 通过PersonnelID删除Personnel和岗位关联
      *

@@ -26,8 +26,7 @@ import com.ruoyi.framework.web.service.TokenService;
  * @author ruoyi
  */
 @Configuration
-public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler
-{
+public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     @Autowired
     private TokenService tokenService;
 
@@ -38,19 +37,17 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler
      */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException
-    {
+            throws IOException, ServletException {
         LoginUser loginUser = tokenService.getLoginUser(request);
         AppLoginUser appLoginUser = tokenService.getAppLoginUser(request);
-        if (StringUtils.isNotNull(loginUser))
-        {
+        if (StringUtils.isNotNull(loginUser)) {
             String userName = loginUser.getUsername();
             // 删除用户缓存记录
             tokenService.delLoginUser(loginUser.getToken());
             // 记录用户退出日志
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
         }
-        if (StringUtils.isNotNull(appLoginUser)){
+        if (StringUtils.isNotNull(appLoginUser)) {
             String userName = appLoginUser.getUsername();
             // 删除用户缓存记录
             tokenService.delLoginUser(appLoginUser.getToken());

@@ -4,13 +4,13 @@
       <h3 class="title">若依后台管理系统</h3>
       <el-form-item prop="username">
         <el-input v-model="registerForm.username" type="text" auto-complete="off" placeholder="账号">
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>
         </el-input>
       </el-form-item>
 
       <el-form-item prop="phoneNumber">
         <el-input v-model="registerForm.phoneNumber" type="text" auto-complete="off" placeholder="手机号">
-          <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon" />
+          <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon"/>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -21,7 +21,7 @@
           placeholder="密码"
           @keyup.enter.native="handleRegister"
         >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>
         </el-input>
       </el-form-item>
       <el-form-item prop="confirmPassword">
@@ -32,7 +32,7 @@
           placeholder="确认密码"
           @keyup.enter.native="handleRegister"
         >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
@@ -43,7 +43,7 @@
           style="width: 63%"
           @keyup.enter.native="handleRegister"
         >
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>
         </el-input>
         <div class="register-code">
           <img :src="codeUrl" @click="getCode" class="register-code-img"/>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { getCodeImg, register } from "@/api/login";
+import {getCodeImg, register} from "@/api/login";
 
 export default {
   name: "Register",
@@ -97,11 +97,11 @@ export default {
       },
       registerRules: {
         username: [
-          { required: true, trigger: "blur", message: "请输入您的账号" },
-          { min: 2, max: 20, message: '用户账号长度必须介于 2 和 20 之间', trigger: 'blur' }
+          {required: true, trigger: "blur", message: "请输入您的账号"},
+          {min: 2, max: 20, message: '用户账号长度必须介于 2 和 20 之间', trigger: 'blur'}
         ],
         phoneNumber: [
-          { required: true, message: "手机号码不能为空", trigger: "blur" },
+          {required: true, message: "手机号码不能为空", trigger: "blur"},
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: "请输入正确的手机号码",
@@ -109,14 +109,14 @@ export default {
           }
         ],
         password: [
-          { required: true, trigger: "blur", message: "请输入您的密码" },
-          { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
+          {required: true, trigger: "blur", message: "请输入您的密码"},
+          {min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur'}
         ],
         confirmPassword: [
-          { required: true, trigger: "blur", message: "请再次输入您的密码" },
-          { required: true, validator: equalToPassword, trigger: "blur" }
+          {required: true, trigger: "blur", message: "请再次输入您的密码"},
+          {required: true, validator: equalToPassword, trigger: "blur"}
         ],
-        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+        code: [{required: true, trigger: "change", message: "请输入验证码"}]
       },
       loading: false,
       captchaEnabled: true
@@ -146,7 +146,8 @@ export default {
               type: 'success'
             }).then(() => {
               this.$router.push("/login");
-            }).catch(() => {});
+            }).catch(() => {
+            });
           }).catch(() => {
             this.loading = false;
             if (this.captchaEnabled) {
@@ -169,6 +170,7 @@ export default {
   background-image: url("../assets/images/login-background.jpg");
   background-size: cover;
 }
+
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
@@ -180,32 +182,39 @@ export default {
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
+
   .el-input {
     height: 38px;
+
     input {
       height: 38px;
     }
   }
+
   .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 2px;
   }
 }
+
 .register-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .register-code {
   width: 33%;
   height: 38px;
   float: right;
+
   img {
     cursor: pointer;
     vertical-align: middle;
   }
 }
+
 .el-register-footer {
   height: 40px;
   line-height: 40px;
@@ -218,6 +227,7 @@ export default {
   font-size: 12px;
   letter-spacing: 1px;
 }
+
 .register-code-img {
   height: 38px;
 }

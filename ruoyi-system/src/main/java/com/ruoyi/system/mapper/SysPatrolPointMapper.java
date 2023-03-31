@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysPatrolPoint;
 
 /**
@@ -9,8 +10,7 @@ import com.ruoyi.system.domain.SysPatrolPoint;
  * @author lile
  * @date 2023-03-28
  */
-public interface SysPatrolPointMapper
-{
+public interface SysPatrolPointMapper {
     /**
      * 查询巡更点管理
      *

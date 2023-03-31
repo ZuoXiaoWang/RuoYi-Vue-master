@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysPatrolMapper">
 
     <resultMap type="SysPatrol" id="SysPatrolResult">
-        <result property="patrolId"    column="patrol_id"    />
-        <result property="patrolName"    column="patrol_name"    />
-        <result property="patrolDescribe"    column="patrol_describe"    />
-        <result property="patrolPrincipal"    column="patrol_principal"    />
-        <result property="patrolPhone"    column="patrol_phone"    />
-        <result property="patrolStatus"    column="patrol_status"    />
-        <result property="patrolStartTime"    column="patrol_start_time"    />
-        <result property="patrolEndTime"    column="patrol_end_time"    />
-        <result property="patrolCreateTime"    column="patrol_create_time"    />
-        <result property="remark"    column="remark"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
+        <result property="patrolId" column="patrol_id"/>
+        <result property="patrolName" column="patrol_name"/>
+        <result property="patrolDescribe" column="patrol_describe"/>
+        <result property="patrolPrincipal" column="patrol_principal"/>
+        <result property="patrolPhone" column="patrol_phone"/>
+        <result property="patrolStatus" column="patrol_status"/>
+        <result property="patrolStartTime" column="patrol_start_time"/>
+        <result property="patrolEndTime" column="patrol_end_time"/>
+        <result property="patrolCreateTime" column="patrol_create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="selectSysPatrolVo">
@@ -59,14 +59,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSysPatrolList" parameterType="SysPatrol" resultMap="SysPatrolResult">
         <include refid="selectSysPatrolVo"/>
         <where>
-            <if test="patrolName != null  and patrolName != ''"> and sys_patrol.patrol_name like concat('%', #{patrolName}, '%')</if>
-            <if test="patrolDescribe != null  and patrolDescribe != ''"> and sys_patrol.patrol_describe = #{patrolDescribe}</if>
-            <if test="patrolPrincipal != null  and patrolPrincipal != ''"> and sys_patrol.patrol_principal = #{patrolPrincipal}</if>
-            <if test="patrolPhone != null  and patrolPhone != ''"> and psys_patrol.atrol_phone = #{patrolPhone}</if>
-            <if test="patrolStatus != null  and patrolStatus != ''"> and sys_patrol.patrol_status = #{patrolStatus}</if>
-            <if test="patrolStartTime != null "> and sys_patrol.patrol_start_time = #{patrolStartTime}</if>
-            <if test="patrolEndTime != null "> and sys_patrol.patrol_end_time = #{patrolEndTime}</if>
-            <if test="patrolCreateTime != null "> and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
+            <if test="patrolName != null  and patrolName != ''">and sys_patrol.patrol_name like concat('%',
+                #{patrolName}, '%')
+            </if>
+            <if test="patrolDescribe != null  and patrolDescribe != ''">and sys_patrol.patrol_describe =
+                #{patrolDescribe}
+            </if>
+            <if test="patrolPrincipal != null  and patrolPrincipal != ''">and sys_patrol.patrol_principal =
+                #{patrolPrincipal}
+            </if>
+            <if test="patrolPhone != null  and patrolPhone != ''">and psys_patrol.atrol_phone = #{patrolPhone}</if>
+            <if test="patrolStatus != null  and patrolStatus != ''">and sys_patrol.patrol_status = #{patrolStatus}</if>
+            <if test="patrolStartTime != null ">and sys_patrol.patrol_start_time = #{patrolStartTime}</if>
+            <if test="patrolEndTime != null ">and sys_patrol.patrol_end_time = #{patrolEndTime}</if>
+            <if test="patrolCreateTime != null ">and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
         </where>
     </select>
 
@@ -91,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolName != null">#{patrolName},</if>
             <if test="patrolDescribe != null">#{patrolDescribe},</if>
@@ -106,7 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSysPatrol" parameterType="SysPatrol">
@@ -130,7 +136,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSysPatrolByPatrolId" parameterType="Long">
-        delete from sys_patrol where patrol_id = #{patrolId}
+        delete
+        from sys_patrol
+        where patrol_id = #{patrolId}
     </delete>
 
     <delete id="deleteSysPatrolByPatrolIds" parameterType="String">

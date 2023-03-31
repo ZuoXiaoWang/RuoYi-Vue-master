@@ -102,8 +102,7 @@ public class SysPersonnelController extends BaseController {
     @Log(title = "员工管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPersonnel sysPersonnel) {
-        if (!userService.checkUserNameUniqueByPersonnelLoginName(sysPersonnel))
-        {
+        if (!userService.checkUserNameUniqueByPersonnelLoginName(sysPersonnel)) {
             return error("新增用户'" + sysPersonnel.getPersonnelLoginName() + "'失败，登录账号已存在");
         }
         if (!sysPersonnelService.checkPersonnelLoginNameUnique(sysPersonnel)) {

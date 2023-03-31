@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/point")
-public class SysPatrolPointController extends BaseController
-{
+public class SysPatrolPointController extends BaseController {
     @Autowired
     private ISysPatrolPointService sysPatrolPointService;
 
@@ -39,8 +39,7 @@ public class SysPatrolPointController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:point:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysPatrolPoint sysPatrolPoint)
-    {
+    public TableDataInfo list(SysPatrolPoint sysPatrolPoint) {
         startPage();
         List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
         return getDataTable(list);
@@ -52,8 +51,7 @@ public class SysPatrolPointController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:point:export')")
     @Log(title = "巡更点管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysPatrolPoint sysPatrolPoint)
-    {
+    public void export(HttpServletResponse response, SysPatrolPoint sysPatrolPoint) {
         List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
         ExcelUtil<SysPatrolPoint> util = new ExcelUtil<SysPatrolPoint>(SysPatrolPoint.class);
         util.exportExcel(response, list, "巡更点管理数据");
@@ -64,8 +62,7 @@ public class SysPatrolPointController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:point:query')")
     @GetMapping(value = "/{patrolPointId}")
-    public AjaxResult getInfo(@PathVariable("patrolPointId") Long patrolPointId)
-    {
+    public AjaxResult getInfo(@PathVariable("patrolPointId") Long patrolPointId) {
         return success(sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId));
     }
 
@@ -75,8 +72,7 @@ public class SysPatrolPointController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:point:add')")
     @Log(title = "巡更点管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysPatrolPoint sysPatrolPoint)
-    {
+    public AjaxResult add(@RequestBody SysPatrolPoint sysPatrolPoint) {
         return toAjax(sysPatrolPointService.insertSysPatrolPoint(sysPatrolPoint));
     }
 
@@ -86,8 +82,7 @@ public class SysPatrolPointController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:point:edit')")
     @Log(title = "巡更点管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysPatrolPoint sysPatrolPoint)
-    {
+    public AjaxResult edit(@RequestBody SysPatrolPoint sysPatrolPoint) {
         return toAjax(sysPatrolPointService.updateSysPatrolPoint(sysPatrolPoint));
     }
 
@@ -96,9 +91,8 @@ public class SysPatrolPointController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:point:remove')")
     @Log(title = "巡更点管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{patrolPointIds}")
-    public AjaxResult remove(@PathVariable Long[] patrolPointIds)
-    {
+    @DeleteMapping("/{patrolPointIds}")
+    public AjaxResult remove(@PathVariable Long[] patrolPointIds) {
         return toAjax(sysPatrolPointService.deleteSysPatrolPointByPatrolPointIds(patrolPointIds));
     }
 }

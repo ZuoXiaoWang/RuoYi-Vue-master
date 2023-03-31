@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,7 @@ import com.ruoyi.system.service.ISysPatrolPointService;
  * @date 2023-03-28
  */
 @Service
-public class SysPatrolPointServiceImpl implements ISysPatrolPointService
-{
+public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     @Autowired
     private SysPatrolPointMapper sysPatrolPointMapper;
 
@@ -27,8 +27,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService
      * @return 巡更点管理
      */
     @Override
-    public SysPatrolPoint selectSysPatrolPointByPatrolPointId(Long patrolPointId)
-    {
+    public SysPatrolPoint selectSysPatrolPointByPatrolPointId(Long patrolPointId) {
         return sysPatrolPointMapper.selectSysPatrolPointByPatrolPointId(patrolPointId);
     }
 
@@ -39,8 +38,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService
      * @return 巡更点管理
      */
     @Override
-    public List<SysPatrolPoint> selectSysPatrolPointList(SysPatrolPoint sysPatrolPoint)
-    {
+    public List<SysPatrolPoint> selectSysPatrolPointList(SysPatrolPoint sysPatrolPoint) {
         return sysPatrolPointMapper.selectSysPatrolPointList(sysPatrolPoint);
     }
 
@@ -51,8 +49,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService
      * @return 结果
      */
     @Override
-    public int insertSysPatrolPoint(SysPatrolPoint sysPatrolPoint)
-    {
+    public int insertSysPatrolPoint(SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setCreateTime(DateUtils.getNowDate());
         return sysPatrolPointMapper.insertSysPatrolPoint(sysPatrolPoint);
     }
@@ -64,8 +61,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService
      * @return 结果
      */
     @Override
-    public int updateSysPatrolPoint(SysPatrolPoint sysPatrolPoint)
-    {
+    public int updateSysPatrolPoint(SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setUpdateTime(DateUtils.getNowDate());
         return sysPatrolPointMapper.updateSysPatrolPoint(sysPatrolPoint);
     }
@@ -77,8 +73,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService
      * @return 结果
      */
     @Override
-    public int deleteSysPatrolPointByPatrolPointIds(Long[] patrolPointIds)
-    {
+    public int deleteSysPatrolPointByPatrolPointIds(Long[] patrolPointIds) {
         return sysPatrolPointMapper.deleteSysPatrolPointByPatrolPointIds(patrolPointIds);
     }
 
@@ -89,8 +84,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService
      * @return 结果
      */
     @Override
-    public int deleteSysPatrolPointByPatrolPointId(Long patrolPointId)
-    {
+    public int deleteSysPatrolPointByPatrolPointId(Long patrolPointId) {
         return sysPatrolPointMapper.deleteSysPatrolPointByPatrolPointId(patrolPointId);
     }
 

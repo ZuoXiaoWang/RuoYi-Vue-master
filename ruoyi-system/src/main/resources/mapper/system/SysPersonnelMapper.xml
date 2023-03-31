@@ -1,102 +1,108 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysPersonnelMapper">
 
     <resultMap type="SysPersonnel" id="SysPersonnelResult">
-        <result property="personnelId"    column="personnel_id"    />
-        <result property="deptId"    column="dept_id"    />
-        <result property="postId"    column="post_id"    />
-        <result property="personnelLoginName"    column="personnel_login_name"    />
-        <result property="personnelPassword"    column="personnel_password"    />
-        <result property="personnelName"    column="personnel_name"    />
-        <result property="personnelPhone"    column="personnel_phone"    />
-        <result property="personnelSex"    column="personnel_sex"    />
-        <result property="personnelStatus"    column="personnel_status"    />
-        <result property="personnelEntryTime"    column="personnel_entry_time"    />
-        <result property="personnelResignationTime"    column="personnel_resignation_time"    />
-        <result property="remark"    column="remark"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
-        <collection  property="posts"   javaType="java.util.List"           resultMap="PostResult" />
+        <result property="personnelId" column="personnel_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="postId" column="post_id"/>
+        <result property="personnelLoginName" column="personnel_login_name"/>
+        <result property="personnelPassword" column="personnel_password"/>
+        <result property="personnelName" column="personnel_name"/>
+        <result property="personnelPhone" column="personnel_phone"/>
+        <result property="personnelSex" column="personnel_sex"/>
+        <result property="personnelStatus" column="personnel_status"/>
+        <result property="personnelEntryTime" column="personnel_entry_time"/>
+        <result property="personnelResignationTime" column="personnel_resignation_time"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
+        <collection property="posts" javaType="java.util.List" resultMap="PostResult"/>
     </resultMap>
 
     <resultMap id="deptResult" type="SysDept">
-        <id     property="deptId"    column="dept_id"     />
-        <result property="parentId"  column="parent_id"   />
-        <result property="deptName"  column="dept_name"   />
-        <result property="ancestors" column="ancestors"   />
-        <result property="orderNum"  column="order_num"   />
-        <result property="leader"    column="leader"      />
-        <result property="status"    column="dept_status" />
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="status" column="dept_status"/>
     </resultMap>
 
     <resultMap type="SysPost" id="PostResult">
-        <id     property="postId"        column="post_id"       />
-        <result property="postCode"      column="post_code"     />
-        <result property="postName"      column="post_name"     />
-        <result property="postSort"      column="post_sort"     />
-        <result property="status"        column="status"        />
+        <id property="postId" column="post_id"/>
+        <result property="postCode" column="post_code"/>
+        <result property="postName" column="post_name"/>
+        <result property="postSort" column="post_sort"/>
+        <result property="status" column="status"/>
     </resultMap>
 
     <sql id="selectSysPersonnelVo">
-        SELECT
-            s.personnel_id,
-            s.dept_id,
-            s.post_id,
-            s.personnel_login_name,
-            s.personnel_password,
-            s.personnel_name,
-            s.personnel_phone,
-            s.personnel_sex,
-            s.personnel_status,
-            s.personnel_entry_time,
-            s.personnel_resignation_time,
-            s.remark,
-            s.create_by,
-            s.create_time,
-            s.update_by,
-            s.update_time,
-            p.post_id,
-            p.post_code,
-            p.post_name,
-            p.post_sort,
-            p.status AS post_status,
-            d.dept_id,
-            d.parent_id,
-            d.ancestors,
-            d.dept_name,
-            d.order_num,
-            d.leader,
-            d.phone,
-            d.status AS dept_status
-        FROM
-            sys_personnel AS s
-                LEFT JOIN sys_dept AS d ON s.dept_id = d.dept_id
-                LEFT JOIN sys_personnel_post AS pp ON s.personnel_id = pp.personnel_id
-                LEFT JOIN sys_post AS p ON p.post_id = pp.post_id
+        SELECT s.personnel_id,
+               s.dept_id,
+               s.post_id,
+               s.personnel_login_name,
+               s.personnel_password,
+               s.personnel_name,
+               s.personnel_phone,
+               s.personnel_sex,
+               s.personnel_status,
+               s.personnel_entry_time,
+               s.personnel_resignation_time,
+               s.remark,
+               s.create_by,
+               s.create_time,
+               s.update_by,
+               s.update_time,
+               p.post_id,
+               p.post_code,
+               p.post_name,
+               p.post_sort,
+               p.status AS post_status,
+               d.dept_id,
+               d.parent_id,
+               d.ancestors,
+               d.dept_name,
+               d.order_num,
+               d.leader,
+               d.phone,
+               d.status AS dept_status
+        FROM sys_personnel AS s
+                 LEFT JOIN sys_dept AS d ON s.dept_id = d.dept_id
+                 LEFT JOIN sys_personnel_post AS pp ON s.personnel_id = pp.personnel_id
+                 LEFT JOIN sys_post AS p ON p.post_id = pp.post_id
     </sql>
 
     <select id="selectSysPersonnelList" parameterType="SysPersonnel" resultMap="SysPersonnelResult">
         <include refid="selectSysPersonnelVo"/>
         <where>
-            <if test="deptId != null "> and s.dept_id = #{deptId}</if>
-            <if test="postId != null "> and p.post_id = #{postId}</if>
-            <if test="personnelLoginName != null  and personnelLoginName != ''"> and s.personnel_login_name like concat('%', #{personnelLoginName}, '%')</if>
-            <if test="personnelPassword != null  and personnelPassword != ''"> and s.personnel_password = #{personnelPassword}</if>
-            <if test="personnelName != null  and personnelName != ''"> and s.personnel_name like concat('%', #{personnelName}, '%')</if>
-            <if test="personnelPhone != null  and personnelPhone != ''"> and s.personnel_phone = #{personnelPhone}</if>
-            <if test="personnelSex != null  and personnelSex != ''"> and s.personnel_sex = #{personnelSex}</if>
-            <if test="personnelStatus != null  and personnelStatus != ''"> and s.personnel_status = #{personnelStatus}</if>
-            <if test="personnelEntryTime != null "> and s.personnel_entry_time = #{personnelEntryTime}</if>
-            <if test="personnelResignationTime != null "> and s.personnel_resignation_time = #{personnelResignationTime}</if>
+            <if test="deptId != null ">and s.dept_id = #{deptId}</if>
+            <if test="postId != null ">and p.post_id = #{postId}</if>
+            <if test="personnelLoginName != null  and personnelLoginName != ''">and s.personnel_login_name like
+                concat('%', #{personnelLoginName}, '%')
+            </if>
+            <if test="personnelPassword != null  and personnelPassword != ''">and s.personnel_password =
+                #{personnelPassword}
+            </if>
+            <if test="personnelName != null  and personnelName != ''">and s.personnel_name like concat('%',
+                #{personnelName}, '%')
+            </if>
+            <if test="personnelPhone != null  and personnelPhone != ''">and s.personnel_phone = #{personnelPhone}</if>
+            <if test="personnelSex != null  and personnelSex != ''">and s.personnel_sex = #{personnelSex}</if>
+            <if test="personnelStatus != null  and personnelStatus != ''">and s.personnel_status = #{personnelStatus}
+            </if>
+            <if test="personnelEntryTime != null ">and s.personnel_entry_time = #{personnelEntryTime}</if>
+            <if test="personnelResignationTime != null ">and s.personnel_resignation_time =
+                #{personnelResignationTime}
+            </if>
         </where>
     </select>
-
 
 
     <select id="selectSysPersonnelByPersonnelId" parameterType="Long" resultMap="SysPersonnelResult">
@@ -127,7 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deptId != null">#{deptId},</if>
             <if test="postId != null">#{postId},</if>
@@ -144,11 +150,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <select id="checkPersonnelLoginNameUnique" parameterType="String" resultMap="SysPersonnelResult">
-        select personnel_id, personnel_login_name from sys_personnel where personnel_login_name = #{personnelLoginName} limit 1
+        select personnel_id, personnel_login_name
+        from sys_personnel
+        where personnel_login_name = #{personnelLoginName}
+        limit 1
     </select>
 
     <update id="updateSysPersonnel" parameterType="SysPersonnel">
@@ -156,8 +165,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="deptId != null">dept_id = #{deptId},</if>
             <if test="postId != null">post_id = #{postId},</if>
-            <if test="personnelLoginName != null and personnelLoginName != ''">personnel_login_name = #{personnelLoginName},</if>
-            <if test="personnelPassword != null and personnelPassword != ''">personnel_password = #{personnelPassword},</if>
+            <if test="personnelLoginName != null and personnelLoginName != ''">personnel_login_name =
+                #{personnelLoginName},
+            </if>
+            <if test="personnelPassword != null and personnelPassword != ''">personnel_password =
+                #{personnelPassword},
+            </if>
             <if test="personnelName != null and personnelName != ''">personnel_name = #{personnelName},</if>
             <if test="personnelPhone != null and personnelPhone != ''">personnel_phone = #{personnelPhone},</if>
             <if test="personnelSex != null and personnelSex != ''">personnel_sex = #{personnelSex},</if>
@@ -174,7 +187,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSysPersonnelByPersonnelId" parameterType="Long">
-        delete from sys_personnel where personnel_id = #{personnelId}
+        delete
+        from sys_personnel
+        where personnel_id = #{personnelId}
     </delete>
 
     <delete id="deleteSysPersonnelByPersonnelIds" parameterType="String">

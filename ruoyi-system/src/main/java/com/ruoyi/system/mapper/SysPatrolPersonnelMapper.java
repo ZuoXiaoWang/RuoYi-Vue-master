@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysPatrolPersonnel;
 import com.ruoyi.system.domain.SysPersonnelPost;
 
@@ -10,8 +11,7 @@ import com.ruoyi.system.domain.SysPersonnelPost;
  * @author ruoyi
  * @date 2023-03-31
  */
-public interface SysPatrolPersonnelMapper
-{
+public interface SysPatrolPersonnelMapper {
     /**
      * 查询【请填写功能名称】
      *

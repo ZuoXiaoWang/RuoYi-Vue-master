@@ -17,44 +17,61 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author lile
  * @date 2023-03-31
  */
-public class SysPatrol extends BaseEntity
-{
+public class SysPatrol extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 巡更任务编号 */
+    /**
+     * 巡更任务编号
+     */
     private Long patrolId;
 
-    /** 巡更任务名称 */
+    /**
+     * 巡更任务名称
+     */
     @Excel(name = "巡更任务名称")
     private String patrolName;
 
-    /** 巡更任务描述 */
+    /**
+     * 巡更任务描述
+     */
     @Excel(name = "巡更任务描述")
     private String patrolDescribe;
 
-    /** 巡更任务负责人 */
+    /**
+     * 巡更任务负责人
+     */
     @Excel(name = "巡更任务负责人")
     private String patrolPrincipal;
 
-    /** 负责人联系方式 */
+    /**
+     * 负责人联系方式
+     */
     @Excel(name = "负责人联系方式")
     private String patrolPhone;
 
-    /** 巡更任务状态 */
+    /**
+     * 巡更任务状态
+     */
     @Excel(name = "巡更任务状态")
     private String patrolStatus;
 
-    /** 计划开始时间 */
+    /**
+     * 计划开始时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "计划开始时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date patrolStartTime;
 
-    /** 计划结束时间 */
+    /**
+     * 计划结束时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "计划结束时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date patrolEndTime;
 
-    /** 任务创建时间 */
+    /**
+     * 任务创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "任务创建时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date patrolCreateTime;
@@ -65,106 +82,92 @@ public class SysPatrol extends BaseEntity
     private Long PatrolPointId;
 
 
-    /** 员工列表 */
+    /**
+     * 员工列表
+     */
     private List<SysPersonnel> Personnels;
 
     private Long[] PersonnelIds;
 
-    /** 点位列表 */
+    /**
+     * 点位列表
+     */
     private List<SysPatrolPoint> PatrolPoints;
 
     private Long[] PatrolPointIds;
 
 
-
-    public void setPatrolId(Long patrolId)
-    {
+    public void setPatrolId(Long patrolId) {
         this.patrolId = patrolId;
     }
 
-    public Long getPatrolId()
-    {
+    public Long getPatrolId() {
         return patrolId;
     }
-    public void setPatrolName(String patrolName)
-    {
+
+    public void setPatrolName(String patrolName) {
         this.patrolName = patrolName;
     }
 
-    public String getPatrolName()
-    {
+    public String getPatrolName() {
         return patrolName;
     }
-    public void setPatrolDescribe(String patrolDescribe)
-    {
+
+    public void setPatrolDescribe(String patrolDescribe) {
         this.patrolDescribe = patrolDescribe;
     }
 
-    public String getPatrolDescribe()
-    {
+    public String getPatrolDescribe() {
         return patrolDescribe;
     }
-    public void setPatrolPrincipal(String patrolPrincipal)
-    {
+
+    public void setPatrolPrincipal(String patrolPrincipal) {
         this.patrolPrincipal = patrolPrincipal;
     }
 
-    public String getPatrolPrincipal()
-    {
+    public String getPatrolPrincipal() {
         return patrolPrincipal;
     }
-    public void setPatrolPhone(String patrolPhone)
-    {
+
+    public void setPatrolPhone(String patrolPhone) {
         this.patrolPhone = patrolPhone;
     }
 
-    public String getPatrolPhone()
-    {
+    public String getPatrolPhone() {
         return patrolPhone;
     }
-    public void setPatrolStatus(String patrolStatus)
-    {
+
+    public void setPatrolStatus(String patrolStatus) {
         this.patrolStatus = patrolStatus;
     }
 
-    public String getPatrolStatus()
-    {
+    public String getPatrolStatus() {
         return patrolStatus;
     }
-    public void setPatrolStartTime(Date patrolStartTime)
-    {
+
+    public void setPatrolStartTime(Date patrolStartTime) {
         this.patrolStartTime = patrolStartTime;
     }
 
-    public Date getPatrolStartTime()
-    {
+    public Date getPatrolStartTime() {
         return patrolStartTime;
     }
-    public void setPatrolEndTime(Date patrolEndTime)
-    {
+
+    public void setPatrolEndTime(Date patrolEndTime) {
         this.patrolEndTime = patrolEndTime;
     }
 
-    public Date getPatrolEndTime()
-    {
+    public Date getPatrolEndTime() {
         return patrolEndTime;
     }
-    public void setPatrolCreateTime(Date patrolCreateTime)
-    {
+
+    public void setPatrolCreateTime(Date patrolCreateTime) {
         this.patrolCreateTime = patrolCreateTime;
     }
 
-    public Date getPatrolCreateTime()
-    {
+    public Date getPatrolCreateTime() {
         return patrolCreateTime;
     }
-
-
-
-
-
-
-
 
 
     public Long getPersonnelId() {

@@ -12,7 +12,7 @@ import java.util.Objects;
 @RequestMapping("/patrol")
 public class PatrolController extends AppBaseController {
     @GetMapping("/pointList")
-    public AjaxResult getPatrolList(){
-        return Objects.requireNonNull(AjaxResult.success().put(AjaxResult.MSG_TAG, "yes")).put(AjaxResult.DATA_TAG,getAppUserId());
+    public AjaxResult getPatrolList() {
+        return Objects.requireNonNull(AjaxResult.success().put(AjaxResult.MSG_TAG, "yes")).put(AjaxResult.DATA_TAG, getAppUserId());
     }
 }

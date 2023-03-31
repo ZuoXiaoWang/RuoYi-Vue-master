@@ -10,8 +10,7 @@ import com.ruoyi.common.core.domain.entity.SysPersonnel;
  * @author lile
  * @date 2023-03-27
  */
-public interface SysPersonnelMapper
-{
+public interface SysPersonnelMapper {
     /**
      * 查询员工管理
      *
