@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPatrolOrderMapper">
+
+    <resultMap type="SysPatrolOrder" id="SysPatrolOrderResult">
+        <result property="patrolOrderId"    column="patrol_order_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
+        <result property="patrolPointName"    column="patrol_point_name"    />
+        <result property="patrolId"    column="patrol_id"    />
+        <result property="patrolName"    column="patrol_name"    />
+        <result property="personnelId"    column="personnel_id"    />
+        <result property="personnelName"    column="personnel_name"    />
+        <result property="patrolResult"    column="patrol_result"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysPatrolOrderVo">
+        select patrol_order_id, patrol_point_id, patrol_point_name, patrol_id, patrol_name, personnel_id, personnel_name, patrol_result, remark, create_by, create_time, update_by, update_time from sys_patrol_order
+    </sql>
+
+    <select id="selectSysPatrolOrderList" parameterType="SysPatrolOrder" resultMap="SysPatrolOrderResult">
+        <include refid="selectSysPatrolOrderVo"/>
+        <where>
+            <if test="patrolPointId != null "> and patrol_point_id = #{patrolPointId}</if>
+            <if test="patrolPointName != null  and patrolPointName != ''"> and patrol_point_name like concat('%', #{patrolPointName}, '%')</if>
+            <if test="patrolId != null "> and patrol_id = #{patrolId}</if>
+            <if test="patrolName != null  and patrolName != ''"> and patrol_name like concat('%', #{patrolName}, '%')</if>
+            <if test="personnelId != null "> and personnel_id = #{personnelId}</if>
+            <if test="personnelName != null  and personnelName != ''"> and personnel_name like concat('%', #{personnelName}, '%')</if>
+            <if test="patrolResult != null  and patrolResult != ''"> and patrol_result = #{patrolResult}</if>
+        </where>
+    </select>
+
+    <select id="selectSysPatrolOrderByPatrolOrderId" parameterType="Long" resultMap="SysPatrolOrderResult">
+        <include refid="selectSysPatrolOrderVo"/>
+        where patrol_order_id = #{patrolOrderId}
+    </select>
+
+    <insert id="insertSysPatrolOrder" parameterType="SysPatrolOrder" useGeneratedKeys="true" keyProperty="patrolOrderId">
+        insert into sys_patrol_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id,</if>
+            <if test="patrolPointName != null">patrol_point_name,</if>
+            <if test="patrolId != null">patrol_id,</if>
+            <if test="patrolName != null">patrol_name,</if>
+            <if test="personnelId != null">personnel_id,</if>
+            <if test="personnelName != null">personnel_name,</if>
+            <if test="patrolResult != null">patrol_result,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patrolPointId != null">#{patrolPointId},</if>
+            <if test="patrolPointName != null">#{patrolPointName},</if>
+            <if test="patrolId != null">#{patrolId},</if>
+            <if test="patrolName != null">#{patrolName},</if>
+            <if test="personnelId != null">#{personnelId},</if>
+            <if test="personnelName != null">#{personnelName},</if>
+            <if test="patrolResult != null">#{patrolResult},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPatrolOrder" parameterType="SysPatrolOrder">
+        update sys_patrol_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id = #{patrolPointId},</if>
+            <if test="patrolPointName != null">patrol_point_name = #{patrolPointName},</if>
+            <if test="patrolId != null">patrol_id = #{patrolId},</if>
+            <if test="patrolName != null">patrol_name = #{patrolName},</if>
+            <if test="personnelId != null">personnel_id = #{personnelId},</if>
+            <if test="personnelName != null">personnel_name = #{personnelName},</if>
+            <if test="patrolResult != null">patrol_result = #{patrolResult},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where patrol_order_id = #{patrolOrderId}
+    </update>
+
+    <delete id="deleteSysPatrolOrderByPatrolOrderId" parameterType="Long">
+        delete from sys_patrol_order where patrol_order_id = #{patrolOrderId}
+    </delete>
+
+    <delete id="deleteSysPatrolOrderByPatrolOrderIds" parameterType="String">
+        delete from sys_patrol_order where patrol_order_id in
+        <foreach item="patrolOrderId" collection="array" open="(" separator="," close=")">
+            #{patrolOrderId}
+        </foreach>
+    </delete>
+
+
+</mapper>

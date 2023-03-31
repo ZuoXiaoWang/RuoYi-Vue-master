@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPatrolOrderImgMapper">
+
+    <resultMap type="SysPatrolOrderImg" id="SysPatrolOrderImgResult">
+        <result property="imgId"    column="img_id"    />
+        <result property="patrolOrderId"    column="patrol_order_id"    />
+        <result property="imgUrl"    column="img_url"    />
+    </resultMap>
+
+    <sql id="selectSysPatrolOrderImgVo">
+        select img_id, patrol_order_id, img_url from sys_patrol_order_img
+    </sql>
+
+    <select id="selectSysPatrolOrderImgList" parameterType="SysPatrolOrderImg" resultMap="SysPatrolOrderImgResult">
+        <include refid="selectSysPatrolOrderImgVo"/>
+        <where>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+        </where>
+    </select>
+
+    <select id="selectSysPatrolOrderImgByImgId" parameterType="Long" resultMap="SysPatrolOrderImgResult">
+        <include refid="selectSysPatrolOrderImgVo"/>
+        where img_id = #{imgId}
+    </select>
+
+    <insert id="insertSysPatrolOrderImg" parameterType="SysPatrolOrderImg" useGeneratedKeys="true" keyProperty="imgId">
+        insert into sys_patrol_order_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patrolOrderId != null">patrol_order_id,</if>
+            <if test="imgUrl != null and imgUrl != ''">img_url,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patrolOrderId != null">#{patrolOrderId},</if>
+            <if test="imgUrl != null and imgUrl != ''">#{imgUrl},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysPatrolOrderImg" parameterType="SysPatrolOrderImg">
+        update sys_patrol_order_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patrolOrderId != null">patrol_order_id = #{patrolOrderId},</if>
+            <if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+        </trim>
+        where img_id = #{imgId}
+    </update>
+
+    <delete id="deleteSysPatrolOrderImgByImgId" parameterType="Long">
+        delete from sys_patrol_order_img where img_id = #{imgId}
+    </delete>
+
+    <delete id="deleteSysPatrolOrderImgByImgIds" parameterType="String">
+        delete from sys_patrol_order_img where img_id in
+        <foreach item="imgId" collection="array" open="(" separator="," close=")">
+            #{imgId}
+        </foreach>
+    </delete>
+
+    <select id="selectImgUrlsByPatrolOrderId" parameterType="Long" resultType="String">
+        select poi.img_url
+        from sys_patrol_order_img poi
+        where poi.patrol_order_id = #{patrolOrderId}
+    </select>
+</mapper>
