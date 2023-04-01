@@ -56,6 +56,18 @@ public class SysPatrolController extends AppBaseController {
         return getDataTable(list);
     }
 
+
+    /**
+     * 根据员工查询巡更任务列表
+     */
+    @GetMapping("/ListByPersonnel")
+    public TableDataInfo withPersonnelList(SysPatrol sysPatrol) {
+        sysPatrol.setPersonnelId(getAppUserId());
+        startPage();
+        List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
+        return getDataTable(list);
+    }
+
     /**
      * 导出巡更任务管理列表
      */

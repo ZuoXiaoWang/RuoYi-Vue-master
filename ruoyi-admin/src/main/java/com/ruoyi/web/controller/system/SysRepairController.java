@@ -58,6 +58,17 @@ public class SysRepairController extends AppBaseController {
     }
 
     /**
+     * 根据员工查询维修任务列表
+     */
+    @GetMapping("/ListByPersonnel")
+    public TableDataInfo withPersonnelList(SysRepair sysRepair) {
+        sysRepair.setPersonnelId(getAppUserId());
+        startPage();
+        List<SysRepair> list = sysRepairService.selectSysRepairList(sysRepair);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出维修任务列表
      */
     @PreAuthorize("@ss.hasPermi('system:repair:export')")

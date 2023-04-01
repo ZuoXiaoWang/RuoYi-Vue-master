@@ -2,7 +2,9 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.SysPatrolPersonnel;
 import com.ruoyi.system.domain.SysPatrolPoint;
+import com.ruoyi.system.domain.SysRepairPersonnel;
 
 /**
  * 巡更点管理Service接口
@@ -61,7 +63,12 @@ public interface ISysPatrolPointService {
 
     public List<SysPatrolPoint> selectPatrolPointAll();
 
+    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdAndPersonnelId(SysPatrolPersonnel sysPatrolPersonnel);
+
+    public List<SysPatrolPoint> selectPatrolPointListByRepairIdAndPersonnelId(SysRepairPersonnel sysRepairPersonnel);
+
     public List<Long> selectPatrolPointListByPatrolId(Long patrolId);
 
     public List<Long> selectPatrolPointListByRepairId(Long RepairId);
+
 }

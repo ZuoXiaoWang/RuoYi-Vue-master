@@ -145,4 +145,20 @@
                  left join sys_repair re on re.repair_id = rpp.repair_id
         where re.repair_id = #{repairId}
     </select>
+
+    <select id="selectPatrolPointListByPatrolIdAndPersonnelId" parameterType="SysPatrolPersonnel" resultMap="SysPatrolPointResult">
+        select pp.patrol_point_id
+        from sys_patrol_point pp
+                 left join sys_patrol_patrol_point ppp on ppp.patrol_point_id = pp.patrol_point_id
+                 left join sys_patrol p on p.patrol_id = ppp.patrol_id
+        where p.patrol_id = #{patrolId}
+    </select>
+
+    <select id="selectPatrolPointListByRepairIdAndPersonnelId" parameterType="SysRepairPersonnel" resultMap="SysPatrolPointResult">
+        select pp.patrol_point_id
+        from sys_patrol_point pp
+                 left join sys_repair_patrol_point rpp on rpp.patrol_point_id = pp.patrol_point_id
+                 left join sys_repair re on re.repair_id = rpp.repair_id
+        where re.repair_id = #{repairId}
+    </select>
 </mapper>

@@ -86,5 +86,9 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "scripts": {
+    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build": "vue-cli-service build"
+  }
 }

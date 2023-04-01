@@ -4,6 +4,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.system.domain.SysPatrol;
+import com.ruoyi.system.domain.SysPatrolPersonnel;
+import com.ruoyi.system.domain.SysRepairPersonnel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +46,30 @@ public class SysPatrolPointController extends AppBaseController {
     public TableDataInfo list(SysPatrolPoint sysPatrolPoint) {
         startPage();
         List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询点位列表根据巡更任务编号和员工编号
+     */
+    @GetMapping(value = "/PointListByPatrol/{PatrolId}")
+    public TableDataInfo PointListByPatrol(@PathVariable("PatrolId") Long patrolId) {
+        SysPatrolPersonnel sysPatrolPersonnel = new SysPatrolPersonnel();
+        sysPatrolPersonnel.setPatrolId(patrolId);
+        sysPatrolPersonnel.setPersonnelId(getAppUserId());
+        List<SysPatrolPoint> list = sysPatrolPointService.selectPatrolPointListByPatrolIdAndPersonnelId(sysPatrolPersonnel);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询点位列表根据维修任务编号和员工编号
+     */
+    @GetMapping("/PointListByRepair/{RepairId}")
+    public TableDataInfo PointListByRepair(@PathVariable("RepairId") Long repairId) {
+        SysRepairPersonnel sysRepairPersonnel = new SysRepairPersonnel();
+        sysRepairPersonnel.setRepairId(repairId);
+        sysRepairPersonnel.setPersonnelId(getAppUserId());
+        List<SysPatrolPoint> list = sysPatrolPointService.selectPatrolPointListByRepairIdAndPersonnelId(sysRepairPersonnel);
         return getDataTable(list);
     }
 

@@ -3,6 +3,8 @@ package com.ruoyi.system.service.impl;
 import java.util.List;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.SysPatrolPersonnel;
+import com.ruoyi.system.domain.SysRepairPersonnel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPatrolPointMapper;
@@ -91,6 +93,16 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     @Override
     public List<SysPatrolPoint> selectPatrolPointAll() {
         return sysPatrolPointMapper.selectPatrolPointAll();
+    }
+
+    @Override
+    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdAndPersonnelId(SysPatrolPersonnel sysPatrolPersonnel) {
+        return sysPatrolPointMapper.selectPatrolPointListByPatrolIdAndPersonnelId(sysPatrolPersonnel);
+    }
+
+    @Override
+    public List<SysPatrolPoint> selectPatrolPointListByRepairIdAndPersonnelId(SysRepairPersonnel sysRepairPersonnel) {
+        return sysPatrolPointMapper.selectPatrolPointListByRepairIdAndPersonnelId(sysRepairPersonnel);
     }
 
     @Override

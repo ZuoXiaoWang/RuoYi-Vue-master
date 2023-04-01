@@ -2,7 +2,9 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.SysPatrolPersonnel;
 import com.ruoyi.system.domain.SysPatrolPoint;
+import com.ruoyi.system.domain.SysRepairPersonnel;
 
 /**
  * 巡更点管理Mapper接口
@@ -60,6 +62,10 @@ public interface SysPatrolPointMapper {
     public int deleteSysPatrolPointByPatrolPointIds(Long[] patrolPointIds);
 
     public List<SysPatrolPoint> selectPatrolPointAll();
+
+    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdAndPersonnelId(SysPatrolPersonnel sysPatrolPersonnel);
+
+    public List<SysPatrolPoint> selectPatrolPointListByRepairIdAndPersonnelId(SysRepairPersonnel sysRepairPersonnel);
 
     public List<Long> selectPatrolPointListByPatrolId(Long patrolId);
 
