@@ -17,45 +17,55 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="巡更任务编号" prop="patrolId">
-        <el-input
-          v-model="queryParams.patrolId"
-          placeholder="请输入巡更任务编号"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="巡更任务名称" prop="patrolName">
-        <el-input
-          v-model="queryParams.patrolName"
-          placeholder="请输入巡更任务名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="巡更人编号" prop="personnelId">
+      <el-form-item label="员工编号" prop="personnelId">
         <el-input
           v-model="queryParams.personnelId"
-          placeholder="请输入巡更人编号"
+          placeholder="请输入员工编号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="巡更人姓名" prop="personnelName">
+      <el-form-item label="员工姓名" prop="personnelName">
         <el-input
           v-model="queryParams.personnelName"
-          placeholder="请输入巡更人姓名"
+          placeholder="请输入员工姓名"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="巡更结果" prop="patrolResult">
+      <el-form-item label="员工联系方式" prop="personnelPhone">
         <el-input
-          v-model="queryParams.patrolResult"
-          placeholder="请输入巡更结果"
+          v-model="queryParams.personnelPhone"
+          placeholder="请输入员工联系方式"
           clearable
           @keyup.enter.native="handleQuery"
         />
+      </el-form-item>
+      <el-form-item label="状态" prop="repairOrderStatus">
+        <el-select v-model="queryParams.repairOrderStatus" placeholder="请选择状态" clearable>
+          <el-option
+            v-for="dict in dict.type.sys_repair_order_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="故障原因" prop="causeOfIssue">
+        <el-input
+          v-model="queryParams.causeOfIssue"
+          placeholder="请输入故障原因"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="上报时间" prop="reportingTime">
+        <el-date-picker clearable
+                        v-model="queryParams.reportingTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择上报时间">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -71,7 +81,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:patrolOrder:add']"
+          v-hasPermi="['system:repairOrder:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -82,7 +92,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:patrolOrder:edit']"
+          v-hasPermi="['system:repairOrder:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -93,7 +103,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:patrolOrder:remove']"
+          v-hasPermi="['system:repairOrder:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -103,24 +113,30 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:patrolOrder:export']"
+          v-hasPermi="['system:repairOrder:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="patrolOrderList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="repairOrderList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="巡更工单编号" align="center" prop="patrolOrderId" />
+      <el-table-column label="报修工单编号" align="center" prop="repairOrderId" />
       <el-table-column label="巡更点编号" align="center" prop="patrolPointId" />
       <el-table-column label="巡更点名称" align="center" prop="patrolPointName" />
-      <el-table-column label="巡更任务编号" align="center" prop="patrolId" />
-      <el-table-column label="巡更任务名称" align="center" prop="patrolName" />
-      <el-table-column label="巡更人编号" align="center" prop="personnelId" />
-      <el-table-column label="巡更人姓名" align="center" prop="personnelName" />
-      <el-table-column label="巡更结果" align="center" prop="patrolResult">
+      <el-table-column label="员工编号" align="center" prop="personnelId" />
+      <el-table-column label="员工姓名" align="center" prop="personnelName" />
+      <el-table-column label="员工联系方式" align="center" prop="personnelPhone" />
+      <el-table-column label="异常描述" align="center" prop="repairOrderDescribe" />
+      <el-table-column label="状态" align="center" prop="repairOrderStatus">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_patrol_result" :value="scope.row.patrolResult"/>
+          <dict-tag :options="dict.type.sys_repair_order_status" :value="scope.row.repairOrderStatus"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="故障原因" align="center" prop="causeOfIssue" />
+      <el-table-column label="上报时间" align="center" prop="reportingTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.reportingTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
@@ -131,14 +147,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:patrolOrder:edit']"
+            v-hasPermi="['system:repairOrder:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:patrolOrder:remove']"
+            v-hasPermi="['system:repairOrder:remove']"
           >删除</el-button>
           <el-button
             size="mini"
@@ -159,7 +175,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改巡更工单管理对话框 -->
+    <!-- 添加或修改维修工单对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="巡更点编号" prop="patrolPointId">
@@ -168,26 +184,37 @@
         <el-form-item label="巡更点名称" prop="patrolPointName">
           <el-input v-model="form.patrolPointName" placeholder="请输入巡更点名称" />
         </el-form-item>
-        <el-form-item label="巡更任务编号" prop="patrolId">
-          <el-input v-model="form.patrolId" placeholder="请输入巡更任务编号" />
+        <el-form-item label="员工编号" prop="personnelId">
+          <el-input v-model="form.personnelId" placeholder="请输入员工编号" />
         </el-form-item>
-        <el-form-item label="巡更任务名称" prop="patrolName">
-          <el-input v-model="form.patrolName" placeholder="请输入巡更任务名称" />
+        <el-form-item label="员工姓名" prop="personnelName">
+          <el-input v-model="form.personnelName" placeholder="请输入员工姓名" />
         </el-form-item>
-        <el-form-item label="巡更人编号" prop="personnelId">
-          <el-input v-model="form.personnelId" placeholder="请输入巡更人编号" />
+        <el-form-item label="员工联系方式" prop="personnelPhone">
+          <el-input v-model="form.personnelPhone" placeholder="请输入员工联系方式" />
         </el-form-item>
-        <el-form-item label="巡更人姓名" prop="personnelName">
-          <el-input v-model="form.personnelName" placeholder="请输入巡更人姓名" />
+        <el-form-item label="异常描述" prop="repairOrderDescribe">
+          <el-input v-model="form.repairOrderDescribe" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="巡更结果" prop="patrolResult">
-          <el-radio-group v-model="form.patrolResult">
+        <el-form-item label="状态" prop="repairOrderStatus">
+          <el-radio-group v-model="form.repairOrderStatus">
             <el-radio
-              v-for="dict in dict.type.sys_patrol_result"
+              v-for="dict in dict.type.sys_repair_order_status"
               :key="dict.value"
               :label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="故障原因" prop="causeOfIssue">
+          <el-input v-model="form.causeOfIssue" placeholder="请输入故障原因" />
+        </el-form-item>
+        <el-form-item label="上报时间" prop="reportingTime">
+          <el-date-picker clearable
+                          v-model="form.reportingTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择上报时间">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
@@ -202,11 +229,12 @@
 </template>
 
 <script>
-import { listPatrolOrder, getPatrolOrder, delPatrolOrder, addPatrolOrder, updatePatrolOrder } from "@/api/system/patrolOrder";
+import { listRepairOrder, getRepairOrder, delRepairOrder, addRepairOrder, updateRepairOrder } from "@/api/system/repairOrder";
+import {getPatrolOrder} from "@/api/system/patrolOrder";
 
 export default {
-  name: "PatrolOrder",
-  dicts: ['sys_patrol_result'],
+  name: "RepairOrder",
+  dicts: ['sys_repair_order_status'],
   data() {
     return {
       // 遮罩层
@@ -221,8 +249,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 巡更工单管理表格数据
-      patrolOrderList: [],
+      // 维修工单表格数据
+      repairOrderList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -233,11 +261,13 @@ export default {
         pageSize: 10,
         patrolPointId: null,
         patrolPointName: null,
-        patrolId: null,
-        patrolName: null,
         personnelId: null,
         personnelName: null,
-        patrolResult: null,
+        personnelPhone: null,
+        repairOrderDescribe: null,
+        repairOrderStatus: null,
+        causeOfIssue: null,
+        reportingTime: null,
       },
       // 表单参数
       form: {},
@@ -250,11 +280,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询巡更工单管理列表 */
+    /** 查询维修工单列表 */
     getList() {
       this.loading = true;
-      listPatrolOrder(this.queryParams).then(response => {
-        this.patrolOrderList = response.rows;
+      listRepairOrder(this.queryParams).then(response => {
+        this.repairOrderList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -267,14 +297,16 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        patrolOrderId: null,
+        repairOrderId: null,
         patrolPointId: null,
         patrolPointName: null,
-        patrolId: null,
-        patrolName: null,
         personnelId: null,
         personnelName: null,
-        patrolResult: null,
+        personnelPhone: null,
+        repairOrderDescribe: null,
+        repairOrderStatus: null,
+        causeOfIssue: null,
+        reportingTime: null,
         remark: null,
         createBy: null,
         createTime: null,
@@ -295,7 +327,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.patrolOrderId)
+      this.ids = selection.map(item => item.repairOrderId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -303,7 +335,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加巡更工单管理";
+      this.title = "添加维修工单";
     },
     /** 详情 */
     handleDetails(row){
@@ -319,25 +351,25 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const patrolOrderId = row.patrolOrderId || this.ids
-      getPatrolOrder(patrolOrderId).then(response => {
+      const repairOrderId = row.repairOrderId || this.ids
+      getRepairOrder(repairOrderId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改巡更工单管理";
+        this.title = "修改维修工单";
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.patrolOrderId != null) {
-            updatePatrolOrder(this.form).then(response => {
+          if (this.form.repairOrderId != null) {
+            updateRepairOrder(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addPatrolOrder(this.form).then(response => {
+            addRepairOrder(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -348,9 +380,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const patrolOrderIds = row.patrolOrderId || this.ids;
-      this.$modal.confirm('是否确认删除巡更工单管理编号为"' + patrolOrderIds + '"的数据项？').then(function() {
-        return delPatrolOrder(patrolOrderIds);
+      const repairOrderIds = row.repairOrderId || this.ids;
+      this.$modal.confirm('是否确认删除维修工单编号为"' + repairOrderIds + '"的数据项？').then(function() {
+        return delRepairOrder(repairOrderIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -358,9 +390,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/patrolOrder/export', {
+      this.download('system/repairOrder/export', {
         ...this.queryParams
-      }, `patrolOrder_${new Date().getTime()}.xlsx`)
+      }, `repairOrder_${new Date().getTime()}.xlsx`)
     }
   }
 };

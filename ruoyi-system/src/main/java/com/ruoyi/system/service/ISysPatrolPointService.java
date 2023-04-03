@@ -63,12 +63,14 @@ public interface ISysPatrolPointService {
 
     public List<SysPatrolPoint> selectPatrolPointAll();
 
-    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdAndPersonnelId(SysPatrolPersonnel sysPatrolPersonnel);
+    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdWithName(Long patrolId );
 
-    public List<SysPatrolPoint> selectPatrolPointListByRepairIdAndPersonnelId(SysRepairPersonnel sysRepairPersonnel);
+    public List<SysPatrolPoint> selectPatrolPointListByRepairIdWithName(Long repairId);
 
     public List<Long> selectPatrolPointListByPatrolId(Long patrolId);
 
     public List<Long> selectPatrolPointListByRepairId(Long RepairId);
+
+    public List<SysPatrolPoint> selectSysPatrolPointByPatrolPointIds(Long[] patrolPointIds);
 
 }

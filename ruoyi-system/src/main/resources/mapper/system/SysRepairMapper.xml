@@ -62,33 +62,33 @@
     <insert id="insertSysRepair" parameterType="SysRepair" useGeneratedKeys="true" keyProperty="repairId">
         insert into sys_repair
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="repairName != null">repair_name,</if>
-            <if test="repairDescribe != null">repair_describe,</if>
-            <if test="repairPrincipal != null">repair_principal,</if>
-            <if test="repairPhone != null">repair_phone,</if>
+            <if test="repairName != null  and repairName != ''">repair_name,</if>
+            <if test="repairDescribe != null  and repairDescribe != ''">repair_describe,</if>
+            <if test="repairPrincipal != null  and repairPrincipal != ''">repair_principal,</if>
+            <if test="repairPhone != null  and repairPhone != ''">repair_phone,</if>
             <if test="repairStatus != null and repairStatus != ''">repair_status,</if>
             <if test="repairStartTime != null">repair_start_time,</if>
             <if test="repairActualStartTime != null">repair_actual_start_time,</if>
             <if test="repairActualEndTime != null">repair_actual_end_time,</if>
-            <if test="remark != null">remark,</if>
-            <if test="createBy != null">create_by,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="repairName != null">#{repairName},</if>
-            <if test="repairDescribe != null">#{repairDescribe},</if>
-            <if test="repairPrincipal != null">#{repairPrincipal},</if>
-            <if test="repairPhone != null">#{repairPhone},</if>
+            <if test="repairName != null  and repairName != ''">#{repairName},</if>
+            <if test="repairDescribe != null  and repairDescribe != ''">#{repairDescribe},</if>
+            <if test="repairPrincipal != null  and repairPrincipal != ''">#{repairPrincipal},</if>
+            <if test="repairPhone != null  and repairPhone != ''">#{repairPhone},</if>
             <if test="repairStatus != null and repairStatus != ''">#{repairStatus},</if>
             <if test="repairStartTime != null">#{repairStartTime},</if>
             <if test="repairActualStartTime != null">#{repairActualStartTime},</if>
             <if test="repairActualEndTime != null">#{repairActualEndTime},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="createBy != null">#{createBy},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
         </trim>
     </insert>
@@ -96,18 +96,18 @@
     <update id="updateSysRepair" parameterType="SysRepair">
         update sys_repair
         <trim prefix="SET" suffixOverrides=",">
-            <if test="repairName != null">repair_name = #{repairName},</if>
-            <if test="repairDescribe != null">repair_describe = #{repairDescribe},</if>
-            <if test="repairPrincipal != null">repair_principal = #{repairPrincipal},</if>
-            <if test="repairPhone != null">repair_phone = #{repairPhone},</if>
+            <if test="repairName != null  and repairName != ''">repair_name = #{repairName},</if>
+            <if test="repairDescribe != null  and repairDescribe != ''">repair_describe = #{repairDescribe},</if>
+            <if test="repairPrincipal != null  and repairPrincipal != ''">repair_principal = #{repairPrincipal},</if>
+            <if test="repairPhone != null  and repairPhone != ''">repair_phone = #{repairPhone},</if>
             <if test="repairStatus != null and repairStatus != ''">repair_status = #{repairStatus},</if>
             <if test="repairStartTime != null">repair_start_time = #{repairStartTime},</if>
             <if test="repairActualStartTime != null">repair_actual_start_time = #{repairActualStartTime},</if>
             <if test="repairActualEndTime != null">repair_actual_end_time = #{repairActualEndTime},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where repair_id = #{repairId}

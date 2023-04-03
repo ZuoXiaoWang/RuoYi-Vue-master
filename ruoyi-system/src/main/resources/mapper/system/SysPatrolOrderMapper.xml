@@ -46,30 +46,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sys_patrol_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="patrolPointId != null">patrol_point_id,</if>
-            <if test="patrolPointName != null">patrol_point_name,</if>
+            <if test="patrolPointName != null and patrolPointName != ''">patrol_point_name,</if>
             <if test="patrolId != null">patrol_id,</if>
-            <if test="patrolName != null">patrol_name,</if>
+            <if test="patrolName != null and patrolName != ''">patrol_name,</if>
             <if test="personnelId != null">personnel_id,</if>
-            <if test="personnelName != null">personnel_name,</if>
-            <if test="patrolResult != null">patrol_result,</if>
-            <if test="remark != null">remark,</if>
-            <if test="createBy != null">create_by,</if>
+            <if test="personnelName != null and personnelName != ''">personnel_name,</if>
+            <if test="patrolResult != null and patrolResult != ''">patrol_result,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolPointId != null">#{patrolPointId},</if>
-            <if test="patrolPointName != null">#{patrolPointName},</if>
+            <if test="patrolPointName != null and patrolPointName != ''">#{patrolPointName},</if>
             <if test="patrolId != null">#{patrolId},</if>
-            <if test="patrolName != null">#{patrolName},</if>
+            <if test="patrolName != null and patrolName != ''">#{patrolName},</if>
             <if test="personnelId != null">#{personnelId},</if>
-            <if test="personnelName != null">#{personnelName},</if>
-            <if test="patrolResult != null">#{patrolResult},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="createBy != null">#{createBy},</if>
+            <if test="personnelName != null and personnelName != ''">#{personnelName},</if>
+            <if test="patrolResult != null and patrolResult != ''">#{patrolResult},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
@@ -78,16 +78,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update sys_patrol_order
         <trim prefix="SET" suffixOverrides=",">
             <if test="patrolPointId != null">patrol_point_id = #{patrolPointId},</if>
-            <if test="patrolPointName != null">patrol_point_name = #{patrolPointName},</if>
+            <if test="patrolPointName != null and patrolPointName != ''">patrol_point_name = #{patrolPointName},</if>
             <if test="patrolId != null">patrol_id = #{patrolId},</if>
-            <if test="patrolName != null">patrol_name = #{patrolName},</if>
+            <if test="patrolName != null and patrolName != ''">patrol_name = #{patrolName},</if>
             <if test="personnelId != null">personnel_id = #{personnelId},</if>
-            <if test="personnelName != null">personnel_name = #{personnelName},</if>
-            <if test="patrolResult != null">patrol_result = #{patrolResult},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="personnelName != null and personnelName != ''">personnel_name = #{personnelName},</if>
+            <if test="patrolResult != null and patrolResult != ''">patrol_result = #{patrolResult},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where patrol_order_id = #{patrolOrderId}

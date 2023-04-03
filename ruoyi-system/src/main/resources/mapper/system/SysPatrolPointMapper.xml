@@ -65,30 +65,30 @@
             keyProperty="patrolPointId">
         insert into sys_patrol_point
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="patrolPointName != null">patrol_point_name,</if>
-            <if test="patrolPointDescribe != null">patrol_point_describe,</if>
-            <if test="patrolPointUrl != null">patrol_point_url,</if>
+            <if test="patrolPointName != null and patrolPointName != ''">patrol_point_name,</if>
+            <if test="patrolPointDescribe != null and patrolPointDescribe != ''">patrol_point_describe,</if>
+            <if test="patrolPointUrl != null and patrolPointUrl != ''">patrol_point_url,</if>
             <if test="patrolPointLatitude != null">patrol_point_latitude,</if>
             <if test="patrolPointLongitude != null">patrol_point_longitude,</if>
             <if test="patrolPointAltitude != null">patrol_point_altitude,</if>
-            <if test="patrolPointStatus != null">patrol_point_status,</if>
-            <if test="createBy != null">create_by,</if>
+            <if test="patrolPointStatus != null and patrolPointStatus != ''">patrol_point_status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="patrolPointName != null">#{patrolPointName},</if>
-            <if test="patrolPointDescribe != null">#{patrolPointDescribe},</if>
-            <if test="patrolPointUrl != null">#{patrolPointUrl},</if>
+            <if test="patrolPointName != null and patrolPointName != ''">#{patrolPointName},</if>
+            <if test="patrolPointDescribe != null and patrolPointDescribe != ''">#{patrolPointDescribe},</if>
+            <if test="patrolPointUrl != null and patrolPointUrl != ''">#{patrolPointUrl},</if>
             <if test="patrolPointLatitude != null">#{patrolPointLatitude},</if>
             <if test="patrolPointLongitude != null">#{patrolPointLongitude},</if>
             <if test="patrolPointAltitude != null">#{patrolPointAltitude},</if>
-            <if test="patrolPointStatus != null">#{patrolPointStatus},</if>
-            <if test="createBy != null">#{createBy},</if>
+            <if test="patrolPointStatus != null and patrolPointStatus != ''">#{patrolPointStatus},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
         </trim>
@@ -97,16 +97,16 @@
     <update id="updateSysPatrolPoint" parameterType="SysPatrolPoint">
         update sys_patrol_point
         <trim prefix="SET" suffixOverrides=",">
-            <if test="patrolPointName != null">patrol_point_name = #{patrolPointName},</if>
-            <if test="patrolPointDescribe != null">patrol_point_describe = #{patrolPointDescribe},</if>
-            <if test="patrolPointUrl != null">patrol_point_url = #{patrolPointUrl},</if>
+            <if test="patrolPointName != null and patrolPointName != ''">patrol_point_name = #{patrolPointName},</if>
+            <if test="patrolPointDescribe != null and patrolPointDescribe != ''">patrol_point_describe = #{patrolPointDescribe},</if>
+            <if test="patrolPointUrl != null and patrolPointUrl != ''">patrol_point_url = #{patrolPointUrl},</if>
             <if test="patrolPointLatitude != null">patrol_point_latitude = #{patrolPointLatitude},</if>
             <if test="patrolPointLongitude != null">patrol_point_longitude = #{patrolPointLongitude},</if>
             <if test="patrolPointAltitude != null">patrol_point_altitude = #{patrolPointAltitude},</if>
-            <if test="patrolPointStatus != null">patrol_point_status = #{patrolPointStatus},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="patrolPointStatus != null and patrolPointStatus != ''">patrol_point_status = #{patrolPointStatus},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
         </trim>
@@ -146,19 +146,29 @@
         where re.repair_id = #{repairId}
     </select>
 
-    <select id="selectPatrolPointListByPatrolIdAndPersonnelId" parameterType="SysPatrolPersonnel" resultMap="SysPatrolPointResult">
-        select pp.patrol_point_id
+    <select id="selectPatrolPointListByPatrolIdWithName" parameterType="Long" resultMap="SysPatrolPointResult">
+        select pp.patrol_point_id,
+               pp.patrol_point_name
         from sys_patrol_point pp
                  left join sys_patrol_patrol_point ppp on ppp.patrol_point_id = pp.patrol_point_id
                  left join sys_patrol p on p.patrol_id = ppp.patrol_id
         where p.patrol_id = #{patrolId}
     </select>
 
-    <select id="selectPatrolPointListByRepairIdAndPersonnelId" parameterType="SysRepairPersonnel" resultMap="SysPatrolPointResult">
-        select pp.patrol_point_id
+    <select id="selectPatrolPointListByRepairIdWithName" parameterType="Long" resultMap="SysPatrolPointResult">
+        select pp.patrol_point_id,
+               pp.patrol_point_name
         from sys_patrol_point pp
                  left join sys_repair_patrol_point rpp on rpp.patrol_point_id = pp.patrol_point_id
                  left join sys_repair re on re.repair_id = rpp.repair_id
         where re.repair_id = #{repairId}
+    </select>
+
+    <select id="selectSysPatrolPointByPatrolPointIds" parameterType="String" resultMap="SysPatrolPointResult">
+        <include refid="selectSysPatrolPointVo"/>
+        where patrol_point_id in
+        <foreach item="patrolPointId" collection="array" open="(" separator="," close=")">
+            #{patrolPointId}
+        </foreach>
     </select>
 </mapper>

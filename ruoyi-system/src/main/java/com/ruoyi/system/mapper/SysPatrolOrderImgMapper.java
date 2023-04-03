@@ -60,4 +60,16 @@ public interface SysPatrolOrderImgMapper
     public int deleteSysPatrolOrderImgByImgIds(Long[] imgIds);
 
     public List<String> selectImgUrlsByPatrolOrderId(Long patrolOrderId);
+
+    public int batchPatrolOrderImg(List<SysPatrolOrderImg> sysPatrolOrderImgs);
+
+    /**
+     * 根据巡更工单删除图片
+     */
+    public int deleteSysPatrolOrderImgByPatrolOrder(Long patrolOrderId);
+
+    /**
+     * 根据巡更工单s删除图片
+     */
+    public int deleteSysPatrolOrderImgByPatrolOrders(Long[] patrolOrderIds);
 }

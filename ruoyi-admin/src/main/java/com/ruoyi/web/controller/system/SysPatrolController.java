@@ -68,17 +68,6 @@ public class SysPatrolController extends AppBaseController {
         return getDataTable(list);
     }
 
-    /**
-     * 导出巡更任务管理列表
-     */
-    @PreAuthorize("@ss.hasPermi('system:patrol:export')")
-    @Log(title = "巡更任务管理", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, SysPatrol sysPatrol) {
-        List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
-        ExcelUtil<SysPatrol> util = new ExcelUtil<SysPatrol>(SysPatrol.class);
-        util.exportExcel(response, list, "巡更任务管理数据");
-    }
 
     /**
      * 获取巡更任务管理详细信息
@@ -111,9 +100,8 @@ public class SysPatrolController extends AppBaseController {
     }
 
     /**
-     * 修改巡更任务管理
+     * 修改巡更任务管理(员工可以修改巡更状态)
      */
-    @PreAuthorize("@ss.hasPermi('system:patrol:edit')")
     @Log(title = "巡更任务管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysPatrol sysPatrol) {

@@ -63,4 +63,22 @@
         from sys_patrol_order_img poi
         where poi.patrol_order_id = #{patrolOrderId}
     </select>
+
+    <insert id="batchPatrolOrderImg">
+        insert into sys_patrol_order_img(patrol_order_id, img_url) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.patrolOrderId},#{item.imgUrl})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSysPatrolOrderImgByPatrolOrder" parameterType="Long">
+        delete from sys_patrol_order_img where patrol_order_id = #{patrolOrderId}
+    </delete>
+
+    <delete id="deleteSysPatrolOrderImgByPatrolOrders" parameterType="String">
+        delete from sys_patrol_order_img where patrol_order_id in
+        <foreach item="patrolOrderId" collection="array" open="(" separator="," close=")">
+            #{patrolOrderId}
+        </foreach>
+    </delete>
 </mapper>

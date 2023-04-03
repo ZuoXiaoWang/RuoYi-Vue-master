@@ -1,21 +1,23 @@
 package com.ruoyi.app.controller;
 
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.model.AppLoginBody;
 import com.ruoyi.framework.app.service.AppLoginService;
+import com.ruoyi.system.domain.PointScan;
+import com.ruoyi.system.domain.SysPatrolPoint;
+import com.ruoyi.system.service.ISysPatrolPointService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/app")
-public class LoginController {
+public class LoginController extends AppBaseController {
 
     @Autowired
     private AppLoginService appLoginService;
+
 
     @PostMapping("/login")
     public AjaxResult login(@RequestBody AppLoginBody apploginBody) {
@@ -26,4 +28,6 @@ public class LoginController {
         ajax.put(Constants.TOKEN, token);
         return ajax;
     }
+
+
 }

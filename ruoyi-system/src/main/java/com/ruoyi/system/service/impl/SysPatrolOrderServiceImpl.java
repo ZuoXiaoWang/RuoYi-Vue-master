@@ -1,7 +1,9 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysPatrolOrderImg;
 import com.ruoyi.system.mapper.SysPatrolOrderImgMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,9 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
     public int insertSysPatrolOrder(SysPatrolOrder sysPatrolOrder)
     {
         sysPatrolOrder.setCreateTime(DateUtils.getNowDate());
-        return sysPatrolOrderMapper.insertSysPatrolOrder(sysPatrolOrder);
+        int row = sysPatrolOrderMapper.insertSysPatrolOrder(sysPatrolOrder);
+        insertPatrolOrderImg(sysPatrolOrder);
+        return row;
     }
 
     /**
@@ -71,6 +75,10 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
     @Override
     public int updateSysPatrolOrder(SysPatrolOrder sysPatrolOrder)
     {
+        //删除图片
+        patrolOrderImgMapper.deleteSysPatrolOrderImgByPatrolOrder(sysPatrolOrder.getPatrolOrderId());
+        //新增图片
+        insertPatrolOrderImg(sysPatrolOrder);
         sysPatrolOrder.setUpdateTime(DateUtils.getNowDate());
         return sysPatrolOrderMapper.updateSysPatrolOrder(sysPatrolOrder);
     }
@@ -84,6 +92,8 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
     @Override
     public int deleteSysPatrolOrderByPatrolOrderIds(Long[] patrolOrderIds)
     {
+        //删除图片
+        patrolOrderImgMapper.deleteSysPatrolOrderImgByPatrolOrders(patrolOrderIds);
         return sysPatrolOrderMapper.deleteSysPatrolOrderByPatrolOrderIds(patrolOrderIds);
     }
 
@@ -96,11 +106,32 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
     @Override
     public int deleteSysPatrolOrderByPatrolOrderId(Long patrolOrderId)
     {
+        //删除图片
+        patrolOrderImgMapper.deleteSysPatrolOrderImgByPatrolOrder(patrolOrderId);
         return sysPatrolOrderMapper.deleteSysPatrolOrderByPatrolOrderId(patrolOrderId);
     }
 
     @Override
     public List<String> selectImgUrlsByPatrolOrderId(Long patrolOrderId) {
         return patrolOrderImgMapper.selectImgUrlsByPatrolOrderId(patrolOrderId);
+    }
+
+    /**
+     * 新增巡更工单图片
+     *
+     * @param sysPatrolOrder
+     */
+    public void insertPatrolOrderImg(SysPatrolOrder sysPatrolOrder) {
+        List<String> imgUrls = sysPatrolOrder.getImgUrls();
+        if (StringUtils.isNotEmpty(imgUrls)) {
+            List<SysPatrolOrderImg> list = new ArrayList<SysPatrolOrderImg>(imgUrls.size());
+            for (String imgUrl : imgUrls) {
+                SysPatrolOrderImg sysPatrolOrderImg = new SysPatrolOrderImg();
+                sysPatrolOrderImg.setPatrolOrderId(sysPatrolOrder.getPatrolOrderId());
+                sysPatrolOrderImg.setImgUrl(imgUrl);
+                list.add(sysPatrolOrderImg);
+            }
+            patrolOrderImgMapper.batchPatrolOrderImg(list);
+        }
     }
 }

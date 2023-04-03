@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRepairOrderMapper">
+
+    <resultMap type="SysRepairOrder" id="SysRepairOrderResult">
+        <result property="repairOrderId"    column="repair_order_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
+        <result property="patrolPointName"    column="patrol_point_name"    />
+        <result property="personnelId"    column="personnel_id"    />
+        <result property="personnelName"    column="personnel_name"    />
+        <result property="personnelPhone"    column="personnel_phone"    />
+        <result property="repairOrderDescribe"    column="repair_order_describe"    />
+        <result property="repairOrderStatus"    column="repair_order_status"    />
+        <result property="causeOfIssue"    column="cause_of_issue"    />
+        <result property="reportingTime"    column="reporting_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysRepairOrderVo">
+        select repair_order_id, patrol_point_id, patrol_point_name, personnel_id, personnel_name, personnel_phone, repair_order_describe, repair_order_status, cause_of_issue, reporting_time, remark, create_by, create_time, update_by, update_time from sys_repair_order
+    </sql>
+
+    <select id="selectSysRepairOrderList" parameterType="SysRepairOrder" resultMap="SysRepairOrderResult">
+        <include refid="selectSysRepairOrderVo"/>
+        <where>
+            <if test="patrolPointId != null "> and patrol_point_id = #{patrolPointId}</if>
+            <if test="patrolPointName != null  and patrolPointName != ''"> and patrol_point_name like concat('%', #{patrolPointName}, '%')</if>
+            <if test="personnelId != null "> and personnel_id = #{personnelId}</if>
+            <if test="personnelName != null  and personnelName != ''"> and personnel_name like concat('%', #{personnelName}, '%')</if>
+            <if test="personnelPhone != null  and personnelPhone != ''"> and personnel_phone = #{personnelPhone}</if>
+            <if test="repairOrderDescribe != null  and repairOrderDescribe != ''"> and repair_order_describe = #{repairOrderDescribe}</if>
+            <if test="repairOrderStatus != null  and repairOrderStatus != ''"> and repair_order_status = #{repairOrderStatus}</if>
+            <if test="causeOfIssue != null  and causeOfIssue != ''"> and cause_of_issue = #{causeOfIssue}</if>
+            <if test="reportingTime != null "> and reporting_time = #{reportingTime}</if>
+        </where>
+    </select>
+
+    <select id="selectSysRepairOrderByRepairOrderId" parameterType="Long" resultMap="SysRepairOrderResult">
+        <include refid="selectSysRepairOrderVo"/>
+        where repair_order_id = #{repairOrderId}
+    </select>
+
+    <insert id="insertSysRepairOrder" parameterType="SysRepairOrder" useGeneratedKeys="true" keyProperty="repairOrderId">
+        insert into sys_repair_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id,</if>
+            <if test="patrolPointName != null  and patrolPointName != ''">patrol_point_name,</if>
+            <if test="personnelId != null">personnel_id,</if>
+            <if test="personnelName != null  and personnelName != ''">personnel_name,</if>
+            <if test="personnelPhone != null  and personnelPhone != ''">personnel_phone,</if>
+            <if test="repairOrderDescribe != null  and repairOrderDescribe != ''">repair_order_describe,</if>
+            <if test="repairOrderStatus != null  and repairOrderStatus != ''">repair_order_status,</if>
+            <if test="causeOfIssue != null  and causeOfIssue != ''">cause_of_issue,</if>
+            <if test="reportingTime != null">reporting_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patrolPointId != null">#{patrolPointId},</if>
+            <if test="patrolPointName != null  and patrolPointName != ''">#{patrolPointName},</if>
+            <if test="personnelId != null">#{personnelId},</if>
+            <if test="personnelName != null  and personnelName != ''">#{personnelName},</if>
+            <if test="personnelPhone != null  and personnelPhone != ''">#{personnelPhone},</if>
+            <if test="repairOrderDescribe != null  and repairOrderDescribe != ''">#{repairOrderDescribe},</if>
+            <if test="repairOrderStatus != null  and repairOrderStatus != ''">#{repairOrderStatus},</if>
+            <if test="causeOfIssue != null  and causeOfIssue != ''">#{causeOfIssue},</if>
+            <if test="reportingTime != null">#{reportingTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysRepairOrder" parameterType="SysRepairOrder">
+        update sys_repair_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id = #{patrolPointId},</if>
+            <if test="patrolPointName != null  and patrolPointName != ''">patrol_point_name = #{patrolPointName},</if>
+            <if test="personnelId != null">personnel_id = #{personnelId},</if>
+            <if test="personnelName != null  and personnelName != ''">personnel_name = #{personnelName},</if>
+            <if test="personnelPhone != null  and personnelPhone != ''">personnel_phone = #{personnelPhone},</if>
+            <if test="repairOrderDescribe != null  and repairOrderDescribe != ''">repair_order_describe = #{repairOrderDescribe},</if>
+            <if test="repairOrderStatus != null  and repairOrderStatus != ''">repair_order_status = #{repairOrderStatus},</if>
+            <if test="causeOfIssue != null  and causeOfIssue != ''">cause_of_issue = #{causeOfIssue},</if>
+            <if test="reportingTime != null">reporting_time = #{reportingTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where repair_order_id = #{repairOrderId}
+    </update>
+
+    <delete id="deleteSysRepairOrderByRepairOrderId" parameterType="Long">
+        delete from sys_repair_order where repair_order_id = #{repairOrderId}
+    </delete>
+
+    <delete id="deleteSysRepairOrderByRepairOrderIds" parameterType="String">
+        delete from sys_repair_order where repair_order_id in
+        <foreach item="repairOrderId" collection="array" open="(" separator="," close=")">
+            #{repairOrderId}
+        </foreach>
+    </delete>
+</mapper>

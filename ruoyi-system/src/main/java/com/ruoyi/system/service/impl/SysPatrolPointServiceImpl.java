@@ -96,13 +96,13 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     }
 
     @Override
-    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdAndPersonnelId(SysPatrolPersonnel sysPatrolPersonnel) {
-        return sysPatrolPointMapper.selectPatrolPointListByPatrolIdAndPersonnelId(sysPatrolPersonnel);
+    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdWithName(Long patrolId) {
+        return sysPatrolPointMapper.selectPatrolPointListByPatrolIdWithName(patrolId);
     }
 
     @Override
-    public List<SysPatrolPoint> selectPatrolPointListByRepairIdAndPersonnelId(SysRepairPersonnel sysRepairPersonnel) {
-        return sysPatrolPointMapper.selectPatrolPointListByRepairIdAndPersonnelId(sysRepairPersonnel);
+    public List<SysPatrolPoint> selectPatrolPointListByRepairIdWithName(Long repairId) {
+        return sysPatrolPointMapper.selectPatrolPointListByRepairIdWithName(repairId);
     }
 
     @Override
@@ -113,5 +113,10 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     @Override
     public List<Long> selectPatrolPointListByRepairId(Long RepairId) {
         return sysPatrolPointMapper.selectPatrolPointListByRepairId(RepairId);
+    }
+
+    @Override
+    public List<SysPatrolPoint> selectSysPatrolPointByPatrolPointIds(Long[] patrolPointIds) {
+        return sysPatrolPointMapper.selectSysPatrolPointByPatrolPointIds(patrolPointIds);
     }
 }

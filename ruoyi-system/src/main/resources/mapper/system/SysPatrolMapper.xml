@@ -84,33 +84,33 @@
     <insert id="insertSysPatrol" parameterType="SysPatrol" useGeneratedKeys="true" keyProperty="patrolId">
         insert into sys_patrol
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="patrolName != null">patrol_name,</if>
-            <if test="patrolDescribe != null">patrol_describe,</if>
-            <if test="patrolPrincipal != null">patrol_principal,</if>
-            <if test="patrolPhone != null">patrol_phone,</if>
+            <if test="patrolName != null and patrolName != ''">patrol_name,</if>
+            <if test="patrolDescribe != null and patrolDescribe != ''" >patrol_describe,</if>
+            <if test="patrolPrincipal != null and patrolPrincipal != ''">patrol_principal,</if>
+            <if test="patrolPhone != null and patrolPhone != ''">patrol_phone,</if>
             <if test="patrolStatus != null and patrolStatus != ''">patrol_status,</if>
             <if test="patrolStartTime != null">patrol_start_time,</if>
             <if test="patrolEndTime != null">patrol_end_time,</if>
             <if test="patrolCreateTime != null">patrol_create_time,</if>
-            <if test="remark != null">remark,</if>
-            <if test="createBy != null">create_by,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="patrolName != null">#{patrolName},</if>
-            <if test="patrolDescribe != null">#{patrolDescribe},</if>
-            <if test="patrolPrincipal != null">#{patrolPrincipal},</if>
-            <if test="patrolPhone != null">#{patrolPhone},</if>
+            <if test="patrolName != null and patrolName != ''">#{patrolName},</if>
+            <if test="patrolDescribe != null and patrolDescribe != ''">#{patrolDescribe},</if>
+            <if test="patrolPrincipal != null and patrolPrincipal != ''">#{patrolPrincipal},</if>
+            <if test="patrolPhone != null and patrolPhone !=''">#{patrolPhone},</if>
             <if test="patrolStatus != null and patrolStatus != ''">#{patrolStatus},</if>
             <if test="patrolStartTime != null">#{patrolStartTime},</if>
             <if test="patrolEndTime != null">#{patrolEndTime},</if>
             <if test="patrolCreateTime != null">#{patrolCreateTime},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="createBy != null">#{createBy},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
         </trim>
     </insert>
@@ -118,18 +118,18 @@
     <update id="updateSysPatrol" parameterType="SysPatrol">
         update sys_patrol
         <trim prefix="SET" suffixOverrides=",">
-            <if test="patrolName != null">patrol_name = #{patrolName},</if>
-            <if test="patrolDescribe != null">patrol_describe = #{patrolDescribe},</if>
-            <if test="patrolPrincipal != null">patrol_principal = #{patrolPrincipal},</if>
-            <if test="patrolPhone != null">patrol_phone = #{patrolPhone},</if>
+            <if test="patrolName != null and patrolName != ''">patrol_name = #{patrolName},</if>
+            <if test="patrolDescribe != null and patrolDescribe != ''">patrol_describe = #{patrolDescribe},</if>
+            <if test="patrolPrincipal != null and patrolPrincipal != ''">patrol_principal = #{patrolPrincipal},</if>
+            <if test="patrolPhone != null and patrolPhone != ''">patrol_phone = #{patrolPhone},</if>
             <if test="patrolStatus != null and patrolStatus != ''">patrol_status = #{patrolStatus},</if>
             <if test="patrolStartTime != null">patrol_start_time = #{patrolStartTime},</if>
             <if test="patrolEndTime != null">patrol_end_time = #{patrolEndTime},</if>
             <if test="patrolCreateTime != null">patrol_create_time = #{patrolCreateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where patrol_id = #{patrolId}
