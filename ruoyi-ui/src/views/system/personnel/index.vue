@@ -163,7 +163,7 @@
           <el-table-column label="用户账号" align="center" prop="personnelLoginName"/>
           <!--<el-table-column label="密码" align="center" prop="personnelPassword" />-->
           <el-table-column label="员工名字" align="center" prop="personnelName"/>
-          <el-table-column label="手机号码" align="center" prop="personnelPhone"/>
+          <el-table-column label="手机号码" align="center" width="150" prop="personnelPhone"/>
           <el-table-column label="性别" align="center" prop="personnelSex">
             <template slot-scope="scope">
               <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.personnelSex"/>
