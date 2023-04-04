@@ -1,4 +1,7 @@
 import request from '@/utils/request'
+import axios from "axios";
+import {getToken} from "@/utils/auth";
+import {blobValidate} from "@/utils/ruoyi";
 
 // 查询巡更点管理列表
 export function listPoint(query) {
@@ -42,3 +45,14 @@ export function delPoint(patrolPointId) {
     method: 'delete'
   })
 }
+
+export function zipDownloadVue(patrolPointIds){
+  return request({
+    url: '/system/point/qrcode/' + patrolPointIds,
+    method: 'get',
+    responseType: 'blob',
+    headers:{ 'Content-Type': 'application/json; application/octet-stream;application/zip'},
+  })
+}
+
+

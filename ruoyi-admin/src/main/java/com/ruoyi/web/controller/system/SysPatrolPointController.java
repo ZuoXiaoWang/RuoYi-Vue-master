@@ -1,15 +1,20 @@
 package com.ruoyi.web.controller.system;
 
-import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.filechooser.FileSystemView;
 
 import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.utils.QrCodeCreateUtil;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.system.domain.*;
-import org.apache.commons.io.IOUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +26,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.service.ISysPatrolPointService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
-import static com.ruoyi.common.utils.QrCodeUtil.createQrCode;
 
 /**
  * 巡更点管理Controller
@@ -53,7 +56,7 @@ public class SysPatrolPointController extends AppBaseController {
         pointScan.setPatrolPointLongitude(sysPatrolPoint.getPatrolPointLongitude());
         pointScan.setPatrolPointLatitude(sysPatrolPoint.getPatrolPointLatitude());
         pointScan.setPatrolPointAltitude(sysPatrolPoint.getPatrolPointAltitude());
-        success.put(AjaxResult.DATA_TAG,pointScan);
+        success.put(AjaxResult.DATA_TAG, pointScan);
         return success;
     }
 
@@ -109,7 +112,6 @@ public class SysPatrolPointController extends AppBaseController {
     }
 
 
-
     /**
      * 新增巡更点管理
      */
@@ -118,7 +120,7 @@ public class SysPatrolPointController extends AppBaseController {
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setCreateBy(getAppUsername());
-        sysPatrolPoint.setPatrolPointUrl(IpUtils.getHostIp()+"/system/point/scan/"+sysPatrolPoint.getPatrolPointId());
+        sysPatrolPoint.setPatrolPointUrl(IpUtils.getHostIp() + "/system/point/scan/" + sysPatrolPoint.getPatrolPointId());
         return toAjax(sysPatrolPointService.insertSysPatrolPoint(sysPatrolPoint));
     }
 
@@ -146,24 +148,50 @@ public class SysPatrolPointController extends AppBaseController {
      * 根据patrolPointIds批量生成二维码
      */
     @GetMapping(value = "/qrcode/{patrolPointIds}")
-//    public AjaxResult QRcode(HttpServletResponse response,@PathVariable Long[] patrolPointIds) {
-//        //根据ids查询所有url
-//        List<SysPatrolPoint> sysPatrolPoints = sysPatrolPointService.selectSysPatrolPointByPatrolPointIds(patrolPointIds);
-//
-//        return genQRcode(response,data);
-//    }
+    public void QRcode(HttpServletResponse response, @PathVariable Long[] patrolPointIds) {
+        //根据ids查询所有url
+        List<SysPatrolPoint> sysPatrolPoints = sysPatrolPointService.selectSysPatrolPointByPatrolPointIds(patrolPointIds);
+        getCodeZip(response, sysPatrolPoints);
+    }
+
 
     /**
-     * 生成zip文件
+     * 获取二维码压缩包
+     *
+     * @param response
+     * @param list     二维码字符串列表
      */
-    private void genQRcode(HttpServletResponse response, byte[] data) throws IOException
-    {
-        response.reset();
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.setHeader("Content-Disposition", "attachment; filename=\"二维码.zip\"");
-        response.addHeader("Content-Length", "" + data.length);
-        response.setContentType("application/octet-stream; charset=UTF-8");
-        IOUtils.write(data, response.getOutputStream());
+    private void getCodeZip(HttpServletResponse response, List<SysPatrolPoint> list) {
+        response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "attachment;filename=QRcode.zip");
+        ZipOutputStream zos = null;
+        try {
+            zos = new ZipOutputStream(response.getOutputStream());
+            // zos.setLevel(5);//压缩等级
+            for (int j = 0; j < list.size(); j++) {
+                String codeString = list.get(j).getPatrolPointUrl();// 获取二维码字符串
+                String title = list.get(j).getPatrolPointName();// 获取二维码title
+                BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 900, title);// 生成二维码图片
+                try (ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+                     ImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteOutputStream)) {
+                    ImageIO.write(qrCode, "PNG", imageOutputStream);
+                    zos.putNextEntry(new ZipEntry(j + ".PNG"));
+                    byte[] bytes = byteOutputStream.toByteArray();
+                    zos.write(bytes);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != zos) {
+                    zos.closeEntry();
+                    zos.flush();
+                    zos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

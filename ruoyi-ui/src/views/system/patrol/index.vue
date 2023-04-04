@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
       <el-form-item label="巡更任务名称" prop="patrolName">
         <el-input
           v-model="queryParams.patrolName"
@@ -102,15 +102,6 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:patrol:export']"
-        >导出
-        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -175,7 +166,7 @@
 
     <!-- 添加或修改巡更任务管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="巡更任务名称" prop="patrolName">
           <el-input v-model="form.patrolName" placeholder="请输入巡更任务名称"/>
         </el-form-item>
@@ -197,6 +188,7 @@
             >{{ dict.label }}
             </el-radio>
           </el-radio-group>
+        </el-form-item>
           <el-form-item label="巡更人员" prop="PersonnelId">
             <el-select v-model="form.personnelIds" multiple placeholder="请选择巡更人员">
               <el-option
@@ -219,7 +211,6 @@
               ></el-option>
             </el-select>
           </el-form-item>
-        </el-form-item>
         <el-form-item label="计划开始时间" prop="patrolStartTime">
           <el-date-picker clearable
                           v-model="form.patrolStartTime"
@@ -303,8 +294,20 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        patrolName: [
+          { required: true, message: "巡更任务名称不能为空", trigger: "blur" }
+        ],
         patrolStatus: [
-          {required: true, message: "巡更任务状态不能为空", trigger: "change"}
+          { required: true, message: "巡更任务状态不能为空", trigger: "change" }
+        ],
+        patrolStartTime: [
+          { required: true, message: "计划开始时间不能为空", trigger: "blur" }
+        ],
+        patrolEndTime: [
+          { required: true, message: "计划结束时间不能为空", trigger: "blur" }
+        ],
+        patrolCreateTime: [
+          { required: true, message: "任务创建时间不能为空", trigger: "blur" }
         ],
       }
     };

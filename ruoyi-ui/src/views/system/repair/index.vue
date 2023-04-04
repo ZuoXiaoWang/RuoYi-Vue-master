@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
       <el-form-item label="维修任务名称" prop="repairName">
         <el-input
           v-model="queryParams.repairName"
@@ -101,17 +101,6 @@
         >删除
         </el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:repair:export']"
-        >导出
-        </el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -175,7 +164,7 @@
 
     <!-- 添加或修改维修任务对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
         <el-form-item label="维修任务名称" prop="repairName">
           <el-input v-model="form.repairName" placeholder="请输入维修任务名称"/>
         </el-form-item>
@@ -303,8 +292,14 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        repairName: [
+          { required: true, message: "维修任务名称不能为空", trigger: "blur" }
+        ],
         repairStatus: [
-          {required: true, message: "维修任务状态不能为空", trigger: "change"}
+          { required: true, message: "巡更任务状态不能为空", trigger: "change" }
+        ],
+        repairStartTime: [
+          { required: true, message: "计划开始时间不能为空", trigger: "blur" }
         ],
       }
     };

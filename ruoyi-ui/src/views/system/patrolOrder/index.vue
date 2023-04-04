@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
       <el-form-item label="巡更点编号" prop="patrolPointId">
         <el-input
           v-model="queryParams.patrolPointId"
@@ -50,12 +50,14 @@
         />
       </el-form-item>
       <el-form-item label="巡更结果" prop="patrolResult">
-        <el-input
-          v-model="queryParams.patrolResult"
-          placeholder="请输入巡更结果"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.patrolResult" placeholder="巡更结果" clearable>
+          <el-option
+            v-for="dict in dict.type.sys_patrol_result"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -64,16 +66,16 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['system:patrolOrder:add']"
-        >新增</el-button>
-      </el-col>
+      <!--<el-col :span="1.5">-->
+      <!--  <el-button-->
+      <!--    type="primary"-->
+      <!--    plain-->
+      <!--    icon="el-icon-plus"-->
+      <!--    size="mini"-->
+      <!--    @click="handleAdd"-->
+      <!--    v-hasPermi="['system:patrolOrder:add']"-->
+      <!--  >新增</el-button>-->
+      <!--</el-col>-->
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -95,16 +97,6 @@
           @click="handleDelete"
           v-hasPermi="['system:patrolOrder:remove']"
         >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:patrolOrder:export']"
-        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -161,10 +153,10 @@
 
     <!-- 添加或修改巡更工单管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="巡更点编号" prop="patrolPointId">
-          <el-input v-model="form.patrolPointId" placeholder="请输入巡更点编号" />
-        </el-form-item>
+      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
+        <!--<el-form-item label="巡更点编号" prop="patrolPointId">-->
+        <!--  <el-input v-model="form.patrolPointId" placeholder="请输入巡更点编号" />-->
+        <!--</el-form-item>-->
         <el-form-item label="巡更点名称" prop="patrolPointName">
           <el-input v-model="form.patrolPointName" placeholder="请输入巡更点名称" />
         </el-form-item>
@@ -243,6 +235,27 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        patrolPointId: [
+          { required: true, message: "巡更点编号不能为空", trigger: "blur" }
+        ],
+        patrolPointName: [
+          { required: true, message: "巡更点名称不能为空", trigger: "blur" }
+        ],
+        patrolId: [
+          { required: true, message: "巡更任务编号不能为空", trigger: "blur" }
+        ],
+        patrolName: [
+          { required: true, message: "巡更任务名称不能为空", trigger: "blur" }
+        ],
+        personnelId: [
+          { required: true, message: "巡更人编号不能为空", trigger: "blur" }
+        ],
+        personnelName: [
+          { required: true, message: "巡更人姓名不能为空", trigger: "blur" }
+        ],
+        patrolResult: [
+          { required: true, message: "巡更结果不能为空", trigger: "blur" }
+        ],
       }
     };
   },

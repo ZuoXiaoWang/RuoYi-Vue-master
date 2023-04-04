@@ -5,8 +5,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.math.BigDecimal;
 
-public class PointScan extends BaseEntity {
-    private static final long serialVersionUID = 1L;
+public class PointScan{
 
     /**
      * 巡更点纬度

@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '巡更管理系统',
       logo: logoImg
     }
   }

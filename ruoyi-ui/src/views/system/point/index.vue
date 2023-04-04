@@ -50,16 +50,16 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <!--<el-col :span="1.5">-->
-      <!--  <el-button-->
-      <!--    type="primary"-->
-      <!--    plain-->
-      <!--    icon="el-icon-plus"-->
-      <!--    size="mini"-->
-      <!--    @click="handleAdd"-->
-      <!--    v-hasPermi="['system:point:add']"-->
-      <!--  >新增</el-button>-->
-      <!--</el-col>-->
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['system:point:add']"
+        >新增</el-button>
+      </el-col>
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -85,14 +85,13 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <!--<el-button-->
-        <!--  type="warning"-->
-        <!--  plain-->
-        <!--  icon="el-icon-download"-->
-        <!--  size="mini"-->
-        <!--  @click="handleExport"-->
-        <!--  v-hasPermi="['system:point:export']"-->
-        <!--&gt;导出</el-button>-->
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handelQRcode"
+        >导出二维码</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -102,7 +101,7 @@
       <el-table-column label="巡更点ID" align="center" prop="patrolPointId"/>
       <el-table-column label="巡更点名称" align="center" prop="patrolPointName"/>
       <el-table-column label="巡更点描述" align="center" prop="patrolPointDescribe"/>
-      <el-table-column label="巡更点二维码" align="center" prop="patrolPointUrl"/>
+      <!--<el-table-column label="巡更点二维码" align="center" prop="patrolPointUrl"/>-->
       <el-table-column label="巡更点纬度" align="center" prop="patrolPointLatitude"/>
       <el-table-column label="巡更点经度" align="center" prop="patrolPointLongitude"/>
       <el-table-column label="巡更点高度" align="center" prop="patrolPointAltitude"/>
@@ -144,16 +143,16 @@
 
     <!-- 添加或修改巡更点管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="巡更点名称" prop="patrolPointName">
           <el-input v-model="form.patrolPointName" placeholder="请输入巡更点名称"/>
         </el-form-item>
         <el-form-item label="巡更点描述" prop="patrolPointDescribe">
           <el-input v-model="form.patrolPointDescribe" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
-        <el-form-item label="巡更点二维码" prop="patrolPointUrl">
-          <el-input v-model="form.patrolPointUrl" type="textarea" placeholder="请输入内容"/>
-        </el-form-item>
+        <!--<el-form-item label="巡更点二维码" prop="patrolPointUrl">-->
+        <!--  <el-input v-model="form.patrolPointUrl" type="textarea" placeholder="请输入内容"/>-->
+        <!--</el-form-item>-->
         <el-form-item label="巡更点纬度" prop="patrolPointLatitude">
           <el-input v-model="form.patrolPointLatitude" placeholder="请输入巡更点纬度"/>
         </el-form-item>
@@ -186,7 +185,8 @@
 </template>
 
 <script>
-import {listPoint, getPoint, delPoint, addPoint, updatePoint} from "@/api/system/point";
+import {listPoint, getPoint, delPoint, addPoint, updatePoint, zipDownloadVue} from "@/api/system/point";
+import {saveAs} from 'file-saver'
 
 export default {
   name: "Point",
@@ -226,7 +226,24 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {}
+      // 表单校验
+      rules: {
+        patrolPointName: [
+          { required: true, message: "巡更点名称不能为空", trigger: "blur" }
+        ],
+        patrolPointLatitude: [
+          { required: true, message: "巡更点纬度不能为空", trigger: "blur" }
+        ],
+        patrolPointLongitude: [
+          { required: true, message: "巡更点经度不能为空", trigger: "blur" }
+        ],
+        patrolPointAltitude: [
+          { required: true, message: "巡更点高度不能为空", trigger: "blur" }
+        ],
+        patrolPointStatus: [
+          { required: true, message: "状态不能为空", trigger: "change" }
+        ],
+      }
     };
   },
   created() {
@@ -326,6 +343,29 @@ export default {
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
+      }).catch(() => {
+      });
+    },
+    handelQRcode(row){
+      const patrolPointIds = row.patrolPointId || this.ids;
+      this.$modal.confirm('是否确认导出二维码巡更点管理编号为"' + patrolPointIds + '"的数据项？').then(function () {
+        // return this.$download.QRcodeZip("/system/point/qrcode/"+patrolPointIds,"QRcode.zip");
+        zipDownloadVue(patrolPointIds).then(response => {
+          const url = window.URL.createObjectURL(new Blob([response], {
+            type: 'application/zip'
+          }))
+          const link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', 'QRcode.zip')
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+
+        })
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("导出成功");
       }).catch(() => {
       });
     },
