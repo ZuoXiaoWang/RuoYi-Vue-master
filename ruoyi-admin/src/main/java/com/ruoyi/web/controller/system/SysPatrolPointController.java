@@ -45,20 +45,7 @@ public class SysPatrolPointController extends AppBaseController {
     @Autowired
     private ISysPatrolPointService sysPatrolPointService;
 
-    /**
-     * 扫码返回
-     */
-    @GetMapping("/scan/{patrolPointId}")
-    public AjaxResult getInfoByScan(@PathVariable Long patrolPointId) {
-        AjaxResult success = AjaxResult.success();
-        SysPatrolPoint sysPatrolPoint = sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId);
-        PointScan pointScan = new PointScan();
-        pointScan.setPatrolPointLongitude(sysPatrolPoint.getPatrolPointLongitude());
-        pointScan.setPatrolPointLatitude(sysPatrolPoint.getPatrolPointLatitude());
-        pointScan.setPatrolPointAltitude(sysPatrolPoint.getPatrolPointAltitude());
-        success.put(AjaxResult.DATA_TAG, pointScan);
-        return success;
-    }
+
 
     /**
      * 查询巡更点管理列表
@@ -169,9 +156,9 @@ public class SysPatrolPointController extends AppBaseController {
             zos = new ZipOutputStream(response.getOutputStream());
             // zos.setLevel(5);//压缩等级
             for (int j = 0; j < list.size(); j++) {
-                String codeString = list.get(j).getPatrolPointUrl();// 获取二维码字符串
-                String title = list.get(j).getPatrolPointName();// 获取二维码title
-                BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 900, title);// 生成二维码图片
+                String codeString = getInfoByScan(list.get(j).getPatrolPointId());// 获取二维码字符串
+                String title = String.valueOf(list.get(j).getPatrolPointId());// 获取二维码title
+                BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 2500, title);// 生成二维码图片
                 try (ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                      ImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteOutputStream)) {
                     ImageIO.write(qrCode, "PNG", imageOutputStream);
@@ -193,5 +180,19 @@ public class SysPatrolPointController extends AppBaseController {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 扫码返回
+     */
+    public String getInfoByScan(Long patrolPointId) {
+        AjaxResult success = AjaxResult.success();
+        SysPatrolPoint sysPatrolPoint = sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId);
+        PointScan pointScan = new PointScan();
+        pointScan.setPatrolPointLongitude(sysPatrolPoint.getPatrolPointLongitude());
+        pointScan.setPatrolPointLatitude(sysPatrolPoint.getPatrolPointLatitude());
+        pointScan.setPatrolPointAltitude(sysPatrolPoint.getPatrolPointAltitude());
+        success.put(AjaxResult.DATA_TAG, pointScan);
+        return success.toString();
     }
 }

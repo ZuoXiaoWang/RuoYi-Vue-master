@@ -38,7 +38,7 @@ public class QrCodeCreateUtil {
         // 使BufferedImage勾画QRCode (matrixWidth 是行二维码像素点)
         int matrixWidth = byteMatrix.getWidth();
         int picWidth = matrixWidth - 200;
-        int picHeight = matrixWidth - 160;// 除掉二维码过长的底部留白
+        int picHeight = matrixWidth - 50;// 除掉二维码过长的底部留白
         BufferedImage image = new BufferedImage(picWidth, picHeight, BufferedImage.TYPE_INT_RGB);
         image.createGraphics();
         Graphics2D graphics = (Graphics2D) image.getGraphics();
@@ -55,14 +55,14 @@ public class QrCodeCreateUtil {
             }
         }
         graphics.setColor(Color.BLACK);
-        Font font = new Font("黑体", Font.BOLD, 50); // 设置底部文字
+        Font font = new Font("黑体", Font.BOLD, 150); // 设置底部文字
         graphics.setFont(font);
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // 消除文字锯齿
         // 计算文字长度，计算居中的x点坐标
         FontMetrics fm = graphics.getFontMetrics(font);
         int textWidth = fm.stringWidth(title);
         int widthX = (picWidth - textWidth) / 2;
-        graphics.drawString(title, widthX, image.getHeight() - 10);
+        graphics.drawString(title, widthX, image.getHeight() - 50);
         graphics.dispose();
         return resize(image, 200, 200);
 
