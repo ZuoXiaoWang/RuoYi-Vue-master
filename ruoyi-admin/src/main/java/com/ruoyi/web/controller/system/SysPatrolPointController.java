@@ -167,7 +167,7 @@ public class SysPatrolPointController extends AppBaseController {
                 try (ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                      ImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteOutputStream)) {
                     ImageIO.write(qrCode, "PNG", imageOutputStream);
-                    zos.putNextEntry(new ZipEntry(j + ".PNG"));
+                    zos.putNextEntry(new ZipEntry(list.get(j).getPatrolPointId() + ".PNG"));
                     byte[] bytes = byteOutputStream.toByteArray();
                     zos.write(bytes);
                 }
