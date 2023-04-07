@@ -106,7 +106,11 @@ public class SysPatrolPointController extends AppBaseController {
     @Log(title = "巡更点管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolPoint sysPatrolPoint) {
-        sysPatrolPoint.setCreateBy(getAppUsername());
+        try {
+            sysPatrolPoint.setCreateBy(getAppUsername());
+        }catch (Exception e){
+            sysPatrolPoint.setCreateBy(getUsername());
+        }
         sysPatrolPoint.setPatrolPointUrl(IpUtils.getHostIp() + "/system/point/scan/" + sysPatrolPoint.getPatrolPointId());
         return toAjax(sysPatrolPointService.insertSysPatrolPoint(sysPatrolPoint));
     }
