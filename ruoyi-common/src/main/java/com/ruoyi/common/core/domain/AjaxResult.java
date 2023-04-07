@@ -2,6 +2,7 @@ package com.ruoyi.common.core.domain;
 
 import java.util.HashMap;
 
+import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.utils.StringUtils;
 
@@ -172,5 +173,10 @@ public class AjaxResult extends HashMap<String, Object> {
     public AjaxResult put(String key, Object value) {
         super.put(key, value);
         return this;
+    }
+
+    @Override
+    public String toString(){
+        return JSON.toJSONString(this);
     }
 }

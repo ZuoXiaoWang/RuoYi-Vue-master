@@ -156,6 +156,7 @@ public class SysPatrolPointController extends AppBaseController {
             zos = new ZipOutputStream(response.getOutputStream());
             // zos.setLevel(5);//压缩等级
             for (int j = 0; j < list.size(); j++) {
+//                String codeString = String.valueOf(list.get(j).getPatrolPointId());
                 String codeString = getInfoByScan(list.get(j).getPatrolPointId());// 获取二维码字符串
                 String title = String.valueOf(list.get(j).getPatrolPointId());// 获取二维码title
                 BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 2500, title);// 生成二维码图片
@@ -181,6 +182,7 @@ public class SysPatrolPointController extends AppBaseController {
             }
         }
     }
+
 
     /**
      * 扫码返回
