@@ -64,7 +64,7 @@ public class QrCodeCreateUtil {
         int widthX = (picWidth - textWidth) / 2;
         graphics.drawString(title, widthX, image.getHeight() - 50);
         graphics.dispose();
-        return resize(image, 200, 200);
+        return resize(image, 600, 600);
 
     }
     /**

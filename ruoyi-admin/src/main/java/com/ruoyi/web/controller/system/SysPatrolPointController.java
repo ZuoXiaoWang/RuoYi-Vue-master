@@ -159,15 +159,15 @@ public class SysPatrolPointController extends AppBaseController {
         try {
             zos = new ZipOutputStream(response.getOutputStream());
             // zos.setLevel(5);//压缩等级
-            for (int j = 0; j < list.size(); j++) {
+            for (SysPatrolPoint sysPatrolPoint : list) {
 //                String codeString = String.valueOf(list.get(j).getPatrolPointId());
-                String codeString = getInfoByScan(list.get(j).getPatrolPointId());// 获取二维码字符串
-                String title = String.valueOf(list.get(j).getPatrolPointId());// 获取二维码title
+                String codeString = getInfoByScan(sysPatrolPoint.getPatrolPointId());// 获取二维码字符串
+                String title = String.valueOf(sysPatrolPoint.getPatrolPointId());// 获取二维码title
                 BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 2500, title);// 生成二维码图片
                 try (ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                      ImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteOutputStream)) {
                     ImageIO.write(qrCode, "PNG", imageOutputStream);
-                    zos.putNextEntry(new ZipEntry(list.get(j).getPatrolPointId() + ".PNG"));
+                    zos.putNextEntry(new ZipEntry(sysPatrolPoint.getPatrolPointId() + ".PNG"));
                     byte[] bytes = byteOutputStream.toByteArray();
                     zos.write(bytes);
                 }
