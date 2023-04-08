@@ -5,9 +5,6 @@ import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.model.AppLoginBody;
 import com.ruoyi.framework.app.service.AppLoginService;
-import com.ruoyi.system.domain.PointScan;
-import com.ruoyi.system.domain.SysPatrolPoint;
-import com.ruoyi.system.service.ISysPatrolPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

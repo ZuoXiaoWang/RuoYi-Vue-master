@@ -19,6 +19,7 @@ public class SysPatrolPoint extends BaseEntity {
     /**
      * 巡更点ID
      */
+    @Excel(name = "巡更点编号")
     private Long patrolPointId;
 
     /**
@@ -36,31 +37,31 @@ public class SysPatrolPoint extends BaseEntity {
     /**
      * 巡更点二维码
      */
-    @Excel(name = "巡更点二维码")
+
     private String patrolPointUrl;
 
     /**
      * 巡更点纬度
      */
-    @Excel(name = "巡更点纬度")
+    @Excel(name = "巡更点纬度",scale = 10)
     private BigDecimal patrolPointLatitude;
 
     /**
      * 巡更点经度
      */
-    @Excel(name = "巡更点经度")
+    @Excel(name = "巡更点经度",scale = 10)
     private BigDecimal patrolPointLongitude;
 
     /**
      * 巡更点高度
      */
-    @Excel(name = "巡更点高度")
+    @Excel(name = "巡更点高度",scale = 10)
     private BigDecimal patrolPointAltitude;
 
     /**
      * 状态
      */
-    @Excel(name = "状态")
+    @Excel(name = "状态", readConverterExp = "0=启用,1=未启用")
     private String patrolPointStatus;
 
     public void setPatrolPointId(Long patrolPointId) {

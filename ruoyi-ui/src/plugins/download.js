@@ -4,6 +4,7 @@ import {saveAs} from 'file-saver'
 import {getToken} from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import {blobValidate} from "@/utils/ruoyi";
+import {download} from "@/utils/request";
 
 const baseURL = process.env.VUE_APP_BASE_API
 
@@ -60,16 +61,24 @@ export default {
     })
   },
 
-  QRcodeZip(url, name) {
+  QRcodeZip(url, patrolPointIds) {
     var url = baseURL + url
     axios({
       method: 'get',
       url: url,
       responseType: 'blob',
-      // headers: {'Authorization': 'Bearer ' + getToken()}
+      headers: {
+        'Content-Type': 'application/json; application/octet-stream;application/zip',
+        'Authorization': 'Bearer ' + getToken()
+      }
     }).then((res) => {
-      const blob = new Blob([res.data], {type: 'application/zip'})
-      this.saveAs(blob, name)
+      const isBlob = blobValidate(res.data);
+      if (isBlob) {
+        const blob = new Blob([res.data], {type: 'application/zip'})
+        this.saveAs(blob, "编号" + patrolPointIds[0] + "-" + patrolPointIds[patrolPointIds.length - 1] + "二维码")
+      } else {
+        this.printErrMsg(res.data);
+      }
     })
   },
   saveAs(text, name, opts) {

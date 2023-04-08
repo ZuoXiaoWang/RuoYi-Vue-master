@@ -46,9 +46,9 @@ export function delPoint(patrolPointId) {
   })
 }
 
-export function zipDownloadVue(patrolPointIds){
+export function zipDownloadVue(){
   return request({
-    url: '/system/point/qrcode/' + patrolPointIds,
+    url: '/system/point/qrcode',
     method: 'get',
     responseType: 'blob',
     headers:{ 'Content-Type': 'application/json; application/octet-stream;application/zip'},

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.utils.QrCodeCreateUtil;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.system.domain.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -111,7 +112,7 @@ public class SysPatrolPointController extends AppBaseController {
         }catch (Exception e){
             sysPatrolPoint.setCreateBy(getUsername());
         }
-        sysPatrolPoint.setPatrolPointUrl(IpUtils.getHostIp() + "/system/point/scan/" + sysPatrolPoint.getPatrolPointId());
+//        sysPatrolPoint.setPatrolPointUrl(IpUtils.getHostIp() + "/system/point/scan/" + sysPatrolPoint.getPatrolPointId());
         return toAjax(sysPatrolPointService.insertSysPatrolPoint(sysPatrolPoint));
     }
 
@@ -159,15 +160,15 @@ public class SysPatrolPointController extends AppBaseController {
         try {
             zos = new ZipOutputStream(response.getOutputStream());
             // zos.setLevel(5);//压缩等级
-            for (SysPatrolPoint sysPatrolPoint : list) {
+            for (int j = 0; j < list.size(); j++) {
 //                String codeString = String.valueOf(list.get(j).getPatrolPointId());
-                String codeString = getInfoByScan(sysPatrolPoint.getPatrolPointId());// 获取二维码字符串
-                String title = String.valueOf(sysPatrolPoint.getPatrolPointId());// 获取二维码title
+                String codeString = handelForPointScan(list.get(j));// 获取二维码字符串
+                String title = String.valueOf(list.get(j).getPatrolPointId());// 获取二维码title
                 BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 2500, title);// 生成二维码图片
                 try (ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                      ImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteOutputStream)) {
                     ImageIO.write(qrCode, "PNG", imageOutputStream);
-                    zos.putNextEntry(new ZipEntry(sysPatrolPoint.getPatrolPointId() + ".PNG"));
+                    zos.putNextEntry(new ZipEntry(list.get(j).getPatrolPointId() + ".PNG"));
                     byte[] bytes = byteOutputStream.toByteArray();
                     zos.write(bytes);
                 }
@@ -198,6 +199,18 @@ public class SysPatrolPointController extends AppBaseController {
         pointScan.setPatrolPointLongitude(sysPatrolPoint.getPatrolPointLongitude());
         pointScan.setPatrolPointLatitude(sysPatrolPoint.getPatrolPointLatitude());
         pointScan.setPatrolPointAltitude(sysPatrolPoint.getPatrolPointAltitude());
+        success.put(AjaxResult.DATA_TAG, pointScan);
+        return success.toString();
+    }
+
+
+    /**
+     * 处理类
+     */
+    public String handelForPointScan(SysPatrolPoint sysPatrolPoint) {
+        PointScan pointScan = new PointScan();
+        BeanUtils.copyBeanProp(pointScan,sysPatrolPoint);
+        AjaxResult success = AjaxResult.success();
         success.put(AjaxResult.DATA_TAG, pointScan);
         return success.toString();
     }

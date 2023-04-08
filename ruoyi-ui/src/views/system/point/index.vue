@@ -90,8 +90,19 @@
           plain
           icon="el-icon-download"
           size="mini"
+          @click="handleExport"
+          v-hasPermi="['system:point:export']"
+        >导出点位表</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          :disabled="multiple"
           @click="handelQRcode"
-        >导出二维码</el-button>
+        >导出二维码(此操作很慢请耐心等待几分钟，建议选择30列以下数据导出)</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -348,32 +359,35 @@ export default {
     },
     handelQRcode(row){
       const patrolPointIds = row.patrolPointId || this.ids;
-      this.$modal.confirm('是否确认导出二维码巡更点管理编号为"' + patrolPointIds + '"的数据项？').then(function () {
-        // return this.$download.QRcodeZip("/system/point/qrcode/"+patrolPointIds,"QRcode.zip");
-        zipDownloadVue(patrolPointIds).then(response => {
-          const url = window.URL.createObjectURL(new Blob([response], {
-            type: 'application/zip'
-          }))
-          const link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-          link.setAttribute('download', 'QRcode.zip')
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
+      this.$download.QRcodeZip("/system/point/qrcode/" + patrolPointIds,patrolPointIds)
 
-        })
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("导出成功");
-      }).catch(() => {
-      });
+      // // const patrolPointIds = row.patrolPointId || this.ids;
+      // this.$modal.confirm('是否确认导出所有二维码？').then(function () {
+      //   return
+      //   zipDownloadVue().then(response => {
+      //     const url = window.URL.createObjectURL(new Blob([response], {
+      //       type: 'application/zip'
+      //     }))
+      //     const link = document.createElement('a')
+      //     link.style.display = 'none'
+      //     link.href = url
+      //     link.setAttribute('download', 'QRcode.zip')
+      //     document.body.appendChild(link)
+      //     link.click()
+      //     document.body.removeChild(link)
+      //
+      //   })
+      // }).then(() => {
+      //   this.getList();
+      //   this.$modal.msgSuccess("导出成功");
+      // }).catch(() => {
+      // });
     },
     /** 导出按钮操作 */
     handleExport() {
       this.download('system/point/export', {
         ...this.queryParams
-      }, `point_${new Date().getTime()}.xlsx`)
+      }, `点位表${new Date().getTime()}.xlsx`)
     }
   }
 };
