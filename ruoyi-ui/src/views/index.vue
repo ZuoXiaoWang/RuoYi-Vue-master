@@ -11,6 +11,9 @@ export default {
       version: "3.8.5"
     };
   },
+  created() {
+    this.$router.push({ path: "/system/point"});
+  },
   methods: {
     goTarget(href) {
       window.open(href, "_blank");
