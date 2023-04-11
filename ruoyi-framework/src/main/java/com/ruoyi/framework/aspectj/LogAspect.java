@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.domain.model.AppLoginUser;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -82,8 +83,10 @@ public class LogAspect {
 
     protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
         try {
+
+
             // 获取当前的用户
-            LoginUser loginUser = SecurityUtils.getLoginUser();
+            String UserName = handelGetUserName();
 
             // *========数据库日志=========*//
             SysOperLog operLog = new SysOperLog();
@@ -92,8 +95,8 @@ public class LogAspect {
             String ip = IpUtils.getIpAddr();
             operLog.setOperIp(ip);
             operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
-            if (loginUser != null) {
-                operLog.setOperName(loginUser.getUsername());
+            if (UserName != null) {
+                operLog.setOperName(UserName);
             }
 
             if (e != null) {
@@ -215,5 +218,24 @@ public class LogAspect {
         }
         return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
                 || o instanceof BindingResult;
+    }
+
+    public String handelGetUserName(){
+        try {
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            return loginUser.getUsername();
+        } catch (Exception e4gotLU) {
+            // 记录本地异常日志
+            log.error("异常信息:{}", e4gotLU.getMessage());
+        }
+
+        try {
+            AppLoginUser loginUser = SecurityUtils.getAppLoginUser();
+            return loginUser.getUsername();
+        } catch (Exception e4gotALU) {
+            // 记录本地异常日志
+            log.error("异常信息:{}", e4gotALU.getMessage());
+        }
+        return null;
     }
 }

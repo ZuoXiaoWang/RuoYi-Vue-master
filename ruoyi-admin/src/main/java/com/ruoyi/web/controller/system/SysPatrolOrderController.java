@@ -37,7 +37,6 @@ public class SysPatrolOrderController extends BaseController {
     /**
      * 查询巡更工单管理列表
      */
-    @PreAuthorize("@ss.hasPermi('system:patrolOrder:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolOrder sysPatrolOrder) {
         startPage();
@@ -48,7 +47,6 @@ public class SysPatrolOrderController extends BaseController {
     /**
      * 导出巡更工单管理列表
      */
-    @PreAuthorize("@ss.hasPermi('system:patrolOrder:export')")
     @Log(title = "巡更工单管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPatrolOrder sysPatrolOrder) {
@@ -60,7 +58,6 @@ public class SysPatrolOrderController extends BaseController {
     /**
      * 获取巡更工单管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:patrolOrder:query')")
     @GetMapping(value = "/{patrolOrderId}")
     public AjaxResult getInfo(@PathVariable("patrolOrderId") Long patrolOrderId) {
         AjaxResult ajax = AjaxResult.success();
@@ -73,7 +70,6 @@ public class SysPatrolOrderController extends BaseController {
     /**
      * 新增巡更工单管理
      */
-    @PreAuthorize("@ss.hasPermi('system:patrolOrder:add')")
     @Log(title = "巡更工单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolOrder sysPatrolOrder) {
@@ -87,7 +83,6 @@ public class SysPatrolOrderController extends BaseController {
     /**
      * 修改巡更工单管理
      */
-    @PreAuthorize("@ss.hasPermi('system:patrolOrder:edit')")
     @Log(title = "巡更工单管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysPatrolOrder sysPatrolOrder) {
@@ -97,7 +92,6 @@ public class SysPatrolOrderController extends BaseController {
     /**
      * 删除巡更工单管理
      */
-    @PreAuthorize("@ss.hasPermi('system:patrolOrder:remove')")
     @Log(title = "巡更工单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{patrolOrderIds}")
     public AjaxResult remove(@PathVariable Long[] patrolOrderIds) {

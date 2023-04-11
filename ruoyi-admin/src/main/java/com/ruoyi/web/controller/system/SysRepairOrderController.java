@@ -37,7 +37,6 @@ public class SysRepairOrderController extends BaseController
     /**
      * 查询维修工单列表
      */
-    @PreAuthorize("@ss.hasPermi('system:repairOrder:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysRepairOrder sysRepairOrder)
     {
@@ -49,7 +48,6 @@ public class SysRepairOrderController extends BaseController
     /**
      * 导出维修工单列表
      */
-    @PreAuthorize("@ss.hasPermi('system:repairOrder:export')")
     @Log(title = "维修工单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysRepairOrder sysRepairOrder)
@@ -76,7 +74,6 @@ public class SysRepairOrderController extends BaseController
     /**
      * 新增维修工单
      */
-    @PreAuthorize("@ss.hasPermi('system:repairOrder:add')")
     @Log(title = "维修工单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysRepairOrder sysRepairOrder)
@@ -87,7 +84,6 @@ public class SysRepairOrderController extends BaseController
     /**
      * 修改维修工单
      */
-    @PreAuthorize("@ss.hasPermi('system:repairOrder:edit')")
     @Log(title = "维修工单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysRepairOrder sysRepairOrder)
@@ -98,7 +94,6 @@ public class SysRepairOrderController extends BaseController
     /**
      * 删除维修工单
      */
-    @PreAuthorize("@ss.hasPermi('system:repairOrder:remove')")
     @Log(title = "维修工单", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{repairOrderIds}")
     public AjaxResult remove(@PathVariable Long[] repairOrderIds)
