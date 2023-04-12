@@ -72,7 +72,6 @@ public class SysPatrolController extends AppBaseController {
     /**
      * 获取巡更任务管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:patrol:query')")
     @GetMapping(value = {"/", "/{patrolId}"})
     public AjaxResult getInfo(@PathVariable(value = "patrolId", required = false) Long patrolId) {
         AjaxResult ajax = AjaxResult.success();

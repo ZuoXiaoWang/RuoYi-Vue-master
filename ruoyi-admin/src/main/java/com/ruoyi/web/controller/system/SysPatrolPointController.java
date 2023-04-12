@@ -51,7 +51,6 @@ public class SysPatrolPointController extends AppBaseController {
     /**
      * 查询巡更点管理列表
      */
-    @PreAuthorize("@ss.hasPermi('system:point:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolPoint sysPatrolPoint) {
         startPage();
