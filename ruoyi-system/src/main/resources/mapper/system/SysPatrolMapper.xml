@@ -19,6 +19,12 @@
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
+        <collection property="PatrolPoints" javaType="java.util.List" resultMap="SysPatrolPointResult"/>
+    </resultMap>
+
+    <resultMap type="SysPatrolPoint" id="SysPatrolPointResult">
+        <result property="patrolPointId" column="patrol_point_id"/>
+        <result property="patrolPointName" column="patrol_point_name"/>
     </resultMap>
 
     <sql id="selectSysPatrolVo">
