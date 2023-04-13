@@ -539,6 +539,7 @@ export default {
         this.open = true;
         this.title = "添加员工";
         this.form.personnelPassword = this.initPassword;
+        this.imgUrl = "";
       })
     },
     /** 修改按钮操作 */
