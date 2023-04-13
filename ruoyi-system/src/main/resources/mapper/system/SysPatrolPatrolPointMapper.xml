@@ -62,7 +62,7 @@
     <insert id="batchPatrolPatrolPoint">
         insert into sys_patrol_patrol_point(patrol_id, patrol_point_id) values
         <foreach item="item" index="index" collection="list" separator=",">
-            (#{item.patrolId},#{item.patrol_pointId})
+            (#{item.patrolId},#{item.patrolPointId})
         </foreach>
     </insert>
 </mapper>
