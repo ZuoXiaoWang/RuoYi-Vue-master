@@ -174,4 +174,10 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
             sysPersonnelPostMapper.batchPersonnelPost(list);
         }
     }
+
+
+    @Override
+    public boolean updateUserAvatar(Long personnelId, String avatar) {
+        return sysPersonnelMapper.updateUserAvatar(personnelId, avatar) > 0;
+    }
 }

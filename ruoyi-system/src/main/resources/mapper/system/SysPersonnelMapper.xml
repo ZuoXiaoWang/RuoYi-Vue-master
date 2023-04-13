@@ -21,6 +21,7 @@
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
+        <result property="avatar" column="avatar"/>
         <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
         <collection property="posts" javaType="java.util.List" resultMap="PostResult"/>
     </resultMap>
@@ -72,6 +73,7 @@
                d.order_num,
                d.leader,
                d.phone,
+               s.avatar,
                d.status AS dept_status
         FROM sys_personnel AS s
                  LEFT JOIN sys_dept AS d ON s.dept_id = d.dept_id
@@ -133,6 +135,7 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="avatar != null and avatar != ''">avatar,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deptId != null">#{deptId},</if>
@@ -150,6 +153,7 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="avatar != null and avatar != ''">#{avatar},</if>
         </trim>
     </insert>
 
@@ -182,6 +186,7 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
         </trim>
         where personnel_id = #{personnelId}
     </update>
@@ -218,4 +223,10 @@
                  left join sys_repair re on re.repair_id = rp.repair_id
         where re.repair_id = #{repairId}
     </select>
+
+    <update id="updateUserAvatar" parameterType="SysPersonnel">
+        update sys_personnel
+        set avatar = #{avatar}
+        where personnel_id = #{personnelId}
+    </update>
 </mapper>

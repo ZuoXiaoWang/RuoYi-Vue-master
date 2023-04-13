@@ -85,4 +85,6 @@ public interface ISysPersonnelService {
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 
     public List<Long> selectPersonnelListByRepairId(Long repairId);
+
+    public boolean updateUserAvatar(Long personnelId, String avatar);
 }

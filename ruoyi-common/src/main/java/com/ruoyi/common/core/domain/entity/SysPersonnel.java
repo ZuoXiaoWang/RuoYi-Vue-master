@@ -102,13 +102,10 @@ public class SysPersonnel extends BaseEntity {
      */
     private Long[] postIds;
 
-    public Long[] getPostIds() {
-        return postIds;
-    }
-
-    public void setPostIds(Long[] postIds) {
-        this.postIds = postIds;
-    }
+    /**
+     * 用户头像
+     */
+    private String avatar;
 
     public Long getPersonnelId() {
         return personnelId;
@@ -214,6 +211,22 @@ public class SysPersonnel extends BaseEntity {
         this.posts = posts;
     }
 
+    public Long[] getPostIds() {
+        return postIds;
+    }
+
+    public void setPostIds(Long[] postIds) {
+        this.postIds = postIds;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "SysPersonnel{" +
@@ -231,6 +244,7 @@ public class SysPersonnel extends BaseEntity {
                 ", dept=" + dept +
                 ", posts=" + posts +
                 ", postIds=" + Arrays.toString(postIds) +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 }

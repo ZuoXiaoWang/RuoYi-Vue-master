@@ -99,6 +99,15 @@ public class TokenService {
     }
 
     /**
+     * 设置小程序用户身份信息
+     */
+    public void setAppLoginUser(AppLoginUser appLoginUser) {
+        if (StringUtils.isNotNull(appLoginUser) && StringUtils.isNotEmpty(appLoginUser.getToken())) {
+            refreshToken(appLoginUser);
+        }
+    }
+
+    /**
      * 删除用户身份信息
      */
     public void delLoginUser(String token) {

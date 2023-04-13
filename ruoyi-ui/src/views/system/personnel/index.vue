@@ -158,6 +158,11 @@
         <el-table v-loading="loading" :data="personnelList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55" align="center"/>
           <el-table-column label="员工ID" align="center" prop="personnelId"/>
+          <el-table-column label="头像" align="center">
+            <template slot-scope="scope">
+              <el-image :src="scope.row.avatar"></el-image>
+            </template>
+          </el-table-column>
           <el-table-column label="部门" align="center" prop="dept.deptName"/>
           <el-table-column label="岗位" align="center" prop="posts[0].postName"/>
           <el-table-column label="用户账号" align="center" prop="personnelLoginName"/>
@@ -228,6 +233,20 @@
     <!-- 添加或修改员工管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="员工头像">
+          <el-upload
+            class="avatar-uploader"
+            :action="uploadUrl"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            name="file"
+            ref="upload"
+            :headers="headers"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imgUrl" :src="imgUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="归属部门" prop="deptId">
           <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门"/>
         </el-form-item>
@@ -315,6 +334,7 @@ import {
 import {deptTreeSelect} from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import {getToken} from "@/utils/auth";
 
 export default {
   name: "Personnel",
@@ -322,6 +342,12 @@ export default {
   components: {Treeselect},
   data() {
     return {
+      uploadUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
+      headers: {
+        Authorization: "Bearer " + getToken()
+      },
+      //显示用图片
+      imgUrl: "",
       // 遮罩层
       loading: true,
       // 选中数组
@@ -410,11 +436,20 @@ export default {
 
   },
   methods: {
+    /**
+     * 图片路径
+     */
+    getImg(Url) {
+      return process.env.VUE_APP_BASE_API + Url;
+    },
     /** 查询员工管理列表 */
     getList() {
       this.loading = true;
       listPersonnel(this.queryParams).then(response => {
         this.personnelList = response.rows;
+        this.personnelList.map((val, i) => {
+          this.personnelList[i].avatar = this.getImg(val.avatar);
+        });
         this.total = response.total;
         this.loading = false;
       });
@@ -517,6 +552,7 @@ export default {
         this.open = true;
         this.title = "修改员工";
         this.form.personnelPassword = "";
+        this.imgUrl = process.env.VUE_APP_BASE_API + this.form.avatar;
       });
     },
     /** 重置密码按钮操作 */
@@ -570,7 +606,49 @@ export default {
       this.download('system/personnel/export', {
         ...this.queryParams
       }, `personnel_${new Date().getTime()}.xlsx`)
+    },
+    handleAvatarSuccess(res, file) {
+      this.form.avatar = res.fileName;
+      this.imgUrl = process.env.VUE_APP_BASE_API + this.form.avatar;
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     }
   }
 };
 </script>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>

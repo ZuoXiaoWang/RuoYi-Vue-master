@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 员工管理Mapper接口
@@ -74,4 +75,14 @@ public interface SysPersonnelMapper {
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 
     public List<Long> selectPersonnelListByRepairId(Long repairId);
+
+
+    /**
+     * 修改用户头像
+     *
+     * @param personnelId 用户id
+     * @param avatar   头像地址
+     * @return 结果
+     */
+    public int updateUserAvatar(@Param("personnelId") Long personnelId, @Param("avatar") String avatar);
 }

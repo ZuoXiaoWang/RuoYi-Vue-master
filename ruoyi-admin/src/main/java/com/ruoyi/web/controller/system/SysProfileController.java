@@ -1,5 +1,8 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.core.domain.model.AppLoginUser;
+import com.ruoyi.system.service.ISysPersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,12 +33,15 @@ import com.ruoyi.system.service.ISysUserService;
  */
 @RestController
 @RequestMapping("/system/user/profile")
-public class SysProfileController extends BaseController {
+public class SysProfileController extends AppBaseController {
     @Autowired
     private ISysUserService userService;
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private ISysPersonnelService sysPersonnelService;
 
     /**
      * 个人信息
@@ -120,6 +126,27 @@ public class SysProfileController extends BaseController {
                 // 更新缓存用户头像
                 loginUser.getUser().setAvatar(avatar);
                 tokenService.setLoginUser(loginUser);
+                return ajax;
+            }
+        }
+        return error("上传图片异常，请联系管理员");
+    }
+
+    /**
+     * 小程序头像上传
+     */
+    @Log(title = "用户头像", businessType = BusinessType.UPDATE)
+    @PostMapping("/appAvatar")
+    public AjaxResult appAvatar(@RequestParam("avatarfile") MultipartFile file) throws Exception {
+        if (!file.isEmpty()) {
+            AppLoginUser loginUser = getAppLoginUser();
+            String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+            if (sysPersonnelService.updateUserAvatar(loginUser.getUserId(), avatar)) {
+                AjaxResult ajax = AjaxResult.success();
+                ajax.put("imgUrl", avatar);
+                // 更新缓存用户头像
+                loginUser.getUser().setAvatar(avatar);
+                tokenService.setAppLoginUser(loginUser);
                 return ajax;
             }
         }
