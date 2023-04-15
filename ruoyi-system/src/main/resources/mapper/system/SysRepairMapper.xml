@@ -22,35 +22,42 @@
     </resultMap>
 
     <sql id="selectSysRepairVo">
-        select repair_id,
-               repair_name,
-               repair_describe,
-               repair_principal,
-               repair_phone,
-               repair_status,
-               repair_start_time,
-               repair_actual_start_time,
-               repair_actual_end_time,
-               remark,
-               create_by,
-               create_time,
-               update_by,
-               update_time
-        from sys_repair
+        select sys_repair.repair_id,
+               sys_repair.repair_name,
+               sys_repair.repair_describe,
+               sys_repair_personnel.personnel_id,
+               sys_repair.repair_principal,
+               sys_repair.repair_phone,
+               sys_repair.repair_status,
+               sys_repair.repair_start_time,
+               sys_repair.repair_actual_start_time,
+               sys_repair.repair_actual_end_time,
+               sys_repair.remark,
+               sys_repair.create_by,
+               sys_repair.create_time,
+               sys_repair.update_by,
+               sys_repair.update_time
+        FROM
+            sys_repair_personnel
+                LEFT JOIN
+            sys_repair
+            ON
+                sys_repair_personnel.repair_id = sys_repair.repair_id
     </sql>
 
     <select id="selectSysRepairList" parameterType="SysRepair" resultMap="SysRepairResult">
         <include refid="selectSysRepairVo"/>
         <where>
-            <if test="repairName != null  and repairName != ''">and repair_name like concat('%', #{repairName}, '%')
+            <if test="personnelId != null "> and sys_repair_personnel.personnel_id = #{personnelId}</if>
+            <if test="repairName != null  and repairName != ''">and sys_repair.repair_name like concat('%', #{repairName}, '%')
             </if>
-            <if test="repairDescribe != null  and repairDescribe != ''">and repair_describe = #{repairDescribe}</if>
-            <if test="repairPrincipal != null  and repairPrincipal != ''">and repair_principal = #{repairPrincipal}</if>
-            <if test="repairPhone != null  and repairPhone != ''">and repair_phone = #{repairPhone}</if>
-            <if test="repairStatus != null  and repairStatus != ''">and repair_status = #{repairStatus}</if>
-            <if test="repairStartTime != null ">and repair_start_time = #{repairStartTime}</if>
-            <if test="repairActualStartTime != null ">and repair_actual_start_time = #{repairActualStartTime}</if>
-            <if test="repairActualEndTime != null ">and repair_actual_end_time = #{repairActualEndTime}</if>
+            <if test="repairDescribe != null  and repairDescribe != ''">and sys_repair.repair_describe = #{repairDescribe}</if>
+            <if test="repairPrincipal != null  and repairPrincipal != ''">and sys_repair.repair_principal = #{repairPrincipal}</if>
+            <if test="repairPhone != null  and repairPhone != ''">and sys_repair.repair_phone = #{repairPhone}</if>
+            <if test="repairStatus != null  and repairStatus != ''">and sys_repair.repair_status = #{repairStatus}</if>
+            <if test="repairStartTime != null ">and sys_repair.repair_start_time = #{repairStartTime}</if>
+            <if test="repairActualStartTime != null ">and sys_repair.repair_actual_start_time = #{repairActualStartTime}</if>
+            <if test="repairActualEndTime != null ">and sys_repair.repair_actual_end_time = #{repairActualEndTime}</if>
         </where>
     </select>
 

@@ -29,6 +29,7 @@
 
     <sql id="selectSysPatrolVo">
         SELECT sys_patrol.patrol_id,
+               sys_patrol_personnel.personnel_id,
                sys_patrol.patrol_name,
                sys_patrol.patrol_describe,
                sys_patrol.patrol_principal,
@@ -65,6 +66,7 @@
     <select id="selectSysPatrolList" parameterType="SysPatrol" resultMap="SysPatrolResult">
         <include refid="selectSysPatrolVo"/>
         <where>
+            <if test="personnelId != null "> and sys_patrol_personnel.personnel_id = #{personnelId}</if>
             <if test="patrolName != null  and patrolName != ''">and sys_patrol.patrol_name like concat('%',
                 #{patrolName}, '%')
             </if>
