@@ -66,6 +66,17 @@ public class SysPatrolOrderController extends BaseController {
         ajax.put("imgUrls",sysPatrolOrderService.selectImgUrlsByPatrolOrderId(patrolOrderId));
         return ajax;
     }
+    /**
+     * 生成维修任务
+     */
+    @GetMapping(value = "/createRepair/{patrolOrderId}")
+    public AjaxResult createRepair(@PathVariable("patrolOrderId") Long patrolOrderId) {
+        AjaxResult ajax = AjaxResult.success();
+        SysPatrolOrder sysPatrolOrder = sysPatrolOrderService.selectSysPatrolOrderByPatrolOrderId(patrolOrderId);
+        ajax.put(AjaxResult.DATA_TAG, sysPatrolOrder);
+        ajax.put("imgUrls",sysPatrolOrderService.selectImgUrlsByPatrolOrderId(patrolOrderId));
+        return ajax;
+    }
 
     /**
      * 新增巡更工单管理

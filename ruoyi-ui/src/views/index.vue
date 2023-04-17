@@ -1,90 +1,97 @@
 <template>
+  <div class="login" style="font-weight: bold;font-size: 20px">
 
+    <el-row :gutter="20" style="margin-right: 20px;">
+      <el-col :span="12">
+        <el-statistic :value="todayPatrol" title="今日巡更任务"></el-statistic>
+      </el-col>
+      <el-col :span="12">
+        <el-statistic :value="Personnel" title="今日巡更人员"></el-statistic>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" style="margin-right: 20px">
+      <el-col :span="12">
+        <el-statistic :value="unCompletePatrol" title="未完成巡更任务"></el-statistic>
+      </el-col>
+      <el-col :span="12">
+        <el-statistic :value="completePatrol" title="已完成巡更任务"></el-statistic>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="24">
+        <el-statistic :value="repair" title="报警维修"></el-statistic>
+      </el-col>
+      <!--<el-col :span="12">-->
+      <!--  <div>-->
+      <!--    <el-statistic :value="todayPatrol" title="今日巡更人员"></el-statistic>-->
+      <!--  </div>-->
+      <!--</el-col>-->
+    </el-row>
+  </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import {getCount} from "../api/system/patrol.js";
+
 export default {
   name: "Index",
   data() {
     return {
+      todayPatrol: 0,
+      Personnel: 0,
+      unCompletePatrol: 0,
+      completePatrol: 0,
+      repair: 0,
       // 版本号
       version: "3.8.5"
     };
   },
   created() {
-    this.$router.push({ path: "/system/point"});
+    this.getList();
   },
   methods: {
-    goTarget(href) {
-      window.open(href, "_blank");
-    }
+    /** 查询巡更任务管理列表 */
+    getList() {
+      getCount().then(response => {
+        this.todayPatrol = response.todayPatrol;
+        this.Personnel = response.Personnel;
+        this.unCompletePatrol = response.unCompletePatrol;
+        this.completePatrol = response.completePatrol;
+        this.repair = response.repair;
+      });
+    },
   }
 };
 </script>
+<style rel="stylesheet/scss" lang="scss">
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  border-radius: 6px;
+  background-image: url('../assets/images/background.jpg');
+  background-size: 100% 100%;
+  padding: 25px 25px 5px 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 
-<style scoped lang="scss">
-.home {
-  blockquote {
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    font-size: 17.5px;
-    border-left: 5px solid #eee;
-  }
-
-  hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid #eee;
-  }
-
-  .col-item {
-    margin-bottom: 20px;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #676a6c;
-  overflow-x: hidden;
-
-  ul {
-    list-style-type: none;
-  }
-
-  h4 {
-    margin-top: 0px;
-  }
-
-  h2 {
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: 100;
-  }
-
-  p {
-    margin-top: 10px;
-
-    b {
-      font-weight: 700;
-    }
-  }
-
-  .update-log {
-    ol {
-      display: block;
-      list-style-type: decimal;
-      margin-block-start: 1em;
-      margin-block-end: 1em;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-      padding-inline-start: 40px;
-    }
-  }
+.title {
+  font-size: 20px;
+  margin: 0px auto 30px auto;
+  text-align: center;
+  color: #707070;
+}
+.el-statistic .con .number {
+  font-size: 30px;
+  padding: 0 4px;
 }
 </style>
 

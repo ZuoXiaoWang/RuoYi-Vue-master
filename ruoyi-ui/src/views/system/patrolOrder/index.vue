@@ -135,10 +135,16 @@
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-d-arrow-right"
+            icon="el-icon-plus"
             @click="handleDetails(scope.row)"
             v-hasPermi="['system:patrolOrder:edit']"
-          >更多</el-button>
+          >查看</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-document-checked"
+            @click="handleCreateRepair(scope.row)"
+          >生成维修任务</el-button>
         </template>
       </el-table-column>
     </el-table>

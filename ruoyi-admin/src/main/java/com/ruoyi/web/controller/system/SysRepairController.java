@@ -121,6 +121,17 @@ public class SysRepairController extends AppBaseController {
     }
 
     /**
+     * 修改维修任务已完成(小程序用)
+     */
+    @Log(title = "维修任务", businessType = BusinessType.UPDATE)
+    @PostMapping("/changeStatus")
+    public AjaxResult changeStatus(@RequestBody SysRepair sysRepair) {
+        if (StringUtils.isNotEmpty(sysRepair.getRepairStatus())){
+            return toAjax(sysRepairService.updateSysRepair(sysRepair));
+        }return toAjax(0);
+    }
+
+    /**
      * 删除维修任务
      */
     @PreAuthorize("@ss.hasPermi('system:repair:remove')")

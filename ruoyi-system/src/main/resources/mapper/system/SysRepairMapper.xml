@@ -63,7 +63,7 @@
 
     <select id="selectSysRepairByRepairId" parameterType="Long" resultMap="SysRepairResult">
         <include refid="selectSysRepairVo"/>
-        where repair_id = #{repairId}
+        where sys_repair.repair_id = #{repairId}
     </select>
 
     <insert id="insertSysRepair" parameterType="SysRepair" useGeneratedKeys="true" keyProperty="repairId">

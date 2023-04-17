@@ -172,7 +172,16 @@
           <el-input v-model="form.repairDescribe" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
         <el-form-item label="维修任务负责人" prop="repairPrincipal">
-          <el-input v-model="form.repairPrincipal" placeholder="请输入维修任务负责人"/>
+          <el-select v-model="form.repairPrincipal" placeholder="请输入维修任务负责人">
+            <el-option
+              v-for="item in personnelOptions"
+              :key="item.personnelId"
+              :label="item.personnelName"
+              :value="item.personnelName"
+              :disabled="item.status == 1"
+              form.
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="负责人联系方式" prop="repairPhone">
           <el-input v-model="form.repairPhone" placeholder="请输入负责人联系方式"/>
@@ -187,8 +196,8 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="巡更人员" prop="PersonnelId">
-          <el-select v-model="form.personnelIds" multiple placeholder="请选择巡更人员">
+        <el-form-item label="维修人员" prop="PersonnelId">
+          <el-select v-model="form.personnelIds" multiple placeholder="请选择维修人员">
             <el-option
               v-for="item in personnelOptions"
               :key="item.personnelId"
@@ -292,6 +301,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        repairPrincipal: [
+          {required: true, message: "巡更负责人不能为空", trigger: "change"}
+        ],
         repairName: [
           { required: true, message: "维修任务名称不能为空", trigger: "blur" }
         ],

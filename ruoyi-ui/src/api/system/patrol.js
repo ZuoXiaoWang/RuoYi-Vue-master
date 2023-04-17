@@ -18,6 +18,14 @@ export function getPatrol(patrolId) {
   })
 }
 
+//查询统计数据
+export function getCount(){
+  return request({
+    url: '/system/patrol/getCount',
+    method: 'get'
+  })
+}
+
 // 新增巡更任务管理
 export function addPatrol(data) {
   return request({

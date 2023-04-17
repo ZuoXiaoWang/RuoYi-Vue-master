@@ -5,9 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.system.service.ISysPatrolPointService;
-import com.ruoyi.system.service.ISysPersonnelService;
+import com.ruoyi.system.domain.SysRepair;
+import com.ruoyi.system.service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.SysPatrol;
-import com.ruoyi.system.service.ISysPatrolService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
@@ -36,6 +34,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RestController
 @RequestMapping("/system/patrol")
 public class SysPatrolController extends AppBaseController {
+
+    @Autowired
+    private ISysRepairService sysRepairService;
+
+    @Autowired
+    private ISysPersonnelService sysPersonnelService;
+
     @Autowired
     private ISysPatrolService sysPatrolService;
 
@@ -107,6 +112,8 @@ public class SysPatrolController extends AppBaseController {
         return toAjax(sysPatrolService.updateSysPatrol(sysPatrol));
     }
 
+
+
     /**
      * 删除巡更任务管理
      */
@@ -116,4 +123,57 @@ public class SysPatrolController extends AppBaseController {
     public AjaxResult remove(@PathVariable Long[] patrolIds) {
         return toAjax(sysPatrolService.deleteSysPatrolByPatrolIds(patrolIds));
     }
+
+    @GetMapping("/getCount")
+    public AjaxResult getCount(){
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("todayPatrol",getTodayPatrolCount());
+        ajax.put("Personnel",getPersonnelCount());
+        ajax.put("unCompletePatrol",getUnCompletePatrolCount());
+        ajax.put("completePatrol",getCompletePatrolCount());
+        ajax.put("repair",getRepairCount());
+        return ajax;
+    }
+    /**
+     * 查询今日巡更数量
+     */
+    public int getTodayPatrolCount(){
+        SysPatrol sysPatrol = new SysPatrol();
+        sysPatrol.setPatrolStartTime(DateUtils.parseDate(DateUtils.getDate()));
+        List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList(sysPatrol);
+        return sysPatrols.size();
+    }
+    /**
+     * 查询今日巡更人员数量
+     */
+    public int getPersonnelCount(){
+        List<SysPersonnel> sysPersonnels = sysPersonnelService.selectSysPersonnelList(new SysPersonnel());
+        return sysPersonnels.size();
+    }
+    /**
+     * 查询未完成巡更任务
+     */
+    public int getUnCompletePatrolCount(){
+        SysPatrol sysPatrol = new SysPatrol();
+        sysPatrol.setPatrolStatus("0");
+        List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList(sysPatrol);
+        return sysPatrols.size();
+    }
+    /**
+     * 查询已完成巡更任务
+     */
+    public int getCompletePatrolCount(){
+        SysPatrol sysPatrol = new SysPatrol();
+        sysPatrol.setPatrolStatus("1");
+        List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList(sysPatrol);
+        return sysPatrols.size();
+    }
+    /**
+     * 查询报警维修数量
+     */
+    public int getRepairCount(){
+        List<SysRepair> sysRepairs = sysRepairService.selectSysRepairList(new SysRepair());
+        return sysRepairs.size();
+    }
+
 }
