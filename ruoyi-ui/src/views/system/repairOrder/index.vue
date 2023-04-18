@@ -362,7 +362,7 @@ export default {
     handleCreateRepair(row){
       const repairOrderId = row.repairOrderId || this.ids
       createRepair(repairOrderId).then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.$router.push({
           path: '/repair',
           query:{

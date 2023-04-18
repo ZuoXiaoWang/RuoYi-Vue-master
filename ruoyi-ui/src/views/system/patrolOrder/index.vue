@@ -348,7 +348,7 @@ export default {
     handleCreateRepair(row){
       const patrolOrderId = row.patrolOrderId || this.ids
       createRepair(patrolOrderId).then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.$router.push({
           path: '/repair',
           query:{
