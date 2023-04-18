@@ -2,6 +2,11 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.SysPatrolOrder;
+import com.ruoyi.system.domain.SysRepair;
+import com.ruoyi.system.service.ISysPatrolPointService;
+import com.ruoyi.system.service.ISysPersonnelService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +38,12 @@ public class SysRepairOrderController extends BaseController
 {
     @Autowired
     private ISysRepairOrderService sysRepairOrderService;
+
+    @Autowired
+    private ISysPersonnelService personnelService;
+
+    @Autowired
+    private ISysPatrolPointService patrolPointService;
 
     /**
      * 查询维修工单列表
@@ -79,6 +90,27 @@ public class SysRepairOrderController extends BaseController
     public AjaxResult add(@RequestBody SysRepairOrder sysRepairOrder)
     {
         return toAjax(sysRepairOrderService.insertSysRepairOrder(sysRepairOrder));
+    }
+
+    /**
+     * 生成维修任务
+     */
+    @GetMapping(value = "/createRepair/{repairOrderId}")
+    public AjaxResult createRepair(@PathVariable("repairOrderId") Long repairOrderId) {
+        SysRepairOrder sysRepairOrder = sysRepairOrderService.selectSysRepairOrderByRepairOrderId(repairOrderId);
+        SysRepair repair = new SysRepair();
+        repair.setRepairName(sysRepairOrder.getPatrolPointName());
+        repair.setRepairDescribe(sysRepairOrder.getRepairOrderDescribe());
+        repair.setRepairStatus("0");
+        Long[] longArrayForPoints = {sysRepairOrder.getPatrolPointId()};
+        repair.setPatrolPointIds(longArrayForPoints);
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("personnels", personnelService.selectPersonnelAll());
+        ajax.put("patrolPoints", patrolPointService.selectPatrolPointAll());
+        ajax.put(AjaxResult.DATA_TAG, repair);
+        ajax.put("patrolPointIds", longArrayForPoints);
+        ajax.put("imgUrls",sysRepairOrder.getImgUrls());
+        return ajax;
     }
 
     /**

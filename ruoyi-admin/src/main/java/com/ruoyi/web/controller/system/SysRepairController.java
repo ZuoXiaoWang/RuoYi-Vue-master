@@ -94,6 +94,7 @@ public class SysRepairController extends AppBaseController {
             ajax.put(AjaxResult.DATA_TAG, sysRepair);
             ajax.put("personnelIds", personnelService.selectPersonnelListByRepairId(repairId));
             ajax.put("patrolPointIds", patrolPointService.selectPatrolPointListByRepairId(repairId));
+            ajax.put("imgUrls",sysRepairService.selectImgUrlsByRepairId(repairId));
         }
 
         return ajax;

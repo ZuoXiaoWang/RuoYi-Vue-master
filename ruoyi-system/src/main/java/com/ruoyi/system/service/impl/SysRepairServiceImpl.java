@@ -6,6 +6,7 @@ import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.SysRepairImgMapper;
 import com.ruoyi.system.mapper.SysRepairPatrolPointMapper;
 import com.ruoyi.system.mapper.SysRepairPersonnelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class SysRepairServiceImpl implements ISysRepairService {
 
     @Autowired
     private SysRepairPatrolPointMapper repairPatrolPointMapper;
+
+    @Autowired
+    private SysRepairImgMapper repairImgMapper;
 
     /**
      * 查询维修任务
@@ -68,6 +72,8 @@ public class SysRepairServiceImpl implements ISysRepairService {
         insertRepairPersonnel(sysRepair);
         //新增维修与点位
         insertRepairPatrolPoint(sysRepair);
+        //新增图片
+        insertRepairImg(sysRepair);
         return row;
     }
 
@@ -89,6 +95,10 @@ public class SysRepairServiceImpl implements ISysRepairService {
         repairPatrolPointMapper.deleteSysRepairPatrolPointByRepairId(repairId);
         //新增维修与点位
         insertRepairPatrolPoint(sysRepair);
+        //删除图片
+        repairImgMapper.deleteSysRepairImgByRepair(sysRepair.getRepairId());
+        //添加图片
+        insertRepairImg(sysRepair);
         sysRepair.setUpdateTime(DateUtils.getNowDate());
         return sysRepairMapper.updateSysRepair(sysRepair);
     }
@@ -104,6 +114,8 @@ public class SysRepairServiceImpl implements ISysRepairService {
     public int deleteSysRepairByRepairIds(Long[] repairIds) {
         repairPersonnelMapper.deleteSysRepairPersonnelByRepairIds(repairIds);
         repairPatrolPointMapper.deleteSysRepairPatrolPointByRepairIds(repairIds);
+        //删除图片
+        repairImgMapper.deleteSysRepairImgByRepairs(repairIds);
         return sysRepairMapper.deleteSysRepairByRepairIds(repairIds);
     }
 
@@ -118,7 +130,14 @@ public class SysRepairServiceImpl implements ISysRepairService {
     public int deleteSysRepairByRepairId(Long repairId) {
         repairPersonnelMapper.deleteSysRepairPersonnelByRepairId(repairId);
         repairPatrolPointMapper.selectSysRepairPatrolPointByRepairId(repairId);
+        repairImgMapper.deleteSysRepairImgByRepair(repairId);
         return sysRepairMapper.deleteSysRepairByRepairId(repairId);
+    }
+
+
+    @Override
+    public List<String> selectImgUrlsByRepairId(Long repairId) {
+        return repairImgMapper.selectImgUrlsByRepairId(repairId);
     }
 
 
@@ -141,6 +160,7 @@ public class SysRepairServiceImpl implements ISysRepairService {
      * 新增巡更任务点位关联
      */
     public void insertRepairPatrolPoint(SysRepair sysRepair) {
+
         Long[] patrolPoints = sysRepair.getPatrolPointIds();
         if (StringUtils.isNotEmpty(patrolPoints)){
             List<SysRepairPatrolPoint> list = new ArrayList<>(patrolPoints.length);
@@ -152,6 +172,21 @@ public class SysRepairServiceImpl implements ISysRepairService {
                 list.add(sysRepairPatrolPoint);
             }
             repairPatrolPointMapper.batchRepairPatrolPoint(list);
+        }
+    }
+
+    //新增图片
+    public void insertRepairImg(SysRepair sysRepair){
+        List<String> imgUrls = sysRepair.getImgUrls();
+        if (StringUtils.isNotEmpty(imgUrls)) {
+            List<SysRepairImg> list = new ArrayList<SysRepairImg>(imgUrls.size());
+            for (String imgUrl : imgUrls) {
+                SysRepairImg sysRepairImg = new SysRepairImg();
+                sysRepairImg.setRepairId(sysRepair.getRepairId());
+                sysRepairImg.setImgUrl(imgUrl);
+                list.add(sysRepairImg);
+            }
+            repairImgMapper.batchRepairImg(list);
         }
     }
 }

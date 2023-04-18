@@ -3,6 +3,10 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.domain.SysRepair;
+import com.ruoyi.system.service.ISysPatrolPointService;
+import com.ruoyi.system.service.ISysPersonnelService;
+import com.ruoyi.system.service.ISysRepairService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,12 @@ import com.ruoyi.common.core.page.TableDataInfo;
 public class SysPatrolOrderController extends BaseController {
     @Autowired
     private ISysPatrolOrderService sysPatrolOrderService;
+
+    @Autowired
+    private ISysPersonnelService personnelService;
+
+    @Autowired
+    private ISysPatrolPointService patrolPointService;
 
     /**
      * 查询巡更工单管理列表
@@ -71,10 +81,19 @@ public class SysPatrolOrderController extends BaseController {
      */
     @GetMapping(value = "/createRepair/{patrolOrderId}")
     public AjaxResult createRepair(@PathVariable("patrolOrderId") Long patrolOrderId) {
-        AjaxResult ajax = AjaxResult.success();
         SysPatrolOrder sysPatrolOrder = sysPatrolOrderService.selectSysPatrolOrderByPatrolOrderId(patrolOrderId);
-        ajax.put(AjaxResult.DATA_TAG, sysPatrolOrder);
-        ajax.put("imgUrls",sysPatrolOrderService.selectImgUrlsByPatrolOrderId(patrolOrderId));
+        SysRepair repair = new SysRepair();
+        repair.setRepairName(sysPatrolOrder.getPatrolName());
+        repair.setRepairDescribe(sysPatrolOrder.getRemark());
+        repair.setRepairStatus("0");
+        Long[] longArrayForPoints = {sysPatrolOrder.getPatrolPointId()};
+        repair.setPatrolPointIds(longArrayForPoints);
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("personnels", personnelService.selectPersonnelAll());
+        ajax.put("patrolPoints", patrolPointService.selectPatrolPointAll());
+        ajax.put(AjaxResult.DATA_TAG, repair);
+        ajax.put("patrolPointIds", longArrayForPoints);
+        ajax.put("imgUrls",sysPatrolOrder.getImgUrls());
         return ajax;
     }
 

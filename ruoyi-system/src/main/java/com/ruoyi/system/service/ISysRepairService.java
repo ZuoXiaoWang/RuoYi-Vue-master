@@ -58,4 +58,6 @@ public interface ISysRepairService {
      * @return 结果
      */
     public int deleteSysRepairByRepairId(Long repairId);
+
+    public List<String> selectImgUrlsByRepairId(Long repairId);
 }

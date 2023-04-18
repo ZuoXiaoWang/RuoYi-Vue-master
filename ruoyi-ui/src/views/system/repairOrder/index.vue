@@ -226,7 +226,7 @@
 
 <script>
 import { listRepairOrder, getRepairOrder, delRepairOrder, addRepairOrder, updateRepairOrder } from "@/api/system/repairOrder";
-import {getPatrolOrder} from "@/api/system/patrolOrder";
+import {createRepair} from "@/api/system/repairOrder";
 
 export default {
   name: "RepairOrder",
@@ -355,6 +355,21 @@ export default {
         this.open = true;
         this.title = "查看详情";
       });
+    },
+    /**
+     * 生成维修任务按钮
+     */
+    handleCreateRepair(row){
+      const repairOrderId = row.repairOrderId || this.ids
+      createRepair(repairOrderId).then(response => {
+        console.log(response.data)
+        this.$router.push({
+          path: '/repair',
+          query:{
+            param:response
+          }
+        })
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

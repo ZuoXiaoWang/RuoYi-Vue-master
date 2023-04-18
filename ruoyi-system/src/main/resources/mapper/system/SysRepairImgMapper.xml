@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRepairImgMapper">
+
+    <resultMap type="SysRepairImg" id="SysRepairImgResult">
+        <result property="imgId"    column="img_id"    />
+        <result property="repairId"    column="repair_id"    />
+        <result property="imgUrl"    column="img_url"    />
+    </resultMap>
+
+    <sql id="selectSysRepairImgVo">
+        select img_id, repair_id, img_url from sys_repair_img
+    </sql>
+
+    <select id="selectSysRepairImgList" parameterType="SysRepairImg" resultMap="SysRepairImgResult">
+        <include refid="selectSysRepairImgVo"/>
+        <where>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+        </where>
+    </select>
+
+    <select id="selectSysRepairImgByImgId" parameterType="Long" resultMap="SysRepairImgResult">
+        <include refid="selectSysRepairImgVo"/>
+        where img_id = #{imgId}
+    </select>
+
+    <insert id="insertSysRepairImg" parameterType="SysRepairImg" useGeneratedKeys="true" keyProperty="imgId">
+        insert into sys_repair_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">repair_id,</if>
+            <if test="imgUrl != null">img_url,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">#{repairId},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysRepairImg" parameterType="SysRepairImg">
+        update sys_repair_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="repairId != null">repair_id = #{repairId},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+        </trim>
+        where img_id = #{imgId}
+    </update>
+
+    <delete id="deleteSysRepairImgByImgId" parameterType="Long">
+        delete from sys_repair_img where img_id = #{imgId}
+    </delete>
+
+    <delete id="deleteSysRepairImgByImgIds" parameterType="String">
+        delete from sys_repair_img where img_id in
+        <foreach item="imgId" collection="array" open="(" separator="," close=")">
+            #{imgId}
+        </foreach>
+    </delete>
+
+    <insert id="batchRepairImg">
+        insert into sys_repair_img(repair_id, img_url) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.repairId},#{item.imgUrl})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSysRepairImgByRepair" parameterType="Long">
+        delete from sys_repair_img where repair_id = #{repairId}
+    </delete>
+
+
+    <delete id="deleteSysRepairImgByRepairs" parameterType="String">
+        delete from sys_repair_img where repair_id in
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+
+    <select id="selectImgUrlsByRepairId" parameterType="Long" resultType="String">
+        select ri.img_url
+        from sys_repair_img ri
+        where ri.repair_id = #{repairId}
+    </select>
+</mapper>

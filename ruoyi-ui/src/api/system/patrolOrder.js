@@ -17,6 +17,13 @@ export function getPatrolOrder(patrolOrderId) {
     })
 }
 
+export function createRepair(patrolOrderId) {
+  return request({
+    url: '/system/patrolOrder/createRepair/' + patrolOrderId,
+    method: 'get'
+  })
+}
+
 // 新增巡更工单管理
 export function addPatrolOrder(data) {
     return request({

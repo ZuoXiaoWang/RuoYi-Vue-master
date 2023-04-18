@@ -17,6 +17,13 @@ export function getRepairOrder(repairOrderId) {
   })
 }
 
+export function createRepair(repairOrderId) {
+  return request({
+    url: '/system/repairOrder/createRepair/' + repairOrderId,
+    method: 'get'
+  })
+}
+
 // 新增维修工单
 export function addRepairOrder(data) {
   return request({

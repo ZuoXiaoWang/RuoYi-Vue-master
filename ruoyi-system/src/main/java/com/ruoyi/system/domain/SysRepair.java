@@ -94,76 +94,98 @@ public class SysRepair extends BaseEntity {
 
     private Long[] PatrolPointIds;
 
-    public void setRepairId(Long repairId) {
-        this.repairId = repairId;
-    }
+
+    private String imgUrl;
+
+    private List<String> imgUrls;
+
 
     public Long getRepairId() {
         return repairId;
     }
 
-    public void setRepairName(String repairName) {
-        this.repairName = repairName;
+    public void setRepairId(Long repairId) {
+        this.repairId = repairId;
+    }
+
+    public Long getPersonnelId() {
+        return PersonnelId;
+    }
+
+    public void setPersonnelId(Long personnelId) {
+        PersonnelId = personnelId;
+    }
+
+    public Long getPatrolPointId() {
+        return PatrolPointId;
+    }
+
+    public void setPatrolPointId(Long patrolPointId) {
+        PatrolPointId = patrolPointId;
     }
 
     public String getRepairName() {
         return repairName;
     }
 
-    public void setRepairDescribe(String repairDescribe) {
-        this.repairDescribe = repairDescribe;
+    public void setRepairName(String repairName) {
+        this.repairName = repairName;
     }
 
     public String getRepairDescribe() {
         return repairDescribe;
     }
 
-    public void setRepairPrincipal(String repairPrincipal) {
-        this.repairPrincipal = repairPrincipal;
+    public void setRepairDescribe(String repairDescribe) {
+        this.repairDescribe = repairDescribe;
     }
 
     public String getRepairPrincipal() {
         return repairPrincipal;
     }
 
-    public void setRepairPhone(String repairPhone) {
-        this.repairPhone = repairPhone;
+    public void setRepairPrincipal(String repairPrincipal) {
+        this.repairPrincipal = repairPrincipal;
     }
 
     public String getRepairPhone() {
         return repairPhone;
     }
 
-    public void setRepairStatus(String repairStatus) {
-        this.repairStatus = repairStatus;
+    public void setRepairPhone(String repairPhone) {
+        this.repairPhone = repairPhone;
     }
 
     public String getRepairStatus() {
         return repairStatus;
     }
 
-    public void setRepairStartTime(Date repairStartTime) {
-        this.repairStartTime = repairStartTime;
+    public void setRepairStatus(String repairStatus) {
+        this.repairStatus = repairStatus;
     }
 
     public Date getRepairStartTime() {
         return repairStartTime;
     }
 
-    public void setRepairActualStartTime(Date repairActualStartTime) {
-        this.repairActualStartTime = repairActualStartTime;
+    public void setRepairStartTime(Date repairStartTime) {
+        this.repairStartTime = repairStartTime;
     }
 
     public Date getRepairActualStartTime() {
         return repairActualStartTime;
     }
 
-    public void setRepairActualEndTime(Date repairActualEndTime) {
-        this.repairActualEndTime = repairActualEndTime;
+    public void setRepairActualStartTime(Date repairActualStartTime) {
+        this.repairActualStartTime = repairActualStartTime;
     }
 
     public Date getRepairActualEndTime() {
         return repairActualEndTime;
+    }
+
+    public void setRepairActualEndTime(Date repairActualEndTime) {
+        this.repairActualEndTime = repairActualEndTime;
     }
 
     public List<SysPersonnel> getPersonnels() {
@@ -198,21 +220,20 @@ public class SysRepair extends BaseEntity {
         PatrolPointIds = patrolPointIds;
     }
 
-
-    public Long getPersonnelId() {
-        return PersonnelId;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setPersonnelId(Long personnelId) {
-        PersonnelId = personnelId;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
-    public Long getPatrolPointId() {
-        return PatrolPointId;
+    public List<String> getImgUrls() {
+        return imgUrls;
     }
 
-    public void setPatrolPointId(Long patrolPointId) {
-        PatrolPointId = patrolPointId;
+    public void setImgUrls(List<String> imgUrls) {
+        this.imgUrls = imgUrls;
     }
 
     @Override
@@ -233,6 +254,8 @@ public class SysRepair extends BaseEntity {
                 ", PersonnelIds=" + Arrays.toString(PersonnelIds) +
                 ", PatrolPoints=" + PatrolPoints +
                 ", PatrolPointIds=" + Arrays.toString(PatrolPointIds) +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", imgUrls=" + imgUrls +
                 '}';
     }
 }

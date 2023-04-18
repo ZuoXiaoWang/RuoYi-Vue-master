@@ -262,6 +262,7 @@ export default {
   dicts: ['sys_patrol_status'],
   data() {
     return {
+      param: undefined,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -317,7 +318,24 @@ export default {
     };
   },
   created() {
+    this.param = this.$route.query.param;
     this.getList();
+  },
+  watch: {
+    param: {
+      handler(newVal, oldVal) {
+        console.log(newVal.data)
+        this.reset();
+        this.form = newVal.data;
+        this.personnelOptions = newVal.personnels;
+        this.$set(this.form, "personnelIds", newVal.personnelIds);
+        this.patrolPointOptions = newVal.patrolPoints;
+        this.$set(this.form, "patrolPointIds", newVal.patrolPointIds);
+        this.open = true;
+        this.title = "添加维修任务";
+        // console.log(`Dog changed: ${newVal}`);
+      },
+    }
   },
   methods: {
     /** 查询维修任务列表 */

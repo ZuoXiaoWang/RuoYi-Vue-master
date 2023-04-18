@@ -200,7 +200,14 @@
 </template>
 
 <script>
-import { listPatrolOrder, getPatrolOrder, delPatrolOrder, addPatrolOrder, updatePatrolOrder } from "@/api/system/patrolOrder";
+import {
+  listPatrolOrder,
+  getPatrolOrder,
+  delPatrolOrder,
+  addPatrolOrder,
+  updatePatrolOrder,
+  createRepair
+} from "@/api/system/patrolOrder";
 
 export default {
   name: "PatrolOrder",
@@ -334,6 +341,21 @@ export default {
         this.open = true;
         this.title = "查看详情";
       });
+    },
+    /**
+     * 生成维修任务按钮
+     */
+    handleCreateRepair(row){
+      const patrolOrderId = row.patrolOrderId || this.ids
+      createRepair(patrolOrderId).then(response => {
+        console.log(response.data)
+        this.$router.push({
+          path: '/repair',
+          query:{
+            param:response
+          }
+        })
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
