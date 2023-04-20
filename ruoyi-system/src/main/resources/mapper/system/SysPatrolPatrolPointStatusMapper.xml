@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPatrolPatrolPointStatusMapper">
+
+    <resultMap type="SysPatrolPatrolPointStatus" id="SysPatrolPatrolPointStatusResult">
+        <result property="patrolPatrolPointStatusId"    column="patrol_patrol_point_status_id"    />
+        <result property="patrolId"    column="patrol_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
+        <result property="patrolPatrolPointStatus"    column="patrol_patrol_point_status"    />
+    </resultMap>
+
+    <sql id="selectSysPatrolPatrolPointStatusVo">
+        select patrol_patrol_point_status_id, patrol_id, patrol_point_id, patrol_patrol_point_status from sys_patrol_patrol_point_status
+    </sql>
+
+    <select id="selectSysPatrolPatrolPointStatusList" parameterType="SysPatrolPatrolPointStatus" resultMap="SysPatrolPatrolPointStatusResult">
+        <include refid="selectSysPatrolPatrolPointStatusVo"/>
+        <where>
+            <if test="patrolPatrolPointStatus != null  and patrolPatrolPointStatus != ''"> and patrol_patrol_point_status = #{patrolPatrolPointStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectSysPatrolPatrolPointStatusByPatrolPatrolPointStatusId" parameterType="Long" resultMap="SysPatrolPatrolPointStatusResult">
+        <include refid="selectSysPatrolPatrolPointStatusVo"/>
+        where patrol_patrol_point_status_id = #{patrolPatrolPointStatusId}
+    </select>
+
+    <select id="selectSysPatrolPatrolPointStatusByPatrolIdAndPatrolPointId" parameterType="SysPatrolOrder" resultMap="SysPatrolPatrolPointStatusResult">
+        <include refid="selectSysPatrolPatrolPointStatusVo"/>
+        <where>
+            and patrol_id = #{patrolId}
+            and patrol_point_id = #{patrolPointId}
+        </where>
+    </select>
+
+    <insert id="insertSysPatrolPatrolPointStatus" parameterType="SysPatrolPatrolPointStatus" useGeneratedKeys="true" keyProperty="patrolPatrolPointStatusId">
+        insert into sys_patrol_patrol_point_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patrolId != null">patrol_id,</if>
+            <if test="patrolPointId != null">patrol_point_id,</if>
+            <if test="patrolPatrolPointStatus != null and patrolPatrolPointStatus != ''">patrol_patrol_point_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patrolId != null">#{patrolId},</if>
+            <if test="patrolPointId != null">#{patrolPointId},</if>
+            <if test="patrolPatrolPointStatus != null and patrolPatrolPointStatus != ''">#{patrolPatrolPointStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysPatrolPatrolPointStatus" parameterType="SysPatrolPatrolPointStatus">
+        update sys_patrol_patrol_point_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patrolId != null">patrol_id = #{patrolId},</if>
+            <if test="patrolPointId != null">patrol_point_id = #{patrolPointId},</if>
+            <if test="patrolPatrolPointStatus != null and patrolPatrolPointStatus != ''">patrol_patrol_point_status = #{patrolPatrolPointStatus},</if>
+        </trim>
+        where patrol_patrol_point_status_id = #{patrolPatrolPointStatusId}
+    </update>
+
+    <delete id="deleteSysPatrolPatrolPointStatusByPatrolPatrolPointStatusId" parameterType="Long">
+        delete from sys_patrol_patrol_point_status where patrol_patrol_point_status_id = #{patrolPatrolPointStatusId}
+    </delete>
+
+    <delete id="deleteSysPatrolPatrolPointStatusByPatrolPatrolPointStatusIds" parameterType="String">
+        delete from sys_patrol_patrol_point_status where patrol_patrol_point_status_id in
+        <foreach item="patrolPatrolPointStatusId" collection="array" open="(" separator="," close=")">
+            #{patrolPatrolPointStatusId}
+        </foreach>
+    </delete>
+
+
+    <insert id="batchPatrolPatrolPointStatus">
+        insert into sys_patrol_patrol_point_status(patrol_id, patrol_point_id,patrol_patrol_point_status) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.patrolId},#{item.patrolPointId},#{item.patrolPatrolPointStatus})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSysPatrolPatrolPointStatusByPatrolId" parameterType="Long">
+        delete from sys_patrol_patrol_point_status where patrol_id = #{patrolId}
+    </delete>
+
+    <delete id="deleteSysPatrolPatrolPointStatusByPatrolIds" parameterType="String">
+        delete from sys_patrol_patrol_point_status where patrol_id in
+        <foreach item="patrolId" collection="array" open="(" separator="," close=")">
+            #{patrolId}
+        </foreach>
+    </delete>
+</mapper>

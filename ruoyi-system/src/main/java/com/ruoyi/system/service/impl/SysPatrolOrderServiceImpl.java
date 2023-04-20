@@ -5,7 +5,9 @@ import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysPatrolOrderImg;
+import com.ruoyi.system.domain.SysPatrolPatrolPointStatus;
 import com.ruoyi.system.mapper.SysPatrolOrderImgMapper;
+import com.ruoyi.system.mapper.SysPatrolPatrolPointStatusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPatrolOrderMapper;
@@ -26,6 +28,9 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
 
     @Autowired
     private SysPatrolOrderImgMapper patrolOrderImgMapper;
+
+    @Autowired
+    private SysPatrolPatrolPointStatusMapper sysPatrolPatrolPointStatusMapper;
 
     /**
      * 查询巡更工单管理
@@ -63,6 +68,8 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
         sysPatrolOrder.setCreateTime(DateUtils.getNowDate());
         int row = sysPatrolOrderMapper.insertSysPatrolOrder(sysPatrolOrder);
         insertPatrolOrderImg(sysPatrolOrder);
+        //修改巡计划内的巡更点状态(已巡更)
+        changePatrolPatrolPointStatus(sysPatrolOrder,"1");
         return row;
     }
 
@@ -133,5 +140,15 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
             }
             patrolOrderImgMapper.batchPatrolOrderImg(list);
         }
+    }
+
+    /**
+     * 将巡更计划内点位修改为已巡更
+     */
+    public void changePatrolPatrolPointStatus(SysPatrolOrder sysPatrolOrder,String status){
+        //查询计划内点位
+        SysPatrolPatrolPointStatus sysPatrolPatrolPointStatus = sysPatrolPatrolPointStatusMapper.selectSysPatrolPatrolPointStatusByPatrolIdAndPatrolPointId(sysPatrolOrder);
+        sysPatrolPatrolPointStatus.setPatrolPatrolPointStatus(status);
+        sysPatrolPatrolPointStatusMapper.updateSysPatrolPatrolPointStatus(sysPatrolPatrolPointStatus);
     }
 }

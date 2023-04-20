@@ -103,10 +103,6 @@ public class SysPatrolOrderController extends BaseController {
     @Log(title = "巡更工单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolOrder sysPatrolOrder) {
-
-
-        //员工可以设置巡更任务状态和维修任务状态
-        //需要校验任务点位是否都有工单
         return toAjax(sysPatrolOrderService.insertSysPatrolOrder(sysPatrolOrder));
     }
 

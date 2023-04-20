@@ -7,15 +7,13 @@ import java.util.List;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.system.domain.SysPatrolPatrolPoint;
-import com.ruoyi.system.domain.SysPatrolPersonnel;
-import com.ruoyi.system.domain.SysPersonnelPost;
+import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.SysPatrolPatrolPointMapper;
+import com.ruoyi.system.mapper.SysPatrolPatrolPointStatusMapper;
 import com.ruoyi.system.mapper.SysPatrolPersonnelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPatrolMapper;
-import com.ruoyi.system.domain.SysPatrol;
 import com.ruoyi.system.service.ISysPatrolService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +33,9 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
 
     @Autowired
     private SysPatrolPatrolPointMapper sysPatrolPatrolPointMapper;
+
+    @Autowired
+    private SysPatrolPatrolPointStatusMapper sysPatrolPatrolPointStatusMapper;
 
     /**
      * 查询巡更任务管理
@@ -73,6 +74,9 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         insertPatrolPersonnel(sysPatrol);
         //新增巡更任务和点位关联
         insertPatrolPatrolPoint(sysPatrol);
+
+        //设置巡更计划内点位状态
+        insertPatrolPatrolPointStatus(sysPatrol);
         return row;
     }
 
@@ -94,6 +98,11 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         sysPatrolPatrolPointMapper.deleteSysPatrolPatrolPointByPatrolId(patrolId);
         //新增巡更和点位
         insertPatrolPatrolPoint(sysPatrol);
+
+//        //删除巡更计划内点位状态
+//        sysPatrolPatrolPointStatusMapper.deleteSysPatrolPatrolPointStatusByPatrolId(patrolId);
+//        //设置巡更计划内点位状态
+//        insertPatrolPatrolPointStatus(sysPatrol);
         sysPatrol.setUpdateTime(DateUtils.getNowDate());
         return sysPatrolMapper.updateSysPatrol(sysPatrol);
     }
@@ -111,6 +120,8 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         sysPatrolPersonnelMapper.deleteSysPatrolPersonnelByPatrolIds(patrolIds);
         //批量删除巡更和点位
         sysPatrolPatrolPointMapper.deleteSysPatrolPatrolPointByPatrolIds(patrolIds);
+        //删除巡更计划内点位状态
+        sysPatrolPatrolPointStatusMapper.deleteSysPatrolPatrolPointStatusByPatrolIds(patrolIds);
         return sysPatrolMapper.deleteSysPatrolByPatrolIds(patrolIds);
     }
 
@@ -127,6 +138,8 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         sysPatrolPersonnelMapper.deleteSysPatrolPersonnelByPatrolId(patrolId);
         //删除巡更和点位
         sysPatrolPatrolPointMapper.deleteSysPatrolPatrolPointByPatrolId(patrolId);
+        //删除巡更计划内点位状态
+        sysPatrolPatrolPointStatusMapper.deleteSysPatrolPatrolPointStatusByPatrolId(patrolId);
         return sysPatrolMapper.deleteSysPatrolByPatrolId(patrolId);
     }
 
@@ -158,10 +171,10 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
      */
     public void insertPatrolPatrolPoint(SysPatrol sysPatrol) {
         Long[] patrolPoints = sysPatrol.getPatrolPointIds();
-        if (StringUtils.isNotEmpty(patrolPoints)){
+        if (StringUtils.isNotEmpty(patrolPoints)) {
             //循环添加
             List<SysPatrolPatrolPoint> list = new ArrayList<>(patrolPoints.length);
-            for (Long PatrolPointId: patrolPoints
+            for (Long PatrolPointId : patrolPoints
             ) {
                 SysPatrolPatrolPoint sysPatrolPatrolPoint = new SysPatrolPatrolPoint();
                 sysPatrolPatrolPoint.setPatrolId(sysPatrol.getPatrolId());
@@ -169,6 +182,26 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
                 list.add(sysPatrolPatrolPoint);
             }
             sysPatrolPatrolPointMapper.batchPatrolPatrolPoint(list);
+        }
+    }
+
+    /**
+     * 为巡更计划内的点位设置状态
+     */
+    public void insertPatrolPatrolPointStatus(SysPatrol sysPatrol) {
+        Long[] patrolPoints = sysPatrol.getPatrolPointIds();
+        if (StringUtils.isNotEmpty(patrolPoints)) {
+            //循环添加岛list
+            ArrayList<SysPatrolPatrolPointStatus> list = new ArrayList<>(patrolPoints.length);
+            for (Long PatrolPointId : patrolPoints
+            ) {
+                SysPatrolPatrolPointStatus sysPatrolPatrolPointStatus = new SysPatrolPatrolPointStatus();
+                sysPatrolPatrolPointStatus.setPatrolId(sysPatrol.getPatrolId());
+                sysPatrolPatrolPointStatus.setPatrolPointId(PatrolPointId);
+                sysPatrolPatrolPointStatus.setPatrolPatrolPointStatus("0");
+                list.add(sysPatrolPatrolPointStatus);
+            }
+            sysPatrolPatrolPointStatusMapper.batchPatrolPatrolPointStatus(list);
         }
     }
 }

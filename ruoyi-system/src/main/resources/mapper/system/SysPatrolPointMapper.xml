@@ -13,6 +13,7 @@
         <result property="patrolPointLongitude" column="patrol_point_longitude"/>
         <result property="patrolPointAltitude" column="patrol_point_altitude"/>
         <result property="patrolPointStatus" column="patrol_point_status"/>
+        <result property="patrolPatrolPointStatus" column="patrol_patrol_point_status"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
@@ -147,12 +148,24 @@
     </select>
 
     <select id="selectPatrolPointListByPatrolIdWithName" parameterType="Long" resultMap="SysPatrolPointResult">
-        select pp.patrol_point_id,
-               pp.patrol_point_name
-        from sys_patrol_point pp
-                 left join sys_patrol_patrol_point ppp on ppp.patrol_point_id = pp.patrol_point_id
-                 left join sys_patrol p on p.patrol_id = ppp.patrol_id
-        where p.patrol_id = #{patrolId}
+        SELECT pp.patrol_point_id,
+               pp.patrol_point_name,
+               ppps.patrol_patrol_point_status
+        FROM sys_patrol_point AS pp
+                 LEFT JOIN
+             sys_patrol_patrol_point AS ppp
+             ON
+                 ppp.patrol_point_id = pp.patrol_point_id
+                 LEFT JOIN
+             sys_patrol AS p
+             ON
+                 p.patrol_id = ppp.patrol_id
+                 INNER JOIN
+             sys_patrol_patrol_point_status AS ppps
+             ON
+                         pp.patrol_point_id = ppps.patrol_point_id AND
+                         p.patrol_id = ppps.patrol_id
+        WHERE p.patrol_id = #{patrolId}
     </select>
 
     <select id="selectPatrolPointListByRepairIdWithName" parameterType="Long" resultMap="SysPatrolPointResult">

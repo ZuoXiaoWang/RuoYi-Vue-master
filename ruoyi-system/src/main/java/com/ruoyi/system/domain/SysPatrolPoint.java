@@ -64,6 +64,19 @@ public class SysPatrolPoint extends BaseEntity {
     @Excel(name = "状态", readConverterExp = "0=启用,1=未启用")
     private String patrolPointStatus;
 
+    public String getPatrolPatrolPointStatus() {
+        return patrolPatrolPointStatus;
+    }
+
+    public void setPatrolPatrolPointStatus(String patrolPatrolPointStatus) {
+        this.patrolPatrolPointStatus = patrolPatrolPointStatus;
+    }
+
+    /**
+     * 巡更计划内巡更点巡更状态
+     */
+    private String patrolPatrolPointStatus;
+
     public void setPatrolPointId(Long patrolPointId) {
         this.patrolPointId = patrolPointId;
     }
@@ -130,20 +143,16 @@ public class SysPatrolPoint extends BaseEntity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("patrolPointId", getPatrolPointId())
-                .append("patrolPointName", getPatrolPointName())
-                .append("patrolPointDescribe", getPatrolPointDescribe())
-                .append("patrolPointUrl", getPatrolPointUrl())
-                .append("patrolPointLatitude", getPatrolPointLatitude())
-                .append("patrolPointLongitude", getPatrolPointLongitude())
-                .append("patrolPointAltitude", getPatrolPointAltitude())
-                .append("patrolPointStatus", getPatrolPointStatus())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
+        return "SysPatrolPoint{" +
+                "patrolPointId=" + patrolPointId +
+                ", patrolPointName='" + patrolPointName + '\'' +
+                ", patrolPointDescribe='" + patrolPointDescribe + '\'' +
+                ", patrolPointUrl='" + patrolPointUrl + '\'' +
+                ", patrolPointLatitude=" + patrolPointLatitude +
+                ", patrolPointLongitude=" + patrolPointLongitude +
+                ", patrolPointAltitude=" + patrolPointAltitude +
+                ", patrolPointStatus='" + patrolPointStatus + '\'' +
+                ", patrolPatrolPointStatus='" + patrolPatrolPointStatus + '\'' +
+                '}';
     }
 }
