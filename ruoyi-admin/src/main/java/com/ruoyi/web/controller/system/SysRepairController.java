@@ -83,7 +83,7 @@ public class SysRepairController extends AppBaseController {
     /**
      * 获取维修任务详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:repair:query')")
+
     @GetMapping(value = {"/", "/{repairId}"})
     public AjaxResult getInfo(@PathVariable(value = "repairId", required = false) Long repairId) {
         AjaxResult ajax = AjaxResult.success();

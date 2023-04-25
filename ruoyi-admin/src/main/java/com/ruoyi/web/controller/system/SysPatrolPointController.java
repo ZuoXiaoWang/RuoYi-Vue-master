@@ -47,13 +47,21 @@ public class SysPatrolPointController extends AppBaseController {
     private ISysPatrolPointService sysPatrolPointService;
 
 
-
     /**
      * 查询巡更点管理列表
      */
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolPoint sysPatrolPoint) {
         startPage();
+        List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询所有巡更点列表
+     */
+    @GetMapping("/listAll")
+    public TableDataInfo listAll(SysPatrolPoint sysPatrolPoint) {
         List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
         return getDataTable(list);
     }
@@ -108,7 +116,7 @@ public class SysPatrolPointController extends AppBaseController {
     public AjaxResult add(@RequestBody SysPatrolPoint sysPatrolPoint) {
         try {
             sysPatrolPoint.setCreateBy(getAppUsername());
-        }catch (Exception e){
+        } catch (Exception e) {
             sysPatrolPoint.setCreateBy(getUsername());
         }
 //        sysPatrolPoint.setPatrolPointUrl(IpUtils.getHostIp() + "/system/point/scan/" + sysPatrolPoint.getPatrolPointId());
@@ -208,7 +216,7 @@ public class SysPatrolPointController extends AppBaseController {
      */
     public String handelForPointScan(SysPatrolPoint sysPatrolPoint) {
         PointScan pointScan = new PointScan();
-        BeanUtils.copyBeanProp(pointScan,sysPatrolPoint);
+        BeanUtils.copyBeanProp(pointScan, sysPatrolPoint);
         AjaxResult success = AjaxResult.success();
         success.put(AjaxResult.DATA_TAG, pointScan);
         return success.toString();

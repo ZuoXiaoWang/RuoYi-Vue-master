@@ -21,4 +21,7 @@ public class RyTask {
     public void ryNoParams() {
         System.out.println("执行无参方法");
     }
+
+
+    //生成任务工单
 }

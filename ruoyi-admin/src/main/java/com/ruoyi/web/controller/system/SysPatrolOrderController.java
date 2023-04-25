@@ -3,6 +3,9 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
+import com.ruoyi.system.domain.SysPatrolPoint;
 import com.ruoyi.system.domain.SysRepair;
 import com.ruoyi.system.service.ISysPatrolPointService;
 import com.ruoyi.system.service.ISysPersonnelService;
@@ -34,7 +37,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/patrolOrder")
-public class SysPatrolOrderController extends BaseController {
+public class SysPatrolOrderController extends AppBaseController {
     @Autowired
     private ISysPatrolOrderService sysPatrolOrderService;
 
@@ -103,6 +106,10 @@ public class SysPatrolOrderController extends BaseController {
     @Log(title = "巡更工单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolOrder sysPatrolOrder) {
+        SysPatrolPoint sysPatrolPoint = patrolPointService.selectSysPatrolPointByPatrolPointId(sysPatrolOrder.getPatrolPointId());
+        sysPatrolOrder.setPatrolPointName(sysPatrolPoint.getPatrolPointName());
+        sysPatrolOrder.setPersonnelId(getAppUserId());
+        sysPatrolOrder.setPersonnelName(getAppUsername());
         return toAjax(sysPatrolOrderService.insertSysPatrolOrder(sysPatrolOrder));
     }
 

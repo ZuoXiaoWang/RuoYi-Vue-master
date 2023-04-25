@@ -165,7 +165,7 @@
     />
 
     <!-- 添加或修改巡更任务管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body :close-on-click-modal="false">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="巡更任务名称" prop="patrolName">
           <el-input v-model="form.patrolName" placeholder="请输入巡更任务名称"/>
@@ -309,9 +309,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        PatrolPointId: [
-          {required: true, massage: "巡更点位不能为空", trigger: "blur"}
-        ],
+        // PatrolPointId: [
+        //   {required: true, massage: "巡更点位不能为空", trigger: "blur"}
+        // ],
         patrolPrincipal: [
           {required: true, message: "巡更负责人不能为空", trigger: "change"}
         ],

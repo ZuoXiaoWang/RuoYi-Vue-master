@@ -99,10 +99,10 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         //新增巡更和点位
         insertPatrolPatrolPoint(sysPatrol);
 
-//        //删除巡更计划内点位状态
-//        sysPatrolPatrolPointStatusMapper.deleteSysPatrolPatrolPointStatusByPatrolId(patrolId);
-//        //设置巡更计划内点位状态
-//        insertPatrolPatrolPointStatus(sysPatrol);
+        //删除巡更计划内点位状态
+        sysPatrolPatrolPointStatusMapper.deleteSysPatrolPatrolPointStatusByPatrolId(patrolId);
+        //设置巡更计划内点位状态
+        insertPatrolPatrolPointStatus(sysPatrol);
         sysPatrol.setUpdateTime(DateUtils.getNowDate());
         return sysPatrolMapper.updateSysPatrol(sysPatrol);
     }

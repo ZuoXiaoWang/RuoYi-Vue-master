@@ -106,8 +106,8 @@
       <el-table-column label="巡更工单编号" align="center" prop="patrolOrderId" />
       <el-table-column label="巡更点编号" align="center" prop="patrolPointId" />
       <el-table-column label="巡更点名称" align="center" prop="patrolPointName" />
-      <el-table-column label="巡更任务编号" align="center" prop="patrolId" />
-      <el-table-column label="巡更任务名称" align="center" prop="patrolName" />
+      <!--<el-table-column label="巡更任务编号" align="center" prop="patrolId" />-->
+      <!--<el-table-column label="巡更任务名称" align="center" prop="patrolName" />-->
       <el-table-column label="巡更人编号" align="center" prop="personnelId" />
       <el-table-column label="巡更人姓名" align="center" prop="personnelName" />
       <el-table-column label="巡更结果" align="center" prop="patrolResult">
@@ -191,6 +191,11 @@
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
+      <el-row>
+        <div v-for="(image, index) in imgUrls" :key="index">
+          <el-col :span="6"><img :src="image" alt="image" style="width: 100px; height: 100px;"></el-col>
+        </div>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" v-if="title!='查看详情'" @click="submitForm">确 定</el-button>
         <el-button v-if="title!='查看详情'" @click="cancel">取 消</el-button>
@@ -214,6 +219,8 @@ export default {
   dicts: ['sys_patrol_result'],
   data() {
     return {
+      //查看详情图片
+      imgUrls: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -276,6 +283,12 @@ export default {
     this.getList();
   },
   methods: {
+    /**
+     * 图片路径
+     */
+    getImg(Url) {
+      return process.env.VUE_APP_BASE_API + Url;
+    },
     /** 查询巡更工单管理列表 */
     getList() {
       this.loading = true;
@@ -292,6 +305,7 @@ export default {
     },
     // 表单重置
     reset() {
+      this.imgUrls = null
       this.form = {
         patrolOrderId: null,
         patrolPointId: null,
@@ -337,6 +351,10 @@ export default {
       const patrolOrderId = row.patrolOrderId || this.ids
       getPatrolOrder(patrolOrderId).then(response => {
         this.form = response.data;
+        this.imgUrls = response.imgUrls;
+        this.imgUrls.map((val, i) => {
+          this.imgUrls[i] = this.getImg(val);
+        });
         //图片回显
         this.open = true;
         this.title = "查看详情";

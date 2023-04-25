@@ -153,8 +153,11 @@
     />
 
     <!-- 添加或修改巡更点管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body :close-on-click-modal="false">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <!--<el-form-item label="巡更点编号" prop="patrolPointId">-->
+        <!--  <el-input v-model="form.patrolPointId" placeholder="请输入巡更点编号"/>-->
+        <!--</el-form-item>-->
         <el-form-item label="巡更点名称" prop="patrolPointName">
           <el-input v-model="form.patrolPointName" placeholder="请输入巡更点名称"/>
         </el-form-item>
@@ -239,6 +242,9 @@ export default {
       // 表单校验
       // 表单校验
       rules: {
+        // patrolPointId: [
+        //   { required: true,message: "巡更点编号不能为空", trigger: "blur"}
+        // ],
         patrolPointName: [
           { required: true, message: "巡更点名称不能为空", trigger: "blur" }
         ],

@@ -215,7 +215,15 @@
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
+        <!--<el-form-item label="照片" prop="imgUrl" v-if="title!='查看详情'">-->
+        <!--  <el-image :src="imgUrls[0]"></el-image>-->
+        <!--</el-form-item>-->
       </el-form>
+      <el-row>
+        <div v-for="(image, index) in imgUrls" :key="index">
+          <el-col :span="6"><img :src="image" alt="image" style="width: 100px; height: 100px;"></el-col>
+        </div>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" v-if="title!='查看详情'" @click="submitForm">确 定</el-button>
         <el-button v-if="title!='查看详情'" @click="cancel">取 消</el-button>
@@ -233,6 +241,8 @@ export default {
   dicts: ['sys_repair_order_status'],
   data() {
     return {
+      //查看详情图片
+      imgUrls: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -288,6 +298,12 @@ export default {
     this.getList();
   },
   methods: {
+    /**
+     * 图片路径
+     */
+    getImg(Url) {
+      return process.env.VUE_APP_BASE_API + Url;
+    },
     /** 查询维修工单列表 */
     getList() {
       this.loading = true;
@@ -304,6 +320,7 @@ export default {
     },
     // 表单重置
     reset() {
+      this.imgUrls = null
       this.form = {
         repairOrderId: null,
         patrolPointId: null,
@@ -351,6 +368,11 @@ export default {
       const repairOrderId = row.repairOrderId || this.ids
       getRepairOrder(repairOrderId).then(response => {
         this.form = response.data;
+        this.imgUrls = response.imgUrls;
+        this.imgUrls.map((val, i) => {
+          this.imgUrls[i] = this.getImg(val);
+        });
+        // console.log(this.imgUrls);
         //图片回显
         this.open = true;
         this.title = "查看详情";

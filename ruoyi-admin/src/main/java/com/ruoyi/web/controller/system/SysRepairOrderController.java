@@ -3,7 +3,10 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.system.domain.SysPatrolOrder;
+import com.ruoyi.system.domain.SysPatrolPoint;
 import com.ruoyi.system.domain.SysRepair;
 import com.ruoyi.system.service.ISysPatrolPointService;
 import com.ruoyi.system.service.ISysPersonnelService;
@@ -34,7 +37,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/repairOrder")
-public class SysRepairOrderController extends BaseController
+public class SysRepairOrderController extends AppBaseController
 {
     @Autowired
     private ISysRepairOrderService sysRepairOrderService;
@@ -89,6 +92,12 @@ public class SysRepairOrderController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysRepairOrder sysRepairOrder)
     {
+        SysPatrolPoint sysPatrolPoint = patrolPointService.selectSysPatrolPointByPatrolPointId(sysRepairOrder.getPatrolPointId());
+        sysRepairOrder.setPatrolPointName(sysPatrolPoint.getPatrolPointName());
+        SysPersonnel sysPersonnel = personnelService.selectSysPersonnelByPersonnelId(getAppUserId());
+        sysRepairOrder.setPersonnelId(getAppUserId());
+        sysRepairOrder.setPersonnelName(getAppUsername());
+        sysRepairOrder.setPersonnelPhone(sysPersonnel.getPersonnelPhone());
         return toAjax(sysRepairOrderService.insertSysRepairOrder(sysRepairOrder));
     }
 
