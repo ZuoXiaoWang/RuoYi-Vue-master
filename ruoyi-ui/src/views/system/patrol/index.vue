@@ -173,30 +173,30 @@
         <el-form-item label="巡更任务描述" prop="patrolDescribe">
           <el-input v-model="form.patrolDescribe" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
-        <el-form-item label="巡更任务负责人" prop="patrolPrincipal">
-          <el-select v-model="form.patrolPrincipal" placeholder="请输入巡更任务负责人">
-            <el-option
-              v-for="item in personnelOptions"
-              :key="item.personnelId"
-              :label="item.personnelName"
-              :value="item.personnelName"
-              :disabled="item.status == 1"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="负责人联系方式" prop="patrolPhone">
-          <el-input v-model="form.patrolPhone" placeholder="请输入巡更任务负责人联系方式"/>
-        </el-form-item>
-        <el-form-item label="巡更任务状态" prop="patrolStatus">
-          <el-radio-group v-model="form.patrolStatus">
-            <el-radio
-              v-for="dict in dict.type.sys_patrol_status"
-              :key="dict.value"
-              :label="dict.value"
-            >{{ dict.label }}
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
+        <!--<el-form-item label="巡更任务负责人" prop="patrolPrincipal">-->
+        <!--  <el-select v-model="form.patrolPrincipal" placeholder="请输入巡更任务负责人">-->
+        <!--    <el-option-->
+        <!--      v-for="item in personnelOptions"-->
+        <!--      :key="item.personnelId"-->
+        <!--      :label="item.personnelName"-->
+        <!--      :value="item.personnelName"-->
+        <!--      :disabled="item.status == 1"-->
+        <!--    ></el-option>-->
+        <!--  </el-select>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="负责人联系方式" prop="patrolPhone">-->
+        <!--  <el-input v-model="form.patrolPhone" placeholder="请输入巡更任务负责人联系方式"/>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="巡更任务状态" prop="patrolStatus">-->
+        <!--  <el-radio-group v-model="form.patrolStatus">-->
+        <!--    <el-radio-->
+        <!--      v-for="dict in dict.type.sys_patrol_status"-->
+        <!--      :key="dict.value"-->
+        <!--      :label="dict.value"-->
+        <!--    >{{ dict.label }}-->
+        <!--    </el-radio>-->
+        <!--  </el-radio-group>-->
+        <!--</el-form-item>-->
         <el-form-item label="巡更人员" prop="PersonnelId">
           <el-select v-model="form.personnelIds" multiple placeholder="请选择巡更人员">
             <el-option
@@ -219,30 +219,30 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="计划开始时间" prop="patrolStartTime">
-          <el-date-picker clearable
-                          v-model="form.patrolStartTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择计划开始时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="计划结束时间" prop="patrolEndTime">
-          <el-date-picker clearable
-                          v-model="form.patrolEndTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择计划结束时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="任务创建时间" prop="patrolCreateTime">
-          <el-date-picker clearable
-                          v-model="form.patrolCreateTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择任务创建时间">
-          </el-date-picker>
-        </el-form-item>
+        <!--<el-form-item label="计划开始时间" prop="patrolStartTime">-->
+        <!--  <el-date-picker clearable-->
+        <!--                  v-model="form.patrolStartTime"-->
+        <!--                  type="date"-->
+        <!--                  value-format="yyyy-MM-dd"-->
+        <!--                  placeholder="请选择计划开始时间">-->
+        <!--  </el-date-picker>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="计划结束时间" prop="patrolEndTime">-->
+        <!--  <el-date-picker clearable-->
+        <!--                  v-model="form.patrolEndTime"-->
+        <!--                  type="date"-->
+        <!--                  value-format="yyyy-MM-dd"-->
+        <!--                  placeholder="请选择计划结束时间">-->
+        <!--  </el-date-picker>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="任务创建时间" prop="patrolCreateTime">-->
+        <!--  <el-date-picker clearable-->
+        <!--                  v-model="form.patrolCreateTime"-->
+        <!--                  type="date"-->
+        <!--                  value-format="yyyy-MM-dd"-->
+        <!--                  placeholder="请选择任务创建时间">-->
+        <!--  </el-date-picker>-->
+        <!--</el-form-item>-->
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
@@ -306,30 +306,32 @@ export default {
         patrolCreateTime: null,
       },
       // 表单参数
-      form: {},
+      form: {
+
+      },
       // 表单校验
       rules: {
         // PatrolPointId: [
         //   {required: true, massage: "巡更点位不能为空", trigger: "blur"}
         // ],
-        patrolPrincipal: [
-          {required: true, message: "巡更负责人不能为空", trigger: "change"}
-        ],
+        // patrolPrincipal: [
+        //   {required: true, message: "巡更负责人不能为空", trigger: "change"}
+        // ],
         patrolName: [
           {required: true, message: "巡更任务名称不能为空", trigger: "blur"}
         ],
-        patrolStatus: [
-          {required: true, message: "巡更任务状态不能为空", trigger: "change"}
-        ],
-        patrolStartTime: [
-          {required: true, message: "计划开始时间不能为空", trigger: "blur"}
-        ],
-        patrolEndTime: [
-          {required: true, message: "计划结束时间不能为空", trigger: "blur"}
-        ],
-        patrolCreateTime: [
-          {required: true, message: "任务创建时间不能为空", trigger: "blur"}
-        ],
+        // patrolStatus: [
+        //   {required: true, message: "巡更任务状态不能为空", trigger: "change"}
+        // ],
+        // patrolStartTime: [
+        //   {required: true, message: "计划开始时间不能为空", trigger: "blur"}
+        // ],
+        // patrolEndTime: [
+        //   {required: true, message: "计划结束时间不能为空", trigger: "blur"}
+        // ],
+        // patrolCreateTime: [
+        //   {required: true, message: "任务创建时间不能为空", trigger: "blur"}
+        // ],
       }
     };
   },

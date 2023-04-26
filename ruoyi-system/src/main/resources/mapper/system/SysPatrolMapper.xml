@@ -19,6 +19,7 @@
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
+        <result property="type" column="type"/>
         <collection property="PatrolPoints" javaType="java.util.List" resultMap="SysPatrolPointResult"/>
     </resultMap>
 
@@ -41,6 +42,7 @@
                sys_patrol.remark,
                sys_patrol.create_by,
                sys_patrol.create_time,
+               sys_patrol.type,
                sys_personnel.personnel_name,
                sys_personnel.personnel_phone,
                sys_patrol_point.patrol_point_name
@@ -81,12 +83,14 @@
             <if test="patrolStartTime != null ">and sys_patrol.patrol_start_time = #{patrolStartTime}</if>
             <if test="patrolEndTime != null ">and sys_patrol.patrol_end_time = #{patrolEndTime}</if>
             <if test="patrolCreateTime != null ">and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
+            and sys_patrol.type = 0
         </where>
     </select>
 
     <select id="selectSysPatrolByPatrolId" parameterType="Long" resultMap="SysPatrolResult">
         <include refid="selectSysPatrolVo"/>
         where sys_patrol.patrol_id = #{patrolId}
+        and sys_patrol.type = 0;
     </select>
 
     <insert id="insertSysPatrol" parameterType="SysPatrol" useGeneratedKeys="true" keyProperty="patrolId">
@@ -105,6 +109,7 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="type != null">type,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolName != null and patrolName != ''">#{patrolName},</if>
@@ -120,6 +125,7 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="type != null">#{type},</if>
         </trim>
     </insert>
 

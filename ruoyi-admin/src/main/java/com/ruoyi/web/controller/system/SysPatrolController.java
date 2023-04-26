@@ -100,7 +100,20 @@ public class SysPatrolController extends AppBaseController {
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrol sysPatrol) {
         sysPatrol.setCreateBy(getUsername());
+        sysPatrol.setType("0");
+        sysPatrol.setPatrolStatus("0");
         return toAjax(sysPatrolService.insertSysPatrol(sysPatrol));
+    }
+    /**
+     * 新增巡更任务模板
+     */
+    @PostMapping("/template")
+    public AjaxResult addTemplate(@RequestBody SysPatrol sysPatrol) {
+        sysPatrol.setCreateBy(getUsername());
+        sysPatrol.setType("1");
+        sysPatrol.setPatrolStatus("0");
+        sysPatrolService.insertSysPatrol(sysPatrol);
+        return AjaxResult.success(AjaxResult.DATA_TAG,sysPatrol.getPatrolId());
     }
 
     /**

@@ -69,6 +69,7 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
     @Transactional
     public int insertSysPatrol(SysPatrol sysPatrol) {
         sysPatrol.setCreateTime(DateUtils.getNowDate());
+
         int row = sysPatrolMapper.insertSysPatrol(sysPatrol);
         //新增巡更任务和员工关联
         insertPatrolPersonnel(sysPatrol);

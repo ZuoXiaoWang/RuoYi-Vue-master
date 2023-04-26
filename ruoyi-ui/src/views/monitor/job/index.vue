@@ -196,7 +196,14 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </span>
-              <el-input v-model="form.invokeTarget" placeholder="请输入调用目标字符串"/>
+              <el-input v-model="form.invokeTarget" disabled placeholder="请输入调用目标字符串">
+                <template slot="append">
+                  <el-button type="primary" @click="handleShowPatrol">
+                    生成模板任务
+                    <i class="el-icon-document el-icon--right"></i>
+                  </el-button>
+                </template>
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -299,12 +306,55 @@
         <el-button @click="openView = false">关 闭</el-button>
       </div>
     </el-dialog>
+
+    <!-- 添加或修改巡更任务管理对话框 -->
+    <el-dialog :title="patrolFromTitle" :visible.sync="patrolFromOpen" width="500px" append-to-body
+               :close-on-click-modal="false">
+      <el-form ref="patrolFrom" :model="patrolFrom" :rules="patrolRules" label-width="120px">
+        <el-form-item label="巡更任务名称" prop="patrolName">
+          <el-input v-model="patrolFrom.patrolName" placeholder="请输入巡更任务名称"/>
+        </el-form-item>
+        <el-form-item label="巡更任务描述" prop="patrolDescribe">
+          <el-input v-model="patrolFrom.patrolDescribe" type="textarea" placeholder="请输入内容"/>
+        </el-form-item>
+        <el-form-item label="巡更人员" prop="PersonnelId">
+          <el-select v-model="patrolFrom.personnelIds" multiple placeholder="请选择巡更人员">
+            <el-option
+              v-for="item in personnelOptions"
+              :key="item.personnelId"
+              :label="item.personnelName"
+              :value="item.personnelId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="点位" prop="PatrolPointId">
+          <el-select v-model="patrolFrom.patrolPointIds" multiple placeholder="请选择点位">
+            <el-option
+              v-for="item in patrolPointOptions"
+              :key="item.patrolPointId"
+              :label="item.patrolPointName"
+              :value="item.patrolPointId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="patrolFrom.remark" type="textarea" placeholder="请输入内容"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitPatrolForm">确 定</el-button>
+        <el-button @click="patrolFromCancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {listJob, getJob, delJob, addJob, updateJob, runJob, changeJobStatus} from "@/api/monitor/job";
 import Crontab from '@/components/Crontab'
+import {addPatrol, addPatrolTemplate, getPatrol, updatePatrol} from "@/api/system/patrol";
 
 export default {
   components: {Crontab},
@@ -334,8 +384,18 @@ export default {
       openView: false,
       // 是否显示Cron表达式弹出层
       openCron: false,
+      // 员工选项
+      personnelOptions: [],
+      // 点位选项
+      patrolPointOptions: [],
+      // 弹出层标题
+      patrolFromTitle: "",
+      // 是否显示弹出层
+      patrolFromOpen: false,
       // 传入的表达式
       expression: "",
+      // 传入的方法名和参数值
+      invokeTarget: "",
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -346,6 +406,8 @@ export default {
       },
       // 表单参数
       form: {},
+      //模板任务表单参数
+      patrolFrom: {},
       // 表单校验
       rules: {
         jobName: [
@@ -357,6 +419,11 @@ export default {
         cronExpression: [
           {required: true, message: "cron执行表达式不能为空", trigger: "blur"}
         ]
+      },
+      patrolRules: {
+        patrolName: [
+          {required: true, message: "巡更任务名称不能为空", trigger: "blur"}
+        ],
       }
     };
   },
@@ -395,6 +462,29 @@ export default {
         status: "0"
       };
       this.resetForm("form");
+    },
+    //patrol表单重置
+    // 表单重置
+    patrolReset() {
+      this.patrolFrom = {
+        patrolId: null,
+        patrolName: null,
+        patrolDescribe: null,
+        patrolPrincipal: null,
+        patrolPhone: null,
+        patrolStatus: null,
+        patrolStartTime: null,
+        patrolEndTime: null,
+        patrolCreateTime: null,
+        remark: null,
+        createBy: null,
+        createTime: null,
+        updateBy: null,
+        updateTime: null,
+        personnelIds: [],
+        patrolPointIds: []
+      };
+      this.resetForm("patrolFrom");
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -521,7 +611,74 @@ export default {
       this.download('monitor/job/export', {
         ...this.queryParams
       }, `job_${new Date().getTime()}.xlsx`)
-    }
+    },
+
+    /**
+     *生成模板任务按钮操作
+     */
+    handleShowPatrol() {
+      //模板任务数据回填到表单
+      this.invokeTarget = this.form.invokeTarget;
+      //解析invokeTarget
+      this.resolveInvokeTarget()
+    },
+    /**
+     * 反解析调度方法
+     */
+    resolveInvokeTarget() {
+      if (this.invokeTarget) {
+        let arr = this.invokeTarget.split("(");
+        arr = arr[1].split(")");
+        arr = arr[0].split(",");
+        arr = arr[0]
+        let patrolId = parseInt(arr);
+        getPatrol(patrolId).then(response => {
+          this.patrolFrom = response.data;
+          this.personnelOptions = response.personnels;
+          this.$set(this.form, "personnelIds", response.personnelIds);
+          this.patrolPointOptions = response.patrolPoints;
+          this.$set(this.form, "patrolPointIds", response.patrolPointIds);
+          this.patrolFromOpen = true;
+          this.patrolFromTitle = "修改巡更任务模板";
+        });
+      } else {
+        this.patrolReset();
+        getPatrol().then(response => {
+          this.personnelOptions = response.personnels;
+          this.patrolPointOptions = response.patrolPoints;
+          this.patrolFromOpen = true;
+          this.patrolFromTitle = "添加巡更任务模板";
+        })
+      }
+    },
+    //patrol提交按钮
+    submitPatrolForm() {
+      let patrolId;
+      debugger;
+      this.$refs["patrolFrom"].validate(valid => {
+        if (valid) {
+          if (this.patrolFrom.patrolId != null) {
+            updatePatrol(this.patrolFrom).then(response => {
+              patrolId = this.patrolFrom.patrolId;
+              this.$modal.msgSuccess("修改任务模板成功");
+            });
+          } else {
+            addPatrolTemplate(this.patrolFrom).then(response => {
+              patrolId = response.data;
+              this.$modal.msgSuccess("新增任务模板成功");
+            });
+          }
+        }
+      });
+      this.form.invokeTarget = "creatPatrolTask(" + patrolId + ")";
+      this.patrolFromOpen = false;
+      console.log(this.form.invokeTarget)
+    },
+    // 取消按钮
+    patrolFromCancel() {
+      this.patrolFromOpen = false;
+      this.patrolReset();
+    },
   }
 };
 </script>

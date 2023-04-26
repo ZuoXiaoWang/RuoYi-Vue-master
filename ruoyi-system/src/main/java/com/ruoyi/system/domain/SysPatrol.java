@@ -96,6 +96,37 @@ public class SysPatrol extends BaseEntity {
 
     private Long[] PatrolPointIds;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "SysPatrol{" +
+                "patrolId=" + patrolId +
+                ", patrolName='" + patrolName + '\'' +
+                ", patrolDescribe='" + patrolDescribe + '\'' +
+                ", patrolPrincipal='" + patrolPrincipal + '\'' +
+                ", patrolPhone='" + patrolPhone + '\'' +
+                ", patrolStatus='" + patrolStatus + '\'' +
+                ", patrolStartTime=" + patrolStartTime +
+                ", patrolEndTime=" + patrolEndTime +
+                ", patrolCreateTime=" + patrolCreateTime +
+                ", PersonnelId=" + PersonnelId +
+                ", PatrolPointId=" + PatrolPointId +
+                ", Personnels=" + Personnels +
+                ", PersonnelIds=" + Arrays.toString(PersonnelIds) +
+                ", PatrolPoints=" + PatrolPoints +
+                ", PatrolPointIds=" + Arrays.toString(PatrolPointIds) +
+                ", Type='" + type + '\'' +
+                '}';
+    }
+
+    private String type;
 
     public void setPatrolId(Long patrolId) {
         this.patrolId = patrolId;
@@ -218,24 +249,4 @@ public class SysPatrol extends BaseEntity {
         PatrolPointIds = patrolPointIds;
     }
 
-    @Override
-    public String toString() {
-        return "SysPatrol{" +
-                "patrolId=" + patrolId +
-                ", patrolName='" + patrolName + '\'' +
-                ", patrolDescribe='" + patrolDescribe + '\'' +
-                ", patrolPrincipal='" + patrolPrincipal + '\'' +
-                ", patrolPhone='" + patrolPhone + '\'' +
-                ", patrolStatus='" + patrolStatus + '\'' +
-                ", patrolStartTime=" + patrolStartTime +
-                ", patrolEndTime=" + patrolEndTime +
-                ", patrolCreateTime=" + patrolCreateTime +
-                ", PersonnelId=" + PersonnelId +
-                ", PatrolPointId=" + PatrolPointId +
-                ", Personnels=" + Personnels +
-                ", PersonnelIds=" + Arrays.toString(PersonnelIds) +
-                ", PatrolPoints=" + PatrolPoints +
-                ", PatrolPointIds=" + Arrays.toString(PatrolPointIds) +
-                '}';
-    }
 }
