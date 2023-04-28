@@ -93,6 +93,11 @@
         and sys_patrol.type = 0;
     </select>
 
+    <select id="selectSysPatrolTemplateByPatrolId" parameterType="Long" resultMap="SysPatrolResult">
+        <include refid="selectSysPatrolVo"/>
+        where sys_patrol.patrol_id = #{patrolId}
+    </select>
+
     <insert id="insertSysPatrol" parameterType="SysPatrol" useGeneratedKeys="true" keyProperty="patrolId">
         insert into sys_patrol
         <trim prefix="(" suffix=")" suffixOverrides=",">

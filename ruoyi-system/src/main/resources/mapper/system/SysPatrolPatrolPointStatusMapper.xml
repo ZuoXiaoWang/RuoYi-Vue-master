@@ -32,6 +32,7 @@
         <where>
             and patrol_id = #{patrolId}
             and patrol_point_id = #{patrolPointId}
+            and patrol_patrol_point_status = 0;
         </where>
     </select>
 

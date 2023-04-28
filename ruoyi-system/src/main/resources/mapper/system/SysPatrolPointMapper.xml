@@ -139,6 +139,8 @@
         where p.patrol_id = #{patrolId}
     </select>
 
+
+
     <select id="selectPatrolPointListByRepairId" parameterType="Long" resultType="Long">
         select pp.patrol_point_id
         from sys_patrol_point pp
@@ -166,6 +168,28 @@
                          pp.patrol_point_id = ppps.patrol_point_id AND
                          p.patrol_id = ppps.patrol_id
         WHERE p.patrol_id = #{patrolId}
+    </select>
+
+    <select id="selectPatrolPointListByPatrolIdWithStatus" parameterType="Long" resultMap="SysPatrolPointResult">
+        SELECT pp.patrol_point_id,
+               pp.patrol_point_name,
+               ppps.patrol_patrol_point_status
+        FROM sys_patrol_point AS pp
+                 LEFT JOIN
+             sys_patrol_patrol_point AS ppp
+             ON
+                 ppp.patrol_point_id = pp.patrol_point_id
+                 LEFT JOIN
+             sys_patrol AS p
+             ON
+                 p.patrol_id = ppp.patrol_id
+                 INNER JOIN
+             sys_patrol_patrol_point_status AS ppps
+             ON
+                         pp.patrol_point_id = ppps.patrol_point_id AND
+                         p.patrol_id = ppps.patrol_id
+        WHERE p.patrol_id = #{patrolId}
+          and ppps.patrol_patrol_point_status = 0
     </select>
 
     <select id="selectPatrolPointListByRepairIdWithName" parameterType="Long" resultMap="SysPatrolPointResult">

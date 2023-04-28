@@ -1,8 +1,10 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysPatrolOrder;
 import com.ruoyi.system.domain.SysPatrolOrderImg;
+import com.ruoyi.system.domain.SysPatrolPatrolPointStatus;
 
 /**
  * 巡更工单管理Service接口
@@ -10,8 +12,7 @@ import com.ruoyi.system.domain.SysPatrolOrderImg;
  * @author lile
  * @date 2023-03-31
  */
-public interface ISysPatrolOrderService
-{
+public interface ISysPatrolOrderService {
     /**
      * 查询巡更工单管理
      *
@@ -61,4 +62,7 @@ public interface ISysPatrolOrderService
     public int deleteSysPatrolOrderByPatrolOrderId(Long patrolOrderId);
 
     public List<String> selectImgUrlsByPatrolOrderId(Long patrolOrderId);
+
+    //根据任务id和点位id查询所有没有巡更的
+    public void changePatrolPatrolPointStatusService(SysPatrolOrder sysPatrolOrder,String status);
 }

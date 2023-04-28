@@ -20,12 +20,19 @@ public interface ISysPatrolService {
     public SysPatrol selectSysPatrolByPatrolId(Long patrolId);
 
     /**
+     * 查询任务模板
+     */
+    public SysPatrol selectSysPatrolTemplateByPatrolId(Long patrolId);
+
+    /**
      * 查询巡更任务管理列表
      *
      * @param sysPatrol 巡更任务管理
      * @return 巡更任务管理集合
      */
     public List<SysPatrol> selectSysPatrolList(SysPatrol sysPatrol);
+
+    public int deleteSysPatrolWithEnd();
 
     /**
      * 新增巡更任务管理
@@ -35,6 +42,8 @@ public interface ISysPatrolService {
      */
     public int insertSysPatrol(SysPatrol sysPatrol);
 
+    public int insertSysPatrol(SysPatrol sysPatrol,List<Long> personnelList,List<Long> patrolPointList);
+
     /**
      * 修改巡更任务管理
      *
@@ -42,6 +51,8 @@ public interface ISysPatrolService {
      * @return 结果
      */
     public int updateSysPatrol(SysPatrol sysPatrol);
+
+    public int updateSysPatrolWithStatus(SysPatrol sysPatrol);
 
     /**
      * 批量删除巡更任务管理

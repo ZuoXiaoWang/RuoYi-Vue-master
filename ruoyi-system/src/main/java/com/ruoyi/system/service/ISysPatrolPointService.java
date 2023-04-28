@@ -65,6 +65,8 @@ public interface ISysPatrolPointService {
 
     public List<SysPatrolPoint> selectPatrolPointListByPatrolIdWithName(Long patrolId );
 
+    public List<SysPatrolPoint> selectPatrolPointListByPatrolIdWithStatus(Long patrolId);
+
     public List<SysPatrolPoint> selectPatrolPointListByRepairIdWithName(Long repairId);
 
     public List<Long> selectPatrolPointListByPatrolId(Long patrolId);

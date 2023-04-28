@@ -354,7 +354,7 @@
 <script>
 import {listJob, getJob, delJob, addJob, updateJob, runJob, changeJobStatus} from "@/api/monitor/job";
 import Crontab from '@/components/Crontab'
-import {addPatrol, addPatrolTemplate, getPatrol, updatePatrol} from "@/api/system/patrol";
+import {addPatrol, addPatrolTemplate, getPatrol, getPatrolTemplate, updatePatrol} from "@/api/system/patrol";
 
 export default {
   components: {Crontab},
@@ -396,6 +396,8 @@ export default {
       expression: "",
       // 传入的方法名和参数值
       invokeTarget: "",
+      // 临时patrolId
+      patrolId: null,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -632,12 +634,13 @@ export default {
         arr = arr[0].split(",");
         arr = arr[0]
         let patrolId = parseInt(arr);
-        getPatrol(patrolId).then(response => {
+        getPatrolTemplate(patrolId).then(response => {
+          // console.log(response.data)
           this.patrolFrom = response.data;
           this.personnelOptions = response.personnels;
-          this.$set(this.form, "personnelIds", response.personnelIds);
+          this.$set(this.patrolFrom, "personnelIds", response.personnelIds);
           this.patrolPointOptions = response.patrolPoints;
-          this.$set(this.form, "patrolPointIds", response.patrolPointIds);
+          this.$set(this.patrolFrom, "patrolPointIds", response.patrolPointIds);
           this.patrolFromOpen = true;
           this.patrolFromTitle = "修改巡更任务模板";
         });
@@ -653,26 +656,26 @@ export default {
     },
     //patrol提交按钮
     submitPatrolForm() {
-      let patrolId;
-      debugger;
       this.$refs["patrolFrom"].validate(valid => {
         if (valid) {
           if (this.patrolFrom.patrolId != null) {
             updatePatrol(this.patrolFrom).then(response => {
-              patrolId = this.patrolFrom.patrolId;
+              this.form.invokeTarget = "ryTask.creatPatrolTask(" + this.patrolFrom.patrolId + "L)";
+              this.patrolFromOpen = false;
               this.$modal.msgSuccess("修改任务模板成功");
             });
           } else {
             addPatrolTemplate(this.patrolFrom).then(response => {
-              patrolId = response.data;
+              this.form.invokeTarget = "ryTask.creatPatrolTask(" + response.data + "L)";
+              this.patrolFromOpen = false;
               this.$modal.msgSuccess("新增任务模板成功");
             });
+            // patrolId = 0;
           }
         }
       });
-      this.form.invokeTarget = "creatPatrolTask(" + patrolId + ")";
-      this.patrolFromOpen = false;
-      console.log(this.form.invokeTarget)
+
+      // console.log(this.form.invokeTarget)
     },
     // 取消按钮
     patrolFromCancel() {

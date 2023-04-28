@@ -15,6 +15,13 @@ export function getPatrol(patrolId) {
   })
 }
 
+//查询任务模板
+export function getPatrolTemplate(patrolId) {
+  return request({
+    url: '/system/patrol/patrolTemplate/' + patrolId, method: 'get'
+  })
+}
+
 //查询统计数据
 export function getCount() {
   return request({

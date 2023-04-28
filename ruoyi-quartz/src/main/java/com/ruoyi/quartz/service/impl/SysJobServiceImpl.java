@@ -3,6 +3,8 @@ package com.ruoyi.quartz.service.impl;
 import java.util.List;
 import javax.annotation.PostConstruct;
 
+import com.ruoyi.system.mapper.SysPatrolMapper;
+import com.ruoyi.system.service.ISysPatrolService;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -30,6 +32,9 @@ public class SysJobServiceImpl implements ISysJobService {
 
     @Autowired
     private SysJobMapper jobMapper;
+
+    @Autowired
+    private ISysPatrolService patrolService;
 
     /**
      * 项目启动时，初始化定时器 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
@@ -129,6 +134,12 @@ public class SysJobServiceImpl implements ISysJobService {
     public void deleteJobByIds(Long[] jobIds) throws SchedulerException {
         for (Long jobId : jobIds) {
             SysJob job = jobMapper.selectJobById(jobId);
+            String[] split = job.getInvokeTarget().split("\\(");
+            split = split[1].split("\\)");
+            split = split[0].split(",");
+            split = split[0].split("L");
+            Long PatrolId = Long.valueOf(split[0]);
+            patrolService.deleteSysPatrolByPatrolId(PatrolId);
             deleteJob(job);
         }
     }

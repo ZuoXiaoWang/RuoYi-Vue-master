@@ -123,6 +123,11 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
         return patrolOrderImgMapper.selectImgUrlsByPatrolOrderId(patrolOrderId);
     }
 
+    @Override
+    public void changePatrolPatrolPointStatusService(SysPatrolOrder sysPatrolOrder,String status) {
+        changePatrolPatrolPointStatus(sysPatrolOrder,status);
+    }
+
     /**
      * 新增巡更工单图片
      *

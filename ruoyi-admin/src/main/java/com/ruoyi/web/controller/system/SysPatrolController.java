@@ -68,7 +68,7 @@ public class SysPatrolController extends AppBaseController {
     @GetMapping("/ListByPersonnel")
     public TableDataInfo withPersonnelList(SysPatrol sysPatrol) {
         sysPatrol.setPersonnelId(getAppUserId());
-        startPage();
+        sysPatrol.setPatrolStatus("0");
         List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
         return getDataTable(list);
     }
@@ -88,7 +88,21 @@ public class SysPatrolController extends AppBaseController {
             ajax.put("personnelIds", personnelService.selectPersonnelListByPatrolId(patrolId));
             ajax.put("patrolPointIds", patrolPointService.selectPatrolPointListByPatrolId(patrolId));
         }
+        return ajax;
+    }
 
+    /**
+     * 获取任务模板
+     */
+    @GetMapping("/patrolTemplate/{patrolId}")
+    public AjaxResult getTemplateInfo(@PathVariable(value = "patrolId") Long patrolId){
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("personnels", personnelService.selectPersonnelAll());
+        ajax.put("patrolPoints", patrolPointService.selectPatrolPointAll());
+        SysPatrol sysPatrol = sysPatrolService.selectSysPatrolTemplateByPatrolId(patrolId);
+        ajax.put(AjaxResult.DATA_TAG, sysPatrol);
+        ajax.put("personnelIds", personnelService.selectPersonnelListByPatrolId(patrolId));
+        ajax.put("patrolPointIds", patrolPointService.selectPatrolPointListByPatrolId(patrolId));
         return ajax;
     }
 

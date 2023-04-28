@@ -20,6 +20,11 @@ public interface SysPatrolMapper {
     public SysPatrol selectSysPatrolByPatrolId(Long patrolId);
 
     /**
+     * 查询任务模板
+     */
+    public SysPatrol selectSysPatrolTemplateByPatrolId(Long patrolId);
+
+    /**
      * 查询巡更任务管理列表
      *
      * @param sysPatrol 巡更任务管理
