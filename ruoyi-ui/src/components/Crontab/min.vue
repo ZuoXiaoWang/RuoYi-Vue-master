@@ -6,25 +6,25 @@
       </el-radio>
     </el-form-item>
 
-    <el-form-item>
-      <el-radio v-model='radioValue' :label="2">
-        周期从
-        <el-input-number v-model='cycle01' :min="0" :max="58"/>
-        -
-        <el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : 1" :max="59"/>
-        分钟
-      </el-radio>
-    </el-form-item>
+    <!--<el-form-item>-->
+    <!--  <el-radio v-model='radioValue' :label="2">-->
+    <!--    周期从-->
+    <!--    <el-input-number v-model='cycle01' :min="0" :max="58"/>-->
+    <!--    - -->
+    <!--    <el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : 1" :max="59"/>-->
+    <!--    分钟-->
+    <!--  </el-radio>-->
+    <!--</el-form-item>-->
 
-    <el-form-item>
-      <el-radio v-model='radioValue' :label="3">
-        从
-        <el-input-number v-model='average01' :min="0" :max="58"/>
-        分钟开始，每
-        <el-input-number v-model='average02' :min="1" :max="59 - average01 || 0"/>
-        分钟执行一次
-      </el-radio>
-    </el-form-item>
+    <!--<el-form-item>-->
+    <!--  <el-radio v-model='radioValue' :label="3">-->
+    <!--    从-->
+    <!--    <el-input-number v-model='average01' :min="0" :max="58"/>-->
+    <!--    分钟开始，每-->
+    <!--    <el-input-number v-model='average02' :min="1" :max="59 - average01 || 0"/>-->
+    <!--    分钟执行一次-->
+    <!--  </el-radio>-->
+    <!--</el-form-item>-->
 
     <el-form-item>
       <el-radio v-model='radioValue' :label="4">

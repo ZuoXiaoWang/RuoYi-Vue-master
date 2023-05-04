@@ -6,25 +6,25 @@
       </el-radio>
     </el-form-item>
 
-    <el-form-item>
-      <el-radio v-model='radioValue' :label="2">
-        周期从
-        <el-input-number v-model='cycle01' :min="1" :max="11"/>
-        -
-        <el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : 2" :max="12"/>
-        月
-      </el-radio>
-    </el-form-item>
+    <!--<el-form-item>-->
+    <!--  <el-radio v-model='radioValue' :label="2">-->
+    <!--    周期从-->
+    <!--    <el-input-number v-model='cycle01' :min="1" :max="11"/>-->
+    <!--    - -->
+    <!--    <el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : 2" :max="12"/>-->
+    <!--    月-->
+    <!--  </el-radio>-->
+    <!--</el-form-item>-->
 
-    <el-form-item>
-      <el-radio v-model='radioValue' :label="3">
-        从
-        <el-input-number v-model='average01' :min="1" :max="11"/>
-        月开始，每
-        <el-input-number v-model='average02' :min="1" :max="12 - average01 || 0"/>
-        月月执行一次
-      </el-radio>
-    </el-form-item>
+    <!--<el-form-item>-->
+    <!--  <el-radio v-model='radioValue' :label="3">-->
+    <!--    从-->
+    <!--    <el-input-number v-model='average01' :min="1" :max="11"/>-->
+    <!--    月开始，每-->
+    <!--    <el-input-number v-model='average02' :min="1" :max="12 - average01 || 0"/>-->
+    <!--    月月执行一次-->
+    <!--  </el-radio>-->
+    <!--</el-form-item>-->
 
     <el-form-item>
       <el-radio v-model='radioValue' :label="4">

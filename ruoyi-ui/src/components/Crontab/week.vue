@@ -12,32 +12,32 @@
       </el-radio>
     </el-form-item>
 
-    <el-form-item>
-      <el-radio v-model='radioValue' :label="3">
-        周期从星期
-        <el-select clearable v-model="cycle01">
-          <el-option
-            v-for="(item,index) of weekList"
-            :key="index"
-            :label="item.value"
-            :value="item.key"
-            :disabled="item.key === 1"
-          >{{ item.value }}
-          </el-option>
-        </el-select>
-        -
-        <el-select clearable v-model="cycle02">
-          <el-option
-            v-for="(item,index) of weekList"
-            :key="index"
-            :label="item.value"
-            :value="item.key"
-            :disabled="item.key < cycle01 && item.key !== 1"
-          >{{ item.value }}
-          </el-option>
-        </el-select>
-      </el-radio>
-    </el-form-item>
+    <!--<el-form-item>-->
+    <!--  <el-radio v-model='radioValue' :label="3">-->
+    <!--    周期从星期-->
+    <!--    <el-select clearable v-model="cycle01">-->
+    <!--      <el-option-->
+    <!--        v-for="(item,index) of weekList"-->
+    <!--        :key="index"-->
+    <!--        :label="item.value"-->
+    <!--        :value="item.key"-->
+    <!--        :disabled="item.key === 1"-->
+    <!--      >{{ item.value }}-->
+    <!--      </el-option>-->
+    <!--    </el-select>-->
+    <!--    - -->
+    <!--    <el-select clearable v-model="cycle02">-->
+    <!--      <el-option-->
+    <!--        v-for="(item,index) of weekList"-->
+    <!--        :key="index"-->
+    <!--        :label="item.value"-->
+    <!--        :value="item.key"-->
+    <!--        :disabled="item.key < cycle01 && item.key !== 1"-->
+    <!--      >{{ item.value }}-->
+    <!--      </el-option>-->
+    <!--    </el-select>-->
+    <!--  </el-radio>-->
+    <!--</el-form-item>-->
 
     <el-form-item>
       <el-radio v-model='radioValue' :label="4">

@@ -221,8 +221,8 @@
           <el-col :span="24">
             <el-form-item label="执行策略" prop="misfirePolicy">
               <el-radio-group v-model="form.misfirePolicy" size="small">
-                <el-radio-button label="1">立即执行</el-radio-button>
-                <el-radio-button label="2">执行一次</el-radio-button>
+                <!--<el-radio-button label="1">立即执行</el-radio-button>-->
+                <!--<el-radio-button label="2">执行一次</el-radio-button>-->
                 <el-radio-button label="3">放弃执行</el-radio-button>
               </el-radio-group>
             </el-form-item>
@@ -459,7 +459,7 @@ export default {
         jobGroup: undefined,
         invokeTarget: undefined,
         cronExpression: undefined,
-        misfirePolicy: 1,
+        misfirePolicy: 3,
         concurrent: 1,
         status: "0"
       };

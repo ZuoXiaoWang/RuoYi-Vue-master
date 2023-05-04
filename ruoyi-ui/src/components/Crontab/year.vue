@@ -12,25 +12,25 @@
       </el-radio>
     </el-form-item>
 
-    <el-form-item>
-      <el-radio :label="3" v-model='radioValue'>
-        周期从
-        <el-input-number v-model='cycle01' :min='fullYear' :max="2098"/>
-        -
-        <el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : fullYear + 1" :max="2099"/>
-      </el-radio>
-    </el-form-item>
+    <!--<el-form-item>-->
+    <!--  <el-radio :label="3" v-model='radioValue'>-->
+    <!--    周期从-->
+    <!--    <el-input-number v-model='cycle01' :min='fullYear' :max="2098"/>-->
+    <!--    - -->
+    <!--    <el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : fullYear + 1" :max="2099"/>-->
+    <!--  </el-radio>-->
+    <!--</el-form-item>-->
 
-    <el-form-item>
-      <el-radio :label="4" v-model='radioValue'>
-        从
-        <el-input-number v-model='average01' :min='fullYear' :max="2098"/>
-        年开始，每
-        <el-input-number v-model='average02' :min="1" :max="2099 - average01 || fullYear"/>
-        年执行一次
-      </el-radio>
+    <!--<el-form-item>-->
+    <!--  <el-radio :label="4" v-model='radioValue'>-->
+    <!--    从-->
+    <!--    <el-input-number v-model='average01' :min='fullYear' :max="2098"/>-->
+    <!--    年开始，每-->
+    <!--    <el-input-number v-model='average02' :min="1" :max="2099 - average01 || fullYear"/>-->
+    <!--    年执行一次-->
+    <!--  </el-radio>-->
 
-    </el-form-item>
+    <!--</el-form-item>-->
 
     <el-form-item>
       <el-radio :label="5" v-model='radioValue'>
