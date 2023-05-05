@@ -110,8 +110,8 @@
     <el-table v-loading="loading" :data="pointList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="巡更点ID" align="center" prop="patrolPointId"/>
-      <el-table-column label="巡更点名称" align="center" prop="patrolPointName"/>
-      <el-table-column label="巡更点描述" align="center" prop="patrolPointDescribe"/>
+      <el-table-column label="巡更点名称" align="center" prop="patrolPointName" width="200"/>
+      <el-table-column label="巡更点描述" align="center" prop="patrolPointDescribe" width="300"/>
       <!--<el-table-column label="巡更点二维码" align="center" prop="patrolPointUrl"/>-->
       <el-table-column label="巡更点纬度" align="center" prop="patrolPointLatitude"/>
       <el-table-column label="巡更点经度" align="center" prop="patrolPointLongitude"/>
