@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ruoyi.common.annotation.Excel;
 
 /**
  * Entity基类
@@ -32,6 +33,7 @@ public class BaseEntity implements Serializable {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "任务发布时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createTime;
 
     /**
@@ -48,6 +50,7 @@ public class BaseEntity implements Serializable {
     /**
      * 备注
      */
+    @Excel(name = "备注")
     private String remark;
 
     /**

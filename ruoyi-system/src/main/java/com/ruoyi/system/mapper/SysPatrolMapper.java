@@ -32,6 +32,8 @@ public interface SysPatrolMapper {
      */
     public List<SysPatrol> selectSysPatrolList(SysPatrol sysPatrol);
 
+    public List<SysPatrol> selectSysPatrolList4vue(SysPatrol sysPatrol);
+
     /**
      * 新增巡更任务管理
      *

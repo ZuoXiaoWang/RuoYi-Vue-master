@@ -1,31 +1,31 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
-      <el-form-item label="巡更任务名称" prop="patrolName">
-        <el-input
-          v-model="queryParams.patrolName"
-          placeholder="请输入巡更任务名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="巡更任务负责人" prop="patrolPrincipal">
-        <el-input
-          v-model="queryParams.patrolPrincipal"
-          placeholder="请输入巡更任务负责人"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="负责人联系方式" prop="patrolPhone">
-        <el-input
-          v-model="queryParams.patrolPhone"
-          placeholder="请输入负责人联系方式"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="巡更任务状态" prop="patrolStatus">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+      <!--<el-form-item label="巡更任务名称" prop="patrolName">-->
+      <!--  <el-input-->
+      <!--    v-model="queryParams.patrolName"-->
+      <!--    placeholder="请输入巡更任务名称"-->
+      <!--    clearable-->
+      <!--    @keyup.enter.native="handleQuery"-->
+      <!--  />-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="巡更任务负责人" prop="patrolPrincipal">-->
+      <!--  <el-input-->
+      <!--    v-model="queryParams.patrolPrincipal"-->
+      <!--    placeholder="请输入巡更任务负责人"-->
+      <!--    clearable-->
+      <!--    @keyup.enter.native="handleQuery"-->
+      <!--  />-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="负责人联系方式" prop="patrolPhone">-->
+      <!--  <el-input-->
+      <!--    v-model="queryParams.patrolPhone"-->
+      <!--    placeholder="请输入负责人联系方式"-->
+      <!--    clearable-->
+      <!--    @keyup.enter.native="handleQuery"-->
+      <!--  />-->
+      <!--</el-form-item>-->
+      <el-form-item label="任务状态" prop="patrolStatus">
         <el-select v-model="queryParams.patrolStatus" placeholder="请选择巡更任务状态" clearable>
           <el-option
             v-for="dict in dict.type.sys_patrol_status"
@@ -35,30 +35,53 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="计划开始时间" prop="patrolStartTime">
-        <el-date-picker clearable
-                        v-model="queryParams.patrolStartTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择计划开始时间">
+      <el-form-item label="巡更人" prop="PersonnelId">
+        <el-select v-model="queryParams.personnelId" placeholder="请选择巡更人员">
+          <el-option
+            v-for="item in personnelOptions"
+            :key="item.personnelId"
+            :label="item.personnelName"
+            :value="item.personnelId"
+            :disabled="item.status == 1"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="指定日期内任务">
+        <el-date-picker
+          v-model="timePickerValue"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          @change="dateChange"
+        >
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="计划结束时间" prop="patrolEndTime">
-        <el-date-picker clearable
-                        v-model="queryParams.patrolEndTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择计划结束时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="任务创建时间" prop="patrolCreateTime">
-        <el-date-picker clearable
-                        v-model="queryParams.patrolCreateTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择任务创建时间">
-        </el-date-picker>
-      </el-form-item>
+      <!--<el-form-item label="计划开始时间" prop="patrolStartTime">-->
+      <!--  <el-date-picker clearable-->
+      <!--                  v-model="queryParams.patrolStartTime"-->
+      <!--                  type="date"-->
+      <!--                  value-format="yyyy-MM-dd"-->
+      <!--                  placeholder="请选择计划开始时间">-->
+      <!--  </el-date-picker>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="计划结束时间" prop="patrolEndTime">-->
+      <!--  <el-date-picker clearable-->
+      <!--                  v-model="queryParams.patrolEndTime"-->
+      <!--                  type="date"-->
+      <!--                  value-format="yyyy-MM-dd"-->
+      <!--                  placeholder="请选择计划结束时间">-->
+      <!--  </el-date-picker>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="任务创建时间" prop="patrolCreateTime">-->
+      <!--  <el-date-picker clearable-->
+      <!--                  v-model="queryParams.patrolCreateTime"-->
+      <!--                  type="date"-->
+      <!--                  value-format="yyyy-MM-dd"-->
+      <!--                  placeholder="请选择任务创建时间">-->
+      <!--  </el-date-picker>-->
+      <!--</el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -102,35 +125,44 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['system:patrol:export']"
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="patrolList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="巡更任务编号" align="center" prop="patrolId"/>
-      <el-table-column label="巡更任务名称" align="center" prop="patrolName"/>
-      <el-table-column label="巡更任务描述" align="center" prop="patrolDescribe"/>
-      <el-table-column label="巡更任务负责人" align="center" prop="patrolPrincipal"/>
-      <el-table-column label="负责人联系方式" align="center" prop="patrolPhone"/>
-      <el-table-column label="巡更任务状态" align="center" prop="patrolStatus">
+      <!--<el-table-column label="巡更任务编号" align="center" prop="patrolId"/>-->
+      <el-table-column label="巡更任务名称" align="center" prop="patrolName" width="200"/>
+      <el-table-column label="巡更任务描述" align="center" prop="patrolDescribe" width="200"/>
+      <!--<el-table-column label="巡更任务负责人" align="center" prop="patrolPrincipal"/>-->
+      <!--<el-table-column label="负责人联系方式" align="center" prop="patrolPhone"/>-->
+      <el-table-column label="巡更任务状态" align="center" prop="patrolStatus" width="100">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_patrol_status" :value="scope.row.patrolStatus"/>
+          <dict-tag :options="dict.type.sys_patrol_status" :value="scope.row.patrolStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="计划开始时间" align="center" prop="patrolStartTime" width="180">
+      <!--<el-table-column label="计划开始时间" align="center" prop="patrolStartTime" width="180">-->
+      <!--  <template slot-scope="scope">-->
+      <!--    <span>{{ parseTime(scope.row.patrolStartTime, '{y}-{m}-{d}') }}</span>-->
+      <!--  </template>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column label="计划结束时间" align="center" prop="patrolEndTime" width="180">-->
+      <!--  <template slot-scope="scope">-->
+      <!--    <span>{{ parseTime(scope.row.patrolEndTime, '{y}-{m}-{d}') }}</span>-->
+      <!--  </template>-->
+      <!--</el-table-column>-->
+      <el-table-column label="任务发布时间" align="center" prop="patrolCreateTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.patrolStartTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="计划结束时间" align="center" prop="patrolEndTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.patrolEndTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="任务创建时间" align="center" prop="patrolCreateTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.patrolCreateTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark"/>
@@ -257,7 +289,6 @@
 
 <script>
 import {listPatrol, getPatrol, delPatrol, addPatrol, updatePatrol} from "@/api/system/patrol";
-import {getPersonnel} from "@/api/system/personnel";
 import item from "@/layout/components/Sidebar/Item.vue";
 
 export default {
@@ -270,6 +301,7 @@ export default {
   dicts: ['sys_patrol_status'],
   data() {
     return {
+      timePickerValue: "",
       // 遮罩层
       loading: true,
       // 选中数组
@@ -301,6 +333,7 @@ export default {
         patrolPrincipal: null,
         patrolPhone: null,
         patrolStatus: null,
+        personnelId: null,
         patrolStartTime: null,
         patrolEndTime: null,
         patrolCreateTime: null,
@@ -337,8 +370,22 @@ export default {
   },
   created() {
     this.getList();
+    this.getPersonnel();
   },
   methods: {
+    //改变日期
+    dateChange(val){
+      this.queryParams.patrolStartTime = val[0];
+      this.queryParams.patrolEndTime = val[1];
+      console.log(this.queryParams)
+    },
+    /**查询巡更人员*/
+    getPersonnel(){
+      getPatrol().then(response => {
+        this.personnelOptions = response.personnels;
+        this.patrolPointOptions = response.patrolPoints;
+      })
+    },
     /** 查询巡更任务管理列表 */
     getList() {
       this.loading = true;
@@ -394,13 +441,8 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      getPatrol().then(response => {
-        this.personnelOptions = response.personnels;
-        this.patrolPointOptions = response.patrolPoints;
-        this.open = true;
-        this.title = "添加巡更任务管理";
-      })
-
+      this.open = true;
+      this.title = "添加巡更任务管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -456,14 +498,14 @@ export default {
     /**
      * 选择器选中状态
      */
-    choiceEvent(id) {
-      //根据id查询电话返回赋值给form.patrolPhone
-      getPersonnel(id).then(response => {
-        console.log(id)
-        console.log(response.data)
-        this.form.patrolPhone = response.data.patrolPhone;
-      });
-    }
+    // choiceEvent(id) {
+    //   //根据id查询电话返回赋值给form.patrolPhone
+    //   getPersonnel(id).then(response => {
+    //     console.log(id)
+    //     console.log(response.data)
+    //     this.form.patrolPhone = response.data.patrolPhone;
+    //   });
+    // }
   }
 };
 </script>

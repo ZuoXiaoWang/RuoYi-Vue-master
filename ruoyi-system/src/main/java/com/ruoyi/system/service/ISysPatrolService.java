@@ -32,6 +32,8 @@ public interface ISysPatrolService {
      */
     public List<SysPatrol> selectSysPatrolList(SysPatrol sysPatrol);
 
+    public List<SysPatrol> selectSysPatrolList4vue(SysPatrol sysPatrol);
+
     public int deleteSysPatrolWithEnd();
 
     /**

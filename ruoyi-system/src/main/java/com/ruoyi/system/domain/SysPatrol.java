@@ -40,40 +40,35 @@ public class SysPatrol extends BaseEntity {
     /**
      * 巡更任务负责人
      */
-    @Excel(name = "巡更任务负责人")
     private String patrolPrincipal;
 
     /**
      * 负责人联系方式
      */
-    @Excel(name = "负责人联系方式")
     private String patrolPhone;
 
     /**
      * 巡更任务状态
      */
-    @Excel(name = "巡更任务状态")
+    @Excel(name = "巡更任务状态",readConverterExp = "0=未开始,1=进行中,2=已完成")
     private String patrolStatus;
 
     /**
      * 计划开始时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "计划开始时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date patrolStartTime;
 
     /**
      * 计划结束时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "计划结束时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date patrolEndTime;
 
     /**
      * 任务创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "任务创建时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date patrolCreateTime;
 
 

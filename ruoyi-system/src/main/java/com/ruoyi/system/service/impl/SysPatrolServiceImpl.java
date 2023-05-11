@@ -66,6 +66,11 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
     }
 
     @Override
+    public List<SysPatrol> selectSysPatrolList4vue(SysPatrol sysPatrol) {
+        return sysPatrolMapper.selectSysPatrolList4vue(sysPatrol);
+    }
+
+    @Override
     public int deleteSysPatrolWithEnd() {
 
 //        //查询所有已经结束任务的patrolIds

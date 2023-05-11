@@ -50,6 +50,7 @@ public class RyTask {
         List<Long> personnelList = personnelService.selectPersonnelListByPatrolId(patrolId);
         List<Long> patrolPointList = patrolPointService.selectPatrolPointListByPatrolId(patrolId);
         SysPatrol sysPatrol = new SysPatrol();
+        //template.setPatrolId(null);
         BeanUtils.copyBeanProp(sysPatrol,template);
         sysPatrol.setPatrolId(null);
         sysPatrol.setType("0");

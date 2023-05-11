@@ -7,6 +7,7 @@ import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.SysRepair;
 import com.ruoyi.system.service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,8 +58,21 @@ public class SysPatrolController extends AppBaseController {
     @GetMapping("/list")
     public TableDataInfo list(SysPatrol sysPatrol) {
         startPage();
-        List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
+        List<SysPatrol> list = sysPatrolService.selectSysPatrolList4vue(sysPatrol);
         return getDataTable(list);
+    }
+
+    /**
+     * 导出巡更任务管理列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:patrol:export')")
+    @Log(title = "巡更任务管理", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, SysPatrol sysPatrol)
+    {
+        List<SysPatrol> list = sysPatrolService.selectSysPatrolList4vue(sysPatrol);
+        ExcelUtil<SysPatrol> util = new ExcelUtil<SysPatrol>(SysPatrol.class);
+        util.exportExcel(response, list, "巡更任务管理数据");
     }
 
 
@@ -70,6 +84,9 @@ public class SysPatrolController extends AppBaseController {
         sysPatrol.setPersonnelId(getAppUserId());
         sysPatrol.setPatrolStatus("0");
         List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
+        sysPatrol.setPatrolStatus("1");
+        List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList(sysPatrol);
+        list.addAll(sysPatrols);
         return getDataTable(list);
     }
 
