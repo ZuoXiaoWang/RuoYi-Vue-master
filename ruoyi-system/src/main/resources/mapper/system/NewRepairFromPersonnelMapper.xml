@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NewRepairFromPersonnelMapper">
+
+    <resultMap type="NewRepairFromPersonnel" id="NewRepairFromPersonnelResult">
+        <result property="newRepairFromId"    column="new_repair_from_id"    />
+        <result property="personnelId"    column="personnel_id"    />
+    </resultMap>
+
+    <sql id="selectNewRepairFromPersonnelVo">
+        select new_repair_from_id, personnel_id from new_repair_from_personnel
+    </sql>
+
+    <select id="selectNewRepairFromPersonnelList" parameterType="NewRepairFromPersonnel" resultMap="NewRepairFromPersonnelResult">
+        <include refid="selectNewRepairFromPersonnelVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectNewRepairFromPersonnelByNewRepairFromId" parameterType="Long" resultMap="NewRepairFromPersonnelResult">
+        <include refid="selectNewRepairFromPersonnelVo"/>
+        where new_repair_from_id = #{newRepairFromId}
+    </select>
+
+    <insert id="insertNewRepairFromPersonnel" parameterType="NewRepairFromPersonnel">
+        insert into new_repair_from_personnel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="newRepairFromId != null">new_repair_from_id,</if>
+            <if test="personnelId != null">personnel_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="newRepairFromId != null">#{newRepairFromId},</if>
+            <if test="personnelId != null">#{personnelId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNewRepairFromPersonnel" parameterType="NewRepairFromPersonnel">
+        update new_repair_from_personnel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personnelId != null">personnel_id = #{personnelId},</if>
+        </trim>
+        where new_repair_from_id = #{newRepairFromId}
+    </update>
+
+    <delete id="deleteNewRepairFromPersonnelByNewRepairFromId" parameterType="Long">
+        delete from new_repair_from_personnel where new_repair_from_id = #{newRepairFromId}
+    </delete>
+
+    <delete id="deleteNewRepairFromPersonnelByNewRepairFromIds" parameterType="String">
+        delete from new_repair_from_personnel where new_repair_from_id in
+        <foreach item="newRepairFromId" collection="array" open="(" separator="," close=")">
+            #{newRepairFromId}
+        </foreach>
+    </delete>
+</mapper>

@@ -38,14 +38,6 @@ public class AppLoginService {
     @Resource
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private RedisCache redisCache;
-
-    @Autowired
-    private ISysUserService userService;
-
-    @Autowired
-    private ISysConfigService configService;
 
     /**
      * 登录验证

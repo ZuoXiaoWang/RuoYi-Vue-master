@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NewRepairImgMapper">
+
+    <resultMap type="NewRepairImg" id="NewRepairImgResult">
+        <result property="imgId"    column="img_id"    />
+        <result property="newRepairId"    column="new_repair_id"    />
+        <result property="imgUrl"    column="img_url"    />
+    </resultMap>
+
+    <sql id="selectNewRepairImgVo">
+        select img_id, new_repair_id, img_url from new_repair_img
+    </sql>
+
+    <select id="selectNewRepairImgList" parameterType="NewRepairImg" resultMap="NewRepairImgResult">
+        <include refid="selectNewRepairImgVo"/>
+        <where>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+        </where>
+    </select>
+
+    <select id="selectNewRepairImgByImgId" parameterType="Long" resultMap="NewRepairImgResult">
+        <include refid="selectNewRepairImgVo"/>
+        where img_id = #{imgId}
+    </select>
+
+    <insert id="insertNewRepairImg" parameterType="NewRepairImg" useGeneratedKeys="true" keyProperty="imgId">
+        insert into new_repair_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="newRepairId != null">new_repair_id,</if>
+            <if test="imgUrl != null">img_url,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="newRepairId != null">#{newRepairId},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNewRepairImg" parameterType="NewRepairImg">
+        update new_repair_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="newRepairId != null">new_repair_id = #{newRepairId},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+        </trim>
+        where img_id = #{imgId}
+    </update>
+
+    <delete id="deleteNewRepairImgByImgId" parameterType="Long">
+        delete from new_repair_img where img_id = #{imgId}
+    </delete>
+
+    <delete id="deleteNewRepairImgByImgIds" parameterType="String">
+        delete from new_repair_img where img_id in
+        <foreach item="imgId" collection="array" open="(" separator="," close=")">
+            #{imgId}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteNewRepairImgByRepairIds" parameterType="String">
+        delete from new_repair_img where new_repair_id in
+        <foreach item="newRepairId" collection="array" open="(" separator="," close=")">
+            #{newRepairId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteNewRepairImgByRepairId" parameterType="Long">
+        delete from new_repair_img where new_repair_id = #{newRepairId}
+    </delete>
+
+    <insert id="batchRepairImg">
+        insert into new_repair_img(new_repair_id, img_url) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.newRepairId},#{item.imgUrl})
+        </foreach>
+    </insert>
+
+    <select id="selectImgUrls" parameterType="Long" resultType="String">
+        select img_url
+        from new_repair_img
+        where new_repair_id = #{newRepairId}
+    </select>
+</mapper>

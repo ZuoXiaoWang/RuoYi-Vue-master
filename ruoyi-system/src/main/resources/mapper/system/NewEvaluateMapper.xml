@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NewEvaluateMapper">
+
+    <resultMap type="NewEvaluate" id="NewEvaluateResult">
+        <result property="evaluateId"    column="evaluate_id"    />
+        <result property="evaluate"    column="evaluate"    />
+        <result property="describe"    column="describe"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="newRepairId" column="new_repair_id"/>
+    </resultMap>
+
+    <sql id="selectNewEvaluateVo">
+        SELECT
+            new_evaluate.evaluate_id,
+            new_evaluate.evaluate,
+            new_evaluate.describe,
+            new_evaluate.remark,
+            new_evaluate.create_by,
+            new_evaluate.create_time,
+            update_by,
+            new_evaluate.update_time,
+            new_evaluate_repair.new_repair_id
+        FROM
+            new_evaluate
+                INNER JOIN
+            new_evaluate_repair
+            ON
+                new_evaluate.evaluate_id = new_evaluate_repair.evaluate_id
+    </sql>
+
+    <select id="selectNewEvaluateList" parameterType="NewEvaluate" resultMap="NewEvaluateResult">
+        <include refid="selectNewEvaluateVo"/>
+        <where>
+            <if test="evaluate != null "> and evaluate = #{evaluate}</if>
+            <if test="describe != null  and describe != ''"> and describe = #{describe}</if>
+        </where>
+    </select>
+
+    <select id="selectNewEvaluateByEvaluateId" parameterType="Long" resultMap="NewEvaluateResult">
+        <include refid="selectNewEvaluateVo"/>
+        where evaluate_id = #{evaluateId}
+    </select>
+
+    <insert id="insertNewEvaluate" parameterType="NewEvaluate">
+        insert into new_evaluate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="evaluateId != null">evaluate_id,</if>
+            <if test="evaluate != null">evaluate,</if>
+            <if test="describe != null">describe,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="evaluateId != null">#{evaluateId},</if>
+            <if test="evaluate != null">#{evaluate},</if>
+            <if test="describe != null">#{describe},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNewEvaluate" parameterType="NewEvaluate">
+        update new_evaluate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="evaluate != null">evaluate = #{evaluate},</if>
+            <if test="describe != null">describe = #{describe},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where evaluate_id = #{evaluateId}
+    </update>
+
+    <delete id="deleteNewEvaluateByEvaluateId" parameterType="Long">
+        delete from new_evaluate where evaluate_id = #{evaluateId}
+    </delete>
+
+    <delete id="deleteNewEvaluateByEvaluateIds" parameterType="String">
+        delete from new_evaluate where evaluate_id in
+        <foreach item="evaluateId" collection="array" open="(" separator="," close=")">
+            #{evaluateId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NewEvaluateRepairMapper">
+
+    <resultMap type="NewEvaluateRepair" id="NewEvaluateRepairResult">
+        <result property="evaluateId"    column="evaluate_id"    />
+        <result property="newRepairId"    column="new_repair_id"    />
+    </resultMap>
+
+    <sql id="selectNewEvaluateRepairVo">
+        select evaluate_id, new_repair_id from new_evaluate_repair
+    </sql>
+
+    <select id="selectNewEvaluateRepairList" parameterType="NewEvaluateRepair" resultMap="NewEvaluateRepairResult">
+        <include refid="selectNewEvaluateRepairVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectNewEvaluateRepairByEvaluateId" parameterType="Long" resultMap="NewEvaluateRepairResult">
+        <include refid="selectNewEvaluateRepairVo"/>
+        where evaluate_id = #{evaluateId}
+    </select>
+
+    <insert id="insertNewEvaluateRepair" parameterType="NewEvaluateRepair">
+        insert into new_evaluate_repair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="evaluateId != null">evaluate_id,</if>
+            <if test="newRepairId != null">new_repair_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="evaluateId != null">#{evaluateId},</if>
+            <if test="newRepairId != null">#{newRepairId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNewEvaluateRepair" parameterType="NewEvaluateRepair">
+        update new_evaluate_repair
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="newRepairId != null">new_repair_id = #{newRepairId},</if>
+        </trim>
+        where evaluate_id = #{evaluateId}
+    </update>
+
+    <delete id="deleteNewEvaluateRepairByEvaluateId" parameterType="Long">
+        delete from new_evaluate_repair where evaluate_id = #{evaluateId}
+    </delete>
+
+    <delete id="deleteNewEvaluateRepairByEvaluateIds" parameterType="String">
+        delete from new_evaluate_repair where evaluate_id in
+        <foreach item="evaluateId" collection="array" open="(" separator="," close=")">
+            #{evaluateId}
+        </foreach>
+    </delete>
+</mapper>

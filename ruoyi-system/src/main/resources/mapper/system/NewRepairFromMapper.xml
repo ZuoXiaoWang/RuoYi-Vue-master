@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NewRepairFromMapper">
+
+    <resultMap type="NewRepairFrom" id="NewRepairFromResult">
+        <result property="repairFromId"    column="repair_from_id"    />
+        <result property="location"    column="location"    />
+        <result property="describe"    column="describe"    />
+        <result property="regionalClassification"    column="regional_classification"    />
+        <result property="maintenanceClassification"    column="maintenance_classification"    />
+        <result property="state"    column="state"    />
+        <result property="paidType"    column="paid_type"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="personnelName" column="personnel_name"/>
+    </resultMap>
+
+    <sql id="selectNewRepairFromVo">
+        SELECT
+            new_repair_from.repair_from_id,
+            new_repair_from.location,
+            new_repair_from.describe,
+            new_repair_from.regional_classification,
+            new_repair_from.maintenance_classification,
+            new_repair_from.state,
+            new_repair_from.paid_type,
+            new_repair_from.remark,
+            new_repair_from.create_by,
+            new_repair_from.create_time,
+            new_repair_from.update_by,
+            new_repair_from.update_time,
+            sys_personnel.personnel_name
+        FROM
+            new_repair_from
+                INNER JOIN
+            new_repair_from_personnel
+            ON
+                    new_repair_from.repair_from_id = new_repair_from_personnel.new_repair_from_id
+                INNER JOIN
+            sys_personnel
+            ON
+                new_repair_from_personnel.personnel_id = sys_personnel.personnel_id
+    </sql>
+
+    <select id="selectNewRepairFromList" parameterType="NewRepairFrom" resultMap="NewRepairFromResult">
+        <include refid="selectNewRepairFromVo"/>
+        <where>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="describe != null  and describe != ''"> and describe = #{describe}</if>
+            <if test="regionalClassification != null  and regionalClassification != ''"> and regional_classification = #{regionalClassification}</if>
+            <if test="maintenanceClassification != null  and maintenanceClassification != ''"> and maintenance_classification = #{maintenanceClassification}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="paidType != null  and paidType != ''"> and paid_type = #{paidType}</if>
+            <if test="personnelId != null  and personnelId != ''"> and new_repair_from_personnel.personnel_id = #{personnelId}</if>
+        </where>
+    </select>
+
+    <select id="selectNewRepairFromByRepairFromId" parameterType="Long" resultMap="NewRepairFromResult">
+        <include refid="selectNewRepairFromVo"/>
+        where repair_from_id = #{repairFromId}
+    </select>
+
+    <insert id="insertNewRepairFrom" parameterType="NewRepairFrom" useGeneratedKeys="true" keyProperty="newRepairFromId">
+        insert into new_repair_from
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairFromId != null">repair_from_id,</if>
+            <if test="location != null">location,</if>
+            <if test="describe != null">`describe`,</if>
+            <if test="regionalClassification != null">regional_classification,</if>
+            <if test="maintenanceClassification != null">maintenance_classification,</if>
+            <if test="state != null">state,</if>
+            <if test="paidType != null">paid_type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairFromId != null">#{repairFromId},</if>
+            <if test="location != null">#{location},</if>
+            <if test="describe != null">#{describe},</if>
+            <if test="regionalClassification != null">#{regionalClassification},</if>
+            <if test="maintenanceClassification != null">#{maintenanceClassification},</if>
+            <if test="state != null">#{state},</if>
+            <if test="paidType != null">#{paidType},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNewRepairFrom" parameterType="NewRepairFrom">
+        update new_repair_from
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="location != null">location = #{location},</if>
+            <if test="describe != null">describe = #{describe},</if>
+            <if test="regionalClassification != null">regional_classification = #{regionalClassification},</if>
+            <if test="maintenanceClassification != null">maintenance_classification = #{maintenanceClassification},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="paidType != null">paid_type = #{paidType},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where repair_from_id = #{repairFromId}
+    </update>
+
+    <delete id="deleteNewRepairFromByRepairFromId" parameterType="Long">
+        delete from new_repair_from where repair_from_id = #{repairFromId}
+    </delete>
+
+    <delete id="deleteNewRepairFromByRepairFromIds" parameterType="String">
+        delete from new_repair_from where repair_from_id in
+        <foreach item="repairFromId" collection="array" open="(" separator="," close=")">
+            #{repairFromId}
+        </foreach>
+    </delete>
+</mapper>
