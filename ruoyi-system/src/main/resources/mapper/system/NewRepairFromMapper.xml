@@ -65,10 +65,9 @@
         where repair_from_id = #{repairFromId}
     </select>
 
-    <insert id="insertNewRepairFrom" parameterType="NewRepairFrom" useGeneratedKeys="true" keyProperty="newRepairFromId">
+    <insert id="insertNewRepairFrom" parameterType="NewRepairFrom" useGeneratedKeys="true" keyProperty="repairFromId">
         insert into new_repair_from
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="repairFromId != null">repair_from_id,</if>
             <if test="location != null">location,</if>
             <if test="describe != null">`describe`,</if>
             <if test="regionalClassification != null">regional_classification,</if>
@@ -82,7 +81,6 @@
             <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="repairFromId != null">#{repairFromId},</if>
             <if test="location != null">#{location},</if>
             <if test="describe != null">#{describe},</if>
             <if test="regionalClassification != null">#{regionalClassification},</if>
