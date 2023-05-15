@@ -103,6 +103,7 @@
             <if test="personnelResignationTime != null ">and s.personnel_resignation_time =
                 #{personnelResignationTime}
             </if>
+            and s.post_id != 1
         </where>
     </select>
 
@@ -206,6 +207,11 @@
 
     <select id="selectPersonnelAll" resultMap="SysPersonnelResult">
         <include refid="selectSysPersonnelVo"/>
+    </select>
+
+    <select id="selectOwnerPersonnelAll" resultMap="SysPersonnelResult">
+        <include refid="selectSysPersonnelVo"/>
+        where s.post_id = 1
     </select>
 
     <select id="selectPersonnelListByPatrolId" parameterType="Long" resultType="Long">

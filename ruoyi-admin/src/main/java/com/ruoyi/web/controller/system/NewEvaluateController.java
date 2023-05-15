@@ -7,6 +7,10 @@ import javax.validation.constraints.NotNull;
 import com.mchange.lang.LongUtils;
 import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.NewRepair;
+import com.ruoyi.system.domain.NewRepairFrom;
+import com.ruoyi.system.service.INewRepairFromService;
+import com.ruoyi.system.service.INewRepairService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +42,10 @@ public class NewEvaluateController extends AppBaseController
 {
     @Autowired
     private INewEvaluateService newEvaluateService;
+    @Autowired
+    private INewRepairService newRepairService;
+    @Autowired
+    private INewRepairFromService newRepairFromService;
 
     /**
      * 查询评价单列表
@@ -83,10 +91,24 @@ public class NewEvaluateController extends AppBaseController
         if(newEvaluate.getNewRepairId() == null){
             msg = "维修id不能为空";
         } else {
-            int row = newEvaluateService.insertNewEvaluate(newEvaluate);
-            boolean regFlag = row > 0;
-            if (!regFlag) {
-                msg = "添加失败,请联系系统管理人员";
+            if(newEvaluate.getState()!=null&&!"".equals(newEvaluate.getState())){
+                int row = newEvaluateService.insertNewEvaluate(newEvaluate);
+                boolean regFlag = row > 0;
+                if (!regFlag) {
+                    msg = "添加失败,请联系系统管理人员";
+                }
+                if("0".equals(newEvaluate.getState())){
+                    NewRepair newRepair = newRepairService.selectNewRepairByNewRepairId(newEvaluate.getNewRepairId());
+                    NewRepairFrom newRepairFrom = newRepairFromService.selectNewRepairFromByRepairFromId(newRepair.getNewRepairFromId());
+
+                    newRepair.setState("1");
+                    newRepairService.updateNewRepair(newRepair);
+
+                    newRepairFrom.setState("1");
+                    newRepairFromService.updateNewRepairFrom(newRepairFrom);
+                }
+            }else {
+                msg = "类型不允许为空";
             }
         }
         return StringUtils.isEmpty(msg) ? success() : error(msg);
@@ -111,4 +133,5 @@ public class NewEvaluateController extends AppBaseController
     {
         return toAjax(newEvaluateService.deleteNewEvaluateByEvaluateIds(evaluateIds));
     }
+
 }

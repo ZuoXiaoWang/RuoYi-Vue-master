@@ -2,8 +2,6 @@ package com.ruoyi.system.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
@@ -56,5 +54,14 @@ public class NewRepairFrom extends BaseEntity
     private Long personnelId;
 
     private String personnelName;
+
+    private String repairPhone;
+
+    private Long newRepairId;
+
+    private List evaluateList;
+
+    //滞留时长 小时
+    private Integer detainHours;
 
 }

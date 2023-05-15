@@ -59,4 +59,8 @@ public class NewRepair extends BaseEntity
     private Long newRepairFromId;
 
     private String repairFromPersonnelName;
+
+    private String repairPhone;
+
+    private List evaluateList;
 }

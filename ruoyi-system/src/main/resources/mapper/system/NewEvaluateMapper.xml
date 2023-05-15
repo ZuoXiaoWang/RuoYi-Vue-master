@@ -40,7 +40,9 @@
         <where>
             <if test="evaluate != null "> and evaluate = #{evaluate}</if>
             <if test="describe != null  and describe != ''"> and describe = #{describe}</if>
+            <if test="newRepairId != null "> and new_evaluate_repair.new_repair_id = #{newRepairId}</if>
         </where>
+        order by new_evaluate.create_time desc
     </select>
 
     <select id="selectNewEvaluateByEvaluateId" parameterType="Long" resultMap="NewEvaluateResult">
@@ -48,12 +50,12 @@
         where evaluate_id = #{evaluateId}
     </select>
 
-    <insert id="insertNewEvaluate" parameterType="NewEvaluate">
+    <insert id="insertNewEvaluate" parameterType="com.ruoyi.system.domain.NewEvaluate">
         insert into new_evaluate
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="evaluateId != null">evaluate_id,</if>
             <if test="evaluate != null">evaluate,</if>
-            <if test="describe != null">describe,</if>
+<!--            <if test="describe != null and describe != ''">describe,</if>-->
             <if test="remark != null">remark,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -63,7 +65,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="evaluateId != null">#{evaluateId},</if>
             <if test="evaluate != null">#{evaluate},</if>
-            <if test="describe != null">#{describe},</if>
+<!--            <if test="describe != null">#{describe},</if>-->
             <if test="remark != null">#{remark},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>

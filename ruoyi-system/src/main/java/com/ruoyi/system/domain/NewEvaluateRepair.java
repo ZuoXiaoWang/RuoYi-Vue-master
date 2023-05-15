@@ -23,5 +23,5 @@ public class NewEvaluateRepair extends BaseEntity
     private Long newRepairId;
 
     /** 评价编号 */
-    private Long evaluateId;
+    private String evaluateId;
 }

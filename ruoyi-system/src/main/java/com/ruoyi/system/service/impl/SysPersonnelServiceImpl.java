@@ -146,6 +146,11 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
     }
 
     @Override
+    public List<SysPersonnel> selectOwnerPersonnelAll() {
+        return sysPersonnelMapper.selectOwnerPersonnelAll();
+    }
+
+    @Override
     public List<Long> selectPersonnelListByPatrolId(Long patrolId) {
         return sysPersonnelMapper.selectPersonnelListByPatrolId(patrolId);
     }

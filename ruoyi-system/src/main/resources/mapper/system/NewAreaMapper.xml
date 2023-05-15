@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NewAreaMapper">
+    
+    <resultMap type="NewArea" id="NewAreaResult">
+        <result property="areaId"    column="area_id"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaValue"    column="area_value"    />
+    </resultMap>
+
+    <sql id="selectNewAreaVo">
+        select area_id, area_name, area_value from new_area
+    </sql>
+
+    <select id="selectNewAreaList" parameterType="NewArea" resultMap="NewAreaResult">
+        <include refid="selectNewAreaVo"/>
+        <where>  
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="areaValue != null  and areaValue != ''"> and area_value = #{areaValue}</if>
+        </where>
+    </select>
+    
+    <select id="selectNewAreaByAreaId" parameterType="Long" resultMap="NewAreaResult">
+        <include refid="selectNewAreaVo"/>
+        where area_id = #{areaId}
+    </select>
+        
+    <insert id="insertNewArea" parameterType="NewArea">
+        insert into new_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">area_id,</if>
+            <if test="areaName != null and areaName != ''">area_name,</if>
+            <if test="areaValue != null and areaValue != ''">area_value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">#{areaId},</if>
+            <if test="areaName != null and areaName != ''">#{areaName},</if>
+            <if test="areaValue != null and areaValue != ''">#{areaValue},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNewArea" parameterType="NewArea">
+        update new_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null and areaName != ''">area_name = #{areaName},</if>
+            <if test="areaValue != null and areaValue != ''">area_value = #{areaValue},</if>
+        </trim>
+        where area_id = #{areaId}
+    </update>
+
+    <delete id="deleteNewAreaByAreaId" parameterType="Long">
+        delete from new_area where area_id = #{areaId}
+    </delete>
+
+    <delete id="deleteNewAreaByAreaIds" parameterType="String">
+        delete from new_area where area_id in 
+        <foreach item="areaId" collection="array" open="(" separator="," close=")">
+            #{areaId}
+        </foreach>
+    </delete>
+</mapper>

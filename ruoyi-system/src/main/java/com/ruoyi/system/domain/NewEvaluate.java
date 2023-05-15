@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 /**
  * 评价单对象 new_evaluate
  *
@@ -22,15 +24,23 @@ public class NewEvaluate extends BaseEntity
     private Long personnelId;
 
     /** 评价id */
-    private Long evaluateId;
+    private String evaluateId;
 
     private Long newRepairId;
 
     /** 评价 */
     @Excel(name = "评价")
-    private Long evaluate;
+    private Double evaluate;
 
     /** 描述 */
     @Excel(name = "描述")
     private String describe;
+
+    private String remark;
+
+    private String state;//0驳回 1提交
+    private String createBy;
+    private Date createTime;
+    private String updateBy;
+    private Date updateTime;
 }

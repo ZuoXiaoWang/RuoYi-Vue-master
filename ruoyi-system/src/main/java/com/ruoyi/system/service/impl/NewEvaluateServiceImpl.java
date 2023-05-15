@@ -1,9 +1,15 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import java.util.UUID;
+
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.domain.NewEvaluateRepair;
+import com.ruoyi.system.domain.NewRepair;
+import com.ruoyi.system.domain.NewRepairFrom;
 import com.ruoyi.system.mapper.NewEvaluateRepairMapper;
+import com.ruoyi.system.mapper.NewRepairFromMapper;
+import com.ruoyi.system.mapper.NewRepairMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.NewEvaluateMapper;
@@ -61,6 +67,7 @@ public class NewEvaluateServiceImpl implements INewEvaluateService
     public int insertNewEvaluate(NewEvaluate newEvaluate)
     {
         newEvaluate.setCreateTime(DateUtils.getNowDate());
+        newEvaluate.setEvaluateId(UUID.randomUUID().toString());
         int row = newEvaluateMapper.insertNewEvaluate(newEvaluate);
         //新增评价和维修关联
         NewEvaluateRepair newEvaluateRepair = new NewEvaluateRepair();

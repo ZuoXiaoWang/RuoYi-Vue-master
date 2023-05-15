@@ -44,6 +44,8 @@ public interface INewRepairFromService
      */
     public int updateNewRepairFrom(NewRepairFrom newRepairFrom);
 
+    public int updateNewRepairFromWithPickUp(NewRepairFrom newRepairFrom);
+
     /**
      * 批量删除报修单
      *

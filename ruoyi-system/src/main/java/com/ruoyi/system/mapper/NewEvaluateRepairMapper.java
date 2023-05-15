@@ -49,7 +49,7 @@ public interface NewEvaluateRepairMapper
      * @param evaluateId 【请填写功能名称】主键
      * @return 结果
      */
-    public int deleteNewEvaluateRepairByEvaluateId(Long evaluateId);
+    public int deleteNewEvaluateRepairByEvaluateId(String evaluateId);
 
     /**
      * 批量删除【请填写功能名称】

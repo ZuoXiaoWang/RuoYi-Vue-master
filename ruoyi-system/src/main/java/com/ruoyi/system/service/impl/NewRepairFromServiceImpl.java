@@ -103,6 +103,12 @@ public class NewRepairFromServiceImpl implements INewRepairFromService {
         return row;
     }
 
+    @Override
+    public int updateNewRepairFromWithPickUp(NewRepairFrom newRepairFrom) {
+        newRepairFrom.setUpdateTime(DateUtils.getNowDate());
+        return newRepairFromMapper.updateNewRepairFrom(newRepairFrom);
+    }
+
     /**
      * 批量删除报修单
      *

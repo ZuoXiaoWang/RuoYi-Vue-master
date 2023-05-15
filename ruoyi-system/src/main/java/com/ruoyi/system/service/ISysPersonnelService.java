@@ -82,6 +82,8 @@ public interface ISysPersonnelService {
 
     public List<SysPersonnel> selectPersonnelAll();
 
+    public List<SysPersonnel> selectOwnerPersonnelAll();
+
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 
     public List<Long> selectPersonnelListByRepairId(Long repairId);

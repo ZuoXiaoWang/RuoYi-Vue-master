@@ -5,12 +5,9 @@ import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.*;
-import com.ruoyi.system.mapper.NewRepairImgMapper;
-import com.ruoyi.system.mapper.NewRepairPersonnelMapper;
-import com.ruoyi.system.mapper.NewRepairRepairFromMapper;
+import com.ruoyi.system.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.NewRepairMapper;
 import com.ruoyi.system.service.INewRepairService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +32,9 @@ public class NewRepairServiceImpl implements INewRepairService
 
     @Autowired
     private NewRepairImgMapper repairImgMapper;
+
+    @Autowired
+    private NewRepairFromMapper repairFromMapper;
 
     /**
      * 查询维修单
@@ -65,6 +65,17 @@ public class NewRepairServiceImpl implements INewRepairService
         return newRepairMapper.selectNewRepairList(newRepair);
     }
 
+    @Override
+    public List<NewRepair> selectNewRepairListWithStateFive(NewRepair newRepair)
+    {
+        return newRepairMapper.selectNewRepairListWithStateFive(newRepair);
+    }
+    @Override
+    public List<NewRepair> selectNewRepairListWithState(NewRepair newRepair)
+    {
+        return newRepairMapper.selectNewRepairListWithState(newRepair);
+    }
+
     /**
      * 新增维修单
      *
@@ -90,7 +101,7 @@ public class NewRepairServiceImpl implements INewRepairService
         newRepairPersonnel.setPersonnelId(newRepair.getPersonnelId());
         repairPersonnelMapper.insertNewRepairPersonnel(newRepairPersonnel);
         //新增图片
-        insertRepairFromImg(newRepair);
+        insertRepairImg(newRepair);
         return row;
     }
 
@@ -107,15 +118,21 @@ public class NewRepairServiceImpl implements INewRepairService
         int row = newRepairMapper.updateNewRepair(newRepair);
         //删除维修单和人员关联
         repairPersonnelMapper.deleteNewRepairPersonnelByNewRepairId(newRepair.getNewRepairId());
-        //删除图片
-        repairImgMapper.deleteNewRepairImgByRepairId(newRepair.getNewRepairId());
         //新增维修单和人员关联
         NewRepairPersonnel newRepairPersonnel = new NewRepairPersonnel();
         newRepairPersonnel.setNewRepairId(newRepair.getNewRepairId());
         newRepairPersonnel.setPersonnelId(newRepair.getPersonnelId());
         repairPersonnelMapper.insertNewRepairPersonnel(newRepairPersonnel);
-        //新增图片
-        insertRepairFromImg(newRepair);
+        //删除维修单和图片关联
+        repairImgMapper.deleteNewRepairImgByRepairId(newRepair.getNewRepairId());
+        //增加维修单和图片关联
+        insertRepairImg(newRepair);
+        if (newRepair.getState().equals("5")){
+            NewRepairRepairFrom newRepairRepairFrom = repairRepairFromMapper.selectNewRepairRepairFromByNewRepairId(newRepair.getNewRepairId());
+            NewRepairFrom newRepairFrom = repairFromMapper.selectNewRepairFromByRepairFromId(newRepairRepairFrom.getNewRepairFromId());
+            newRepairFrom.setState("2");
+            repairFromMapper.updateNewRepairFrom(newRepairFrom);
+        }
         return row;
     }
 
@@ -159,7 +176,7 @@ public class NewRepairServiceImpl implements INewRepairService
 
 
     //插入多个图片
-    public void insertRepairFromImg(NewRepair newRepair) {
+    public void insertRepairImg(NewRepair newRepair) {
         List<String> imgUrls = newRepair.getImgUrls();
         if (StringUtils.isNotEmpty(imgUrls)) {
             ArrayList<NewRepairImg> list = new ArrayList<>(imgUrls.size());

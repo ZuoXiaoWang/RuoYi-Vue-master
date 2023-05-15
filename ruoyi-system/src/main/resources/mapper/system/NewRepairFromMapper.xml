@@ -18,13 +18,16 @@
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="personnelName" column="personnel_name"/>
+        <result property="personnelId" column="personnel_id"/>
+        <result property="repairPhone" column="repairPhone"/>
+        <result property="newRepairId" column="new_repair_id"/>
     </resultMap>
 
     <sql id="selectNewRepairFromVo">
         SELECT
             new_repair_from.repair_from_id,
             new_repair_from.location,
-            new_repair_from.describe,
+            new_repair_from.`describe`,
             new_repair_from.regional_classification,
             new_repair_from.maintenance_classification,
             new_repair_from.state,
@@ -34,14 +37,16 @@
             new_repair_from.create_time,
             new_repair_from.update_by,
             new_repair_from.update_time,
-            sys_personnel.personnel_name
+            sys_personnel.personnel_name,
+            sys_personnel.personnel_id,
+            sys_personnel.personnel_phone AS repairPhone
         FROM
             new_repair_from
-                INNER JOIN
+                LEFT JOIN
             new_repair_from_personnel
             ON
                     new_repair_from.repair_from_id = new_repair_from_personnel.new_repair_from_id
-                INNER JOIN
+                LEFT JOIN
             sys_personnel
             ON
                 new_repair_from_personnel.personnel_id = sys_personnel.personnel_id
@@ -61,7 +66,37 @@
     </select>
 
     <select id="selectNewRepairFromByRepairFromId" parameterType="Long" resultMap="NewRepairFromResult">
-        <include refid="selectNewRepairFromVo"/>
+        SELECT
+            new_repair_from.repair_from_id,
+            new_repair_from.location,
+            new_repair_from.`describe`,
+            new_repair_from.regional_classification,
+            new_repair_from.maintenance_classification,
+            new_repair_from.state,
+            new_repair_from.paid_type,
+            new_repair_from.remark,
+            new_repair_from.create_by,
+            new_repair_from.create_time,
+            new_repair_from.update_by,
+            new_repair_from.update_time,
+            sys_personnel.personnel_name,
+            sys_personnel.personnel_id,
+            sys_personnel.personnel_phone AS repairPhone,
+            new_repair_repair_from.new_repair_id
+        FROM
+            new_repair_from
+                LEFT JOIN
+            new_repair_from_personnel
+            ON
+                    new_repair_from.repair_from_id = new_repair_from_personnel.new_repair_from_id
+                LEFT JOIN
+            sys_personnel
+            ON
+                new_repair_from_personnel.personnel_id = sys_personnel.personnel_id
+                LEFT JOIN
+            new_repair_repair_from
+            ON
+                    new_repair_from.repair_from_id = new_repair_repair_from.new_repair_from_id
         where repair_from_id = #{repairFromId}
     </select>
 
@@ -99,7 +134,7 @@
         update new_repair_from
         <trim prefix="SET" suffixOverrides=",">
             <if test="location != null">location = #{location},</if>
-            <if test="describe != null">describe = #{describe},</if>
+            <if test="describe != null">`describe` = #{describe},</if>
             <if test="regionalClassification != null">regional_classification = #{regionalClassification},</if>
             <if test="maintenanceClassification != null">maintenance_classification = #{maintenanceClassification},</if>
             <if test="state != null">state = #{state},</if>
