@@ -17,7 +17,7 @@ public interface NewEvaluateRepairMapper
      * @param evaluateId 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public NewEvaluateRepair selectNewEvaluateRepairByEvaluateId(Long evaluateId);
+    public NewEvaluateRepair selectNewEvaluateRepairByEvaluateId(String evaluateId);
 
     /**
      * 查询【请填写功能名称】列表
@@ -57,5 +57,5 @@ public interface NewEvaluateRepairMapper
      * @param evaluateIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteNewEvaluateRepairByEvaluateIds(Long[] evaluateIds);
+    public int deleteNewEvaluateRepairByEvaluateIds(String[] evaluateIds);
 }

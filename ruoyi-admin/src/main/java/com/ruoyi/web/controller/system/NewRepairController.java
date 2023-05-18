@@ -184,5 +184,4 @@ public class NewRepairController extends AppBaseController {
     }
 
 
-    //小程序根据部门树查询
 }

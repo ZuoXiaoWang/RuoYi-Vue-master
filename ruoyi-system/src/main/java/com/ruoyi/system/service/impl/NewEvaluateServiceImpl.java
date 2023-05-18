@@ -105,7 +105,7 @@ public class NewEvaluateServiceImpl implements INewEvaluateService
      * @return 结果
      */
     @Override
-    public int deleteNewEvaluateByEvaluateIds(Long[] evaluateIds)
+    public int deleteNewEvaluateByEvaluateIds(String[] evaluateIds)
     {
         int row = newEvaluateMapper.deleteNewEvaluateByEvaluateIds(evaluateIds);
         newEvaluateRepairMapper.deleteNewEvaluateRepairByEvaluateIds(evaluateIds);
@@ -119,7 +119,7 @@ public class NewEvaluateServiceImpl implements INewEvaluateService
      * @return 结果
      */
     @Override
-    public int deleteNewEvaluateByEvaluateId(Long evaluateId)
+    public int deleteNewEvaluateByEvaluateId(String evaluateId)
     {
         int row = newEvaluateMapper.deleteNewEvaluateByEvaluateId(evaluateId);
         newEvaluateRepairMapper.selectNewEvaluateRepairByEvaluateId(evaluateId);

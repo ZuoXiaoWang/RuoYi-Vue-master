@@ -49,7 +49,7 @@ public interface INewEvaluateService
      * @param evaluateIds 需要删除的评价单主键集合
      * @return 结果
      */
-    public int deleteNewEvaluateByEvaluateIds(Long[] evaluateIds);
+    public int deleteNewEvaluateByEvaluateIds(String[] evaluateIds);
 
     /**
      * 删除评价单信息
@@ -57,5 +57,5 @@ public interface INewEvaluateService
      * @param evaluateId 评价单主键
      * @return 结果
      */
-    public int deleteNewEvaluateByEvaluateId(Long evaluateId);
+    public int deleteNewEvaluateByEvaluateId(String evaluateId);
 }

@@ -101,9 +101,11 @@ public class NewEvaluateController extends AppBaseController
                     NewRepair newRepair = newRepairService.selectNewRepairByNewRepairId(newEvaluate.getNewRepairId());
                     NewRepairFrom newRepairFrom = newRepairFromService.selectNewRepairFromByRepairFromId(newRepair.getNewRepairFromId());
 
-                    newRepair.setState("1");
+                    newRepair.setImgUrls(newRepairService.selectImgUrls(newRepair.getNewRepairId()));
+                    newRepair.setState("0");
                     newRepairService.updateNewRepair(newRepair);
 
+                    newRepairFrom.setImgUrls(newRepairFromService.selectImgUrls(newRepairFrom.getRepairFromId()));
                     newRepairFrom.setState("1");
                     newRepairFromService.updateNewRepairFrom(newRepairFrom);
                 }
@@ -129,7 +131,7 @@ public class NewEvaluateController extends AppBaseController
      */
     @Log(title = "评价单", businessType = BusinessType.DELETE)
     @DeleteMapping("/{evaluateIds}")
-    public AjaxResult remove(@PathVariable Long[] evaluateIds)
+    public AjaxResult remove(@PathVariable String[] evaluateIds)
     {
         return toAjax(newEvaluateService.deleteNewEvaluateByEvaluateIds(evaluateIds));
     }

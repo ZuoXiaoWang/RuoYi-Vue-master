@@ -19,7 +19,7 @@
         </where>
     </select>
 
-    <select id="selectNewEvaluateRepairByEvaluateId" parameterType="Long" resultMap="NewEvaluateRepairResult">
+    <select id="selectNewEvaluateRepairByEvaluateId" parameterType="String" resultMap="NewEvaluateRepairResult">
         <include refid="selectNewEvaluateRepairVo"/>
         where evaluate_id = #{evaluateId}
     </select>
@@ -44,7 +44,7 @@
         where evaluate_id = #{evaluateId}
     </update>
 
-    <delete id="deleteNewEvaluateRepairByEvaluateId" parameterType="Long">
+    <delete id="deleteNewEvaluateRepairByEvaluateId" parameterType="String">
         delete from new_evaluate_repair where evaluate_id = #{evaluateId}
     </delete>
 
