@@ -78,6 +78,22 @@ public class LoginController extends AppBaseController {
         return ajax;
     }
 
+
+    //是否维修人员
+    @GetMapping("/isRepair")
+    public AjaxResult isRepair(){
+        Long appUserId = getAppUserId();
+        AjaxResult ajax = AjaxResult.success();
+        if (StringUtils.isNotNull(appUserId)) {
+            ajax.put("isRepair", false);
+            SysPersonnel sysPersonnel = sysPersonnelService.selectSysRepairPersonnelByPersonnelId(appUserId);
+            if (sysPersonnel != null){
+                ajax.put("isRepair", true);
+            }
+        }
+        return ajax;
+    }
+
     public String appRegister(AppRegisterBody registerBody){
         String msg = "", username = registerBody.getUsername(), phoneNumber = registerBody.getPhoneNumber(), password = registerBody.getPassword();
         SysPersonnel sysPersonnel = new SysPersonnel();

@@ -113,6 +113,12 @@
         where s.personnel_id = #{personnelId}
     </select>
 
+    <select id="selectSysRepairPersonnelByPersonnelId" parameterType="Long" resultMap="SysPersonnelResult">
+        <include refid="selectSysPersonnelVo"/>
+        where s.personnel_id = #{personnelId} and d.dept_name like
+        concat('%', '维修', '%')
+    </select>
+
     <select id="selectSysPersonnelByPersonnelLoginName" parameterType="String" resultMap="SysPersonnelResult">
         <include refid="selectSysPersonnelVo"/>
         where s.personnel_login_name = #{personnelLoginName}

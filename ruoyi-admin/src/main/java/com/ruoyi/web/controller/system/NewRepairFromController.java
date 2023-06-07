@@ -1,18 +1,18 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.core.domain.model.AppLoginUser;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.domain.NewEvaluate;
 import com.ruoyi.system.domain.NewRepair;
 import com.ruoyi.system.domain.SysRepairOrder;
-import com.ruoyi.system.service.INewEvaluateService;
-import com.ruoyi.system.service.INewRepairService;
-import com.ruoyi.system.service.ISysDictDataService;
+import com.ruoyi.system.service.*;
 import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,6 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.NewRepairFrom;
-import com.ruoyi.system.service.INewRepairFromService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -43,6 +42,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/system/newRepairFrom")
 public class NewRepairFromController extends AppBaseController
 {
+    @Autowired
+    private ISysPersonnelService sysPersonnelService;
     @Autowired
     private INewRepairFromService newRepairFromService;
 
@@ -84,12 +85,15 @@ public class NewRepairFromController extends AppBaseController
     {
         newRepairFrom.setState("0");
         startPage();
-        List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
-        for(NewRepairFrom nrf: list){
-            List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
-            if(listStr!=null&&listStr.size()!=0){
-                nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
-                nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
+        List<NewRepairFrom> list = new ArrayList<>();
+        if (isRepairPersonnel()){
+            list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
+            for(NewRepairFrom nrf: list){
+                List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
+                if(listStr!=null&&listStr.size()!=0){
+                    nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
+                    nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
+                }
             }
         }
         return getDataTable(list);
@@ -250,5 +254,15 @@ public class NewRepairFromController extends AppBaseController
             }
         }
         return StringUtils.isEmpty(msg) ? success() : error(msg);
+    }
+
+
+
+    /*
+     * 判断是否维修人员
+     */
+    public boolean isRepairPersonnel(){
+        SysPersonnel sysPersonnel = sysPersonnelService.selectSysRepairPersonnelByPersonnelId(getAppUserId());
+        return sysPersonnel != null;
     }
 }

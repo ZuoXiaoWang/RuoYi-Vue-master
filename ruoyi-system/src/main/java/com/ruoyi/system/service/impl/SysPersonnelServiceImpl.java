@@ -41,6 +41,11 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
     }
 
     @Override
+    public SysPersonnel selectSysRepairPersonnelByPersonnelId(Long personnelId) {
+        return sysPersonnelMapper.selectSysRepairPersonnelByPersonnelId(personnelId);
+    }
+
+    @Override
     public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName) {
         return sysPersonnelMapper.selectSysPersonnelByPersonnelLoginName(loginName);
     }

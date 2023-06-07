@@ -19,6 +19,8 @@ public interface ISysPersonnelService {
      */
     public SysPersonnel selectSysPersonnelByPersonnelId(Long personnelId);
 
+    public SysPersonnel selectSysRepairPersonnelByPersonnelId(Long personnelId);
+
     /**
      * 根据登录名查
      */

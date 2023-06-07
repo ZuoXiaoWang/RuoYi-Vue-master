@@ -20,6 +20,8 @@ public interface SysPersonnelMapper {
      */
     public SysPersonnel selectSysPersonnelByPersonnelId(Long personnelId);
 
+    public SysPersonnel selectSysRepairPersonnelByPersonnelId(Long personnelId);
+
     public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName);
 
     /**
