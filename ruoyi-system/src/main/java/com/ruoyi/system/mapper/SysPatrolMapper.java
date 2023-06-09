@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 
 import com.ruoyi.system.domain.SysPatrol;
+import com.ruoyi.system.domain.SysPatrolPoint;
 
 /**
  * 巡更任务管理Mapper接口
@@ -65,4 +66,6 @@ public interface SysPatrolMapper {
      * @return 结果
      */
     public int deleteSysPatrolByPatrolIds(Long[] patrolIds);
+
+
 }

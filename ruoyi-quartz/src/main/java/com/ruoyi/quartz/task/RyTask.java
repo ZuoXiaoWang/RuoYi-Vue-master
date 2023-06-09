@@ -6,7 +6,6 @@ import com.ruoyi.system.service.ISysPatrolPointService;
 import com.ruoyi.system.service.ISysPatrolService;
 import com.ruoyi.system.service.ISysPersonnelService;
 import com.ruoyi.system.service.impl.SysPatrolServiceImpl;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;

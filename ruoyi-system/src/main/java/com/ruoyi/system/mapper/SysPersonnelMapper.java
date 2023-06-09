@@ -22,6 +22,8 @@ public interface SysPersonnelMapper {
 
     public SysPersonnel selectSysRepairPersonnelByPersonnelId(Long personnelId);
 
+    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId();
+
     public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName);
 
     /**

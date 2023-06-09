@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.system.domain.SysPatrolOrder;
 import com.ruoyi.system.domain.SysPatrolPatrolPointStatus;
 import com.ruoyi.system.domain.SysPatrolPersonnel;
+import com.ruoyi.system.domain.SysPatrolPoint;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -68,4 +69,9 @@ public interface SysPatrolPatrolPointStatusMapper
     public int deleteSysPatrolPatrolPointStatusByPatrolIds(Long[] patrolIds);
 
     public SysPatrolPatrolPointStatus selectSysPatrolPatrolPointStatusByPatrolIdAndPatrolPointId(SysPatrolOrder sysPatrolOrder);
+
+    /**
+     * 查询所有已经巡点和未巡点
+     */
+    public List<SysPatrolPoint> selectPointStatusByPatrolId(Long patrolId);
 }

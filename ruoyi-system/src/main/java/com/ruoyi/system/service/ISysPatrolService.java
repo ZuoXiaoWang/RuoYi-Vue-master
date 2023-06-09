@@ -3,6 +3,7 @@ package com.ruoyi.system.service;
 import java.util.List;
 
 import com.ruoyi.system.domain.SysPatrol;
+import com.ruoyi.system.domain.SysPatrolPoint;
 
 /**
  * 巡更任务管理Service接口
@@ -71,4 +72,9 @@ public interface ISysPatrolService {
      * @return 结果
      */
     public int deleteSysPatrolByPatrolId(Long patrolId);
+
+    /**
+     * 查询所有已巡和未巡点
+     */
+    public List<SysPatrolPoint> selectPointStatusByPatrolId(Long patrolId);
 }

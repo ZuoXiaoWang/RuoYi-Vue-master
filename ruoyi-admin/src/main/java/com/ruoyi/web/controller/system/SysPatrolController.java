@@ -3,13 +3,16 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.RuoYiApplication;
 import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.SysPatrolPoint;
 import com.ruoyi.system.domain.SysRepair;
 import com.ruoyi.system.service.*;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -168,6 +171,16 @@ public class SysPatrolController extends AppBaseController {
         return toAjax(sysPatrolService.deleteSysPatrolByPatrolIds(patrolIds));
     }
 
+    /**
+     * 显示所有已巡点和未巡点
+     */
+    @GetMapping("/getPotinStatusByPatrolId/{patrolId}")
+    public AjaxResult getPointStatusByPatrolId(){
+        AjaxResult ajaxResult = new AjaxResult();
+        List<SysPatrolPoint> list = sysPatrolService.selectPointStatusByPatrolId(296L);
+        return ajaxResult.put("pointListStatus",list);
+    }
+
     @GetMapping("/getCount")
     public AjaxResult getCount(){
         AjaxResult ajax = AjaxResult.success();
@@ -219,5 +232,7 @@ public class SysPatrolController extends AppBaseController {
         List<SysRepair> sysRepairs = sysRepairService.selectSysRepairList(new SysRepair());
         return sysRepairs.size();
     }
+
+
 
 }

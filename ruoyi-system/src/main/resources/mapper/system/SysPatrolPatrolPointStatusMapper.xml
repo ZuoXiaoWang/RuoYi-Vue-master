@@ -5,10 +5,27 @@
 <mapper namespace="com.ruoyi.system.mapper.SysPatrolPatrolPointStatusMapper">
 
     <resultMap type="SysPatrolPatrolPointStatus" id="SysPatrolPatrolPointStatusResult">
-        <result property="patrolPatrolPointStatusId"    column="patrol_patrol_point_status_id"    />
+        <result property="patrolPatrolPointStatusId"    column="patrol_patrol_point_status_id"/>
         <result property="patrolId"    column="patrol_id"    />
         <result property="patrolPointId"    column="patrol_point_id"    />
-        <result property="patrolPatrolPointStatus"    column="patrol_patrol_point_status"    />
+        <result property="patrolPointName"    column="patrol_point_name"    />
+        <result property="patrolPatrolPointStatus"    column="patrol_patrol_point_status"/>
+    </resultMap>
+
+    <resultMap type="SysPatrolOrder" id="SysPatrolOrderResult">
+        <result property="patrolOrderId"    column="patrol_order_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
+        <result property="patrolPointName"    column="patrol_point_name"    />
+        <result property="patrolId"    column="patrol_id"    />
+        <result property="patrolName"    column="patrol_name"    />
+        <result property="personnelId"    column="personnel_id"    />
+        <result property="personnelName"    column="personnel_name"    />
+        <result property="patrolResult"    column="patrol_result"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectSysPatrolPatrolPointStatusVo">
@@ -89,4 +106,18 @@
             #{patrolId}
         </foreach>
     </delete>
+
+    <select id="selectPointStatusByPatrolId" resultMap="SysPatrolPatrolPointStatusResult">
+        SELECT
+            patrol_id,
+            patrol_patrol_point_status,
+            sys_patrol_point.patrol_point_name
+        FROM
+            sys_patrol_patrol_point_status
+                LEFT JOIN
+            sys_patrol_point
+            ON
+                    sys_patrol_patrol_point_status.patrol_point_id = sys_patrol_point.patrol_point_id
+        where patrol_id = #{patrolId}
+    </select>
 </mapper>

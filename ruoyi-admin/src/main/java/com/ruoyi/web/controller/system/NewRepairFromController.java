@@ -9,6 +9,7 @@ import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.core.domain.model.AppLoginUser;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.framework.app.service.AsyncService;
 import com.ruoyi.system.domain.NewEvaluate;
 import com.ruoyi.system.domain.NewRepair;
 import com.ruoyi.system.domain.SysRepairOrder;
@@ -55,6 +56,9 @@ public class NewRepairFromController extends AppBaseController
 
     @Autowired
     private INewEvaluateService newEvaluateService;
+
+    @Autowired
+    private AsyncService asyncService;
 
     /**
      * 查询报修单列表
@@ -177,6 +181,13 @@ public class NewRepairFromController extends AppBaseController
             boolean regFlag = row > 0;
             if (!regFlag) {
                 msg = "添加失败,请联系系统管理人员";
+            }else {
+                List<SysPersonnel> list = sysPersonnelService.selectAllSysRepairPersonnelOpenId();
+                for (SysPersonnel sysPersonnel: list
+                     ) {
+                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(),newRepairFrom.getLocation(),newRepairFrom.getDescribe());
+                }
+
             }
         }
         return StringUtils.isEmpty(msg) ? success() : error(msg);

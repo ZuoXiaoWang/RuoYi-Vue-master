@@ -206,6 +206,16 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         return sysPatrolMapper.deleteSysPatrolByPatrolId(patrolId);
     }
 
+    /**
+     * 查询任务的所有已经巡点和未巡点
+     * @param patrolId
+     * @return
+     */
+    @Override
+    public List<SysPatrolPoint> selectPointStatusByPatrolId(Long patrolId) {
+        return sysPatrolPatrolPointStatusMapper.selectPointStatusByPatrolId(patrolId);
+    }
+
 
     /**
      * 新增巡更任务员工关联

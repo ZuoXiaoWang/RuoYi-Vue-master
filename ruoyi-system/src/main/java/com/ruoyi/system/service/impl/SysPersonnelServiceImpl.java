@@ -46,6 +46,11 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
     }
 
     @Override
+    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId() {
+        return sysPersonnelMapper.selectAllSysRepairPersonnelOpenId();
+    }
+
+    @Override
     public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName) {
         return sysPersonnelMapper.selectSysPersonnelByPersonnelLoginName(loginName);
     }
