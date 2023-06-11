@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.PersonnelAndPatrolOrder;
 import com.ruoyi.system.domain.SysPatrolPersonnel;
 import com.ruoyi.system.domain.SysPatrolPoint;
 import com.ruoyi.system.domain.SysRepairPersonnel;
@@ -74,5 +75,8 @@ public interface ISysPatrolPointService {
     public List<Long> selectPatrolPointListByRepairId(Long RepairId);
 
     public List<SysPatrolPoint> selectSysPatrolPointByPatrolPointIds(Long[] patrolPointIds);
+
+    //点位倒查
+    public List<PersonnelAndPatrolOrder> selectPersonnelAndPatrolOrderByPointId(Long patrolPointIds);
 
 }

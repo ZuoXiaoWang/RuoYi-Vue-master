@@ -19,6 +19,12 @@
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
         <result property="remark" column="remark"/>
+
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+    <resultMap id="selectPersonnelAndPatrolOrderByPointIdResult" type="PersonnelAndPatrolOrder">
+
     </resultMap>
 
     <sql id="selectSysPatrolPointVo">
@@ -34,7 +40,8 @@
                create_time,
                update_by,
                update_time,
-               remark
+               remark,
+               region_id
         from sys_patrol_point
     </sql>
 
@@ -47,6 +54,10 @@
             <if test="patrolPointDescribe != null  and patrolPointDescribe != ''">and patrol_point_describe =
                 #{patrolPointDescribe}
             </if>
+
+            <if test="regionId != null  and regionId != ''">and region_id = #{regionId}</if>
+
+
             <if test="patrolPointUrl != null  and patrolPointUrl != ''">and patrol_point_url = #{patrolPointUrl}</if>
             <if test="patrolPointLatitude != null ">and patrol_point_latitude = #{patrolPointLatitude}</if>
             <if test="patrolPointLongitude != null ">and patrol_point_longitude = #{patrolPointLongitude}</if>
@@ -78,6 +89,8 @@
             <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
+
+            <if test="regionId != null">region_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolPointName != null and patrolPointName != ''">#{patrolPointName},</if>
@@ -92,6 +105,8 @@
             <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
+
+            <if test="regionId != null">#{regionId},</if>
         </trim>
     </insert>
 
@@ -207,5 +222,27 @@
         <foreach item="patrolPointId" collection="array" open="(" separator="," close=")">
             #{patrolPointId}
         </foreach>
+    </select>
+
+
+    <select id="selectPersonnelAndPatrolOrderByPointId" parameterType="Long" resultMap="selectPersonnelAndPatrolOrderByPointIdResult">
+        SELECT sys_personnel.personnel_name,
+               sys_personnel.open_id,
+               sys_personnel.post_id,
+               sys_personnel.dept_id,
+               sys_patrol_point.patrol_point_id,
+               sys_patrol_point.patrol_point_name,
+               sys_patrol_order.patrol_name,
+               sys_patrol_order.create_time
+        FROM sys_patrol_point
+                 LEFT JOIN
+             sys_patrol_order
+             ON
+                 sys_patrol_point.patrol_point_id = sys_patrol_order.patrol_point_id
+                 LEFT JOIN
+             sys_personnel
+             ON
+                 sys_personnel.personnel_id = sys_patrol_order.personnel_id
+        where sys_patrol_point.patrol_point_id = #{patrolPointId}
     </select>
 </mapper>

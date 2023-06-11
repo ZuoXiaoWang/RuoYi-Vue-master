@@ -2,6 +2,8 @@ package com.ruoyi.system.domain;
 
 import java.math.BigDecimal;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,6 +15,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author lile
  * @date 2023-03-28
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class SysPatrolPoint extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -64,95 +68,13 @@ public class SysPatrolPoint extends BaseEntity {
     @Excel(name = "状态", readConverterExp = "0=启用,1=未启用")
     private String patrolPointStatus;
 
-    public String getPatrolPatrolPointStatus() {
-        return patrolPatrolPointStatus;
-    }
-
-    public void setPatrolPatrolPointStatus(String patrolPatrolPointStatus) {
-        this.patrolPatrolPointStatus = patrolPatrolPointStatus;
-    }
-
     /**
      * 巡更计划内巡更点巡更状态
      */
     private String patrolPatrolPointStatus;
 
-    public void setPatrolPointId(Long patrolPointId) {
-        this.patrolPointId = patrolPointId;
-    }
+    /** 区域划分id */
+    private Long regionId;
 
-    public Long getPatrolPointId() {
-        return patrolPointId;
-    }
 
-    public void setPatrolPointName(String patrolPointName) {
-        this.patrolPointName = patrolPointName;
-    }
-
-    public String getPatrolPointName() {
-        return patrolPointName;
-    }
-
-    public void setPatrolPointDescribe(String patrolPointDescribe) {
-        this.patrolPointDescribe = patrolPointDescribe;
-    }
-
-    public String getPatrolPointDescribe() {
-        return patrolPointDescribe;
-    }
-
-    public void setPatrolPointUrl(String patrolPointUrl) {
-        this.patrolPointUrl = patrolPointUrl;
-    }
-
-    public String getPatrolPointUrl() {
-        return patrolPointUrl;
-    }
-
-    public void setPatrolPointLatitude(BigDecimal patrolPointLatitude) {
-        this.patrolPointLatitude = patrolPointLatitude;
-    }
-
-    public BigDecimal getPatrolPointLatitude() {
-        return patrolPointLatitude;
-    }
-
-    public void setPatrolPointLongitude(BigDecimal patrolPointLongitude) {
-        this.patrolPointLongitude = patrolPointLongitude;
-    }
-
-    public BigDecimal getPatrolPointLongitude() {
-        return patrolPointLongitude;
-    }
-
-    public void setPatrolPointAltitude(BigDecimal patrolPointAltitude) {
-        this.patrolPointAltitude = patrolPointAltitude;
-    }
-
-    public BigDecimal getPatrolPointAltitude() {
-        return patrolPointAltitude;
-    }
-
-    public void setPatrolPointStatus(String patrolPointStatus) {
-        this.patrolPointStatus = patrolPointStatus;
-    }
-
-    public String getPatrolPointStatus() {
-        return patrolPointStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "SysPatrolPoint{" +
-                "patrolPointId=" + patrolPointId +
-                ", patrolPointName='" + patrolPointName + '\'' +
-                ", patrolPointDescribe='" + patrolPointDescribe + '\'' +
-                ", patrolPointUrl='" + patrolPointUrl + '\'' +
-                ", patrolPointLatitude=" + patrolPointLatitude +
-                ", patrolPointLongitude=" + patrolPointLongitude +
-                ", patrolPointAltitude=" + patrolPointAltitude +
-                ", patrolPointStatus='" + patrolPointStatus + '\'' +
-                ", patrolPatrolPointStatus='" + patrolPatrolPointStatus + '\'' +
-                '}';
-    }
 }

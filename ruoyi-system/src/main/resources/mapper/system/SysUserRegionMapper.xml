@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysUserRegionMapper">
+
+    <resultMap type="SysUserRegion" id="SysUserRegionResult">
+        <result property="userId"    column="user_id"    />
+        <result property="regionId"    column="region_id"    />
+    </resultMap>
+
+    <sql id="selectSysUserRegionVo">
+        select user_id, region_id from sys_user_region
+    </sql>
+
+    <select id="selectSysUserRegionList" parameterType="SysUserRegion" resultMap="SysUserRegionResult">
+        <include refid="selectSysUserRegionVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectSysUserRegionByUserId" parameterType="Long" resultMap="SysUserRegionResult">
+        <include refid="selectSysUserRegionVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertSysUserRegion" parameterType="SysUserRegion">
+        insert into sys_user_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="regionId != null">region_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="regionId != null">#{regionId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysUserRegion" parameterType="SysUserRegion">
+        update sys_user_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="regionId != null">region_id = #{regionId},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteSysUserRegionByUserId" parameterType="Long">
+        delete from sys_user_region where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteSysUserRegionByUserIds" parameterType="String">
+        delete from sys_user_region where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <insert id="batchUserRegion">
+        insert into sys_user_region(region_id, user_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.regionId},#{item.userId})
+        </foreach>
+    </insert>
+</mapper>

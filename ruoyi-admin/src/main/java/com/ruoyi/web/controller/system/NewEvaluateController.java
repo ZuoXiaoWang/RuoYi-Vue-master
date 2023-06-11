@@ -1,16 +1,20 @@
 package com.ruoyi.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 import com.mchange.lang.LongUtils;
 import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.NewRepair;
 import com.ruoyi.system.domain.NewRepairFrom;
+import com.ruoyi.system.domain.SysUserRegion;
 import com.ruoyi.system.service.INewRepairFromService;
 import com.ruoyi.system.service.INewRepairService;
+import com.ruoyi.system.service.IRegionsByUserIdService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,12 +51,34 @@ public class NewEvaluateController extends AppBaseController
     @Autowired
     private INewRepairFromService newRepairFromService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询评价单列表
      */
     @GetMapping("/list")
     public TableDataInfo list(NewEvaluate newEvaluate)
     {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+        startPage();
+        List<NewEvaluate> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+             ) {
+            newEvaluate.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(newEvaluateService.selectNewEvaluateList(newEvaluate));
+        }
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询评价单列表
+     */
+    @GetMapping("/applist")
+    public TableDataInfo applist(NewEvaluate newEvaluate)
+    {
+        SysPersonnel user = getUser();
+        newEvaluate.setRegionId(user.getRegionId());
         startPage();
         List<NewEvaluate> list = newEvaluateService.selectNewEvaluateList(newEvaluate);
         return getDataTable(list);

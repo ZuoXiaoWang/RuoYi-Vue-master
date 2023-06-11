@@ -164,6 +164,18 @@ public class SysJob extends BaseEntity {
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
+                .append("regionId", getRemark())
                 .toString();
     }
+
+    public Long getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(Long regionId) {
+        this.regionId = regionId;
+    }
+
+    /** 区域划分id */
+    private Long regionId;
 }

@@ -43,4 +43,6 @@ public class NewEvaluate extends BaseEntity
     private Date createTime;
     private String updateBy;
     private Date updateTime;
+    /** 区域划分id */
+    private Long regionId;
 }

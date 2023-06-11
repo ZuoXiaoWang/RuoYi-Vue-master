@@ -64,4 +64,7 @@ public class NewRepairFrom extends BaseEntity
     //滞留时长 小时
     private Integer detainHours;
 
+    /** 区域划分id */
+    private Long regionId;
+
 }

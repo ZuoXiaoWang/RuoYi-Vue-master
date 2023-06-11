@@ -2,9 +2,12 @@ package com.ruoyi.system.service.impl;
 
 import java.beans.Transient;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.*;
@@ -36,6 +39,10 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
 
     @Autowired
     private SysPatrolPatrolPointStatusMapper sysPatrolPatrolPointStatusMapper;
+
+
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 查询巡更任务管理
@@ -134,6 +141,13 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
             list.add(sysPatrolPatrolPointStatus);
         }
         sysPatrolPatrolPointStatusMapper.batchPatrolPatrolPointStatus(list);
+
+        //获取过期时间(任务结束时间减去当前时间)
+        Date patrolEndTime = sysPatrol.getPatrolEndTime();
+        Date nowDate = DateUtils.getNowDate();
+        int timeout = timeDistance4Patrol(patrolEndTime, nowDate);
+        //向redis中添加过期时间
+        redisCache.setCacheObject("patrolOverdueTime",sysPatrol.getPatrolId(),timeout, TimeUnit.MINUTES);
         return row;
     }
 
@@ -278,4 +292,24 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
             sysPatrolPatrolPointStatusMapper.batchPatrolPatrolPointStatus(list);
         }
     }
+
+
+    public int timeDistance4Patrol(Date endDate, Date startTime) {
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        // long ns = 1000;
+        // 获得两个时间的毫秒时间差异
+        long diff = endDate.getTime() - startTime.getTime();
+        // 计算差多少天
+        long day = diff / nd;
+        // 计算差多少小时
+        long hour = diff % nd / nh;
+        // 计算差多少分钟
+        long min = diff / nm;
+        // 计算差多少秒//输出结果
+        // long sec = diff % nd % nh % nm / ns;
+        return (int) min;
+    }
+
 }

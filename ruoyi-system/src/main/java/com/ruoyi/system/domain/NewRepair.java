@@ -63,4 +63,7 @@ public class NewRepair extends BaseEntity
     private String repairPhone;
 
     private List evaluateList;
+
+    /** 区域划分id */
+    private Long regionId;
 }

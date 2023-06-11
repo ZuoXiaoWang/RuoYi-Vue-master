@@ -19,6 +19,9 @@
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
+        <result property="regionId" column="region_id"/>
+        <result property="patrolActualStartTime" column="patrol_actual_start_time"/>
+        <result property="patrolActualEndTime" column="patrol_actual_end_time"/>
         <result property="type" column="type"/>
         <collection property="PatrolPoints" javaType="java.util.List" resultMap="SysPatrolPointResult"/>
     </resultMap>
@@ -43,9 +46,12 @@
                sys_patrol.create_by,
                sys_patrol.create_time,
                sys_patrol.type,
+               sys_patrol.region_id,
                sys_personnel.personnel_name,
                sys_personnel.personnel_phone,
-               sys_patrol_point.patrol_point_name
+               sys_patrol_point.patrol_point_name,
+               sys_patrol.patrol_actual_start_time,
+               sys_patrol.patrol_actual_end_time
         FROM sys_patrol
                  LEFT JOIN
              sys_patrol_personnel
@@ -78,11 +84,14 @@
             <if test="patrolPrincipal != null  and patrolPrincipal != ''">and sys_patrol.patrol_principal =
                 #{patrolPrincipal}
             </if>
+            <if test="regionId != null "> and sys_patrol.region_id = #{regionId}</if>
             <if test="patrolPhone != null  and patrolPhone != ''">and psys_patrol.atrol_phone = #{patrolPhone}</if>
             <if test="patrolStatus != null  and patrolStatus != ''">and sys_patrol.patrol_status = #{patrolStatus}</if>
             <if test="patrolStartTime != null ">and sys_patrol.patrol_start_time = #{patrolStartTime}</if>
             <if test="patrolEndTime != null ">and sys_patrol.patrol_end_time = #{patrolEndTime}</if>
             <if test="patrolCreateTime != null ">and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
+            <if test="patrolActualStartTime != null ">and sys_patrol.patrol_actual_start_time = #{patrolActualStartTime}</if>
+            <if test="patrolActualEndTime != null ">and sys_patrol.patrol_actual_end_time = #{patrolActualEndTime}</if>
             and sys_patrol.type = 0
         </where>
     </select>
@@ -100,7 +109,10 @@
         sys_patrol.remark,
         sys_patrol.create_by,
         sys_patrol.create_time,
-        sys_patrol.type
+        sys_patrol.type,
+        sys_patrol.region_id,
+        sys_patrol.patrol_actual_start_time,
+        sys_patrol.patrol_actual_end_time
         FROM sys_patrol
         LEFT JOIN
         sys_patrol_personnel
@@ -121,6 +133,7 @@
             <if test="patrolPrincipal != null  and patrolPrincipal != ''">and sys_patrol.patrol_principal =
                 #{patrolPrincipal}
             </if>
+            <if test="regionId != null "> and sys_patrol.region_id = #{regionId}</if>
             <if test="patrolPhone != null  and patrolPhone != ''">and psys_patrol.atrol_phone = #{patrolPhone}</if>
             <if test="patrolStatus != null  and patrolStatus != ''">and sys_patrol.patrol_status = #{patrolStatus}</if>
             <if test="patrolStartTime != null ">and sys_patrol.create_time <![CDATA[>=]]> #{patrolStartTime}</if>
@@ -157,7 +170,13 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+
+            <if test="patrolActualStartTime != null">patrol_actual_start_time,</if>
+            <if test="patrolActualEndTime != null">patrol_actual_end_time,</if>
+
             <if test="type != null">type,</if>
+
+            <if test="regionId != null">region_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolName != null and patrolName != ''">#{patrolName},</if>
@@ -173,7 +192,13 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+
+            <if test="patrolActualStartTime != null">#{patrolActualStartTime},</if>
+            <if test="patrolActualEndTime != null">#{patrolActualEndTime},</if>
+
             <if test="type != null">#{type},</if>
+
+            <if test="regionId != null">#{regionId},</if>
         </trim>
     </insert>
 
@@ -193,6 +218,9 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+
+            <if test="patrolActualStartTime != null">patrol_actual_start_time = #{patrolActualStartTime},</if>
+            <if test="patrolActualEndTime != null">patrol_actual_end_time = #{patrolActualEndTime},</if>
         </trim>
         where patrol_id = #{patrolId}
     </update>

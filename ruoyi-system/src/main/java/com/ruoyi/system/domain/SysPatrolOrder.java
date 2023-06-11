@@ -1,5 +1,7 @@
 package com.ruoyi.system.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -14,6 +16,8 @@ import java.util.List;
  * @author lile
  * @date 2023-03-31
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class SysPatrolOrder extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -53,108 +57,6 @@ public class SysPatrolOrder extends BaseEntity
 
     private List<String> imgUrls;
 
-    public void setPatrolOrderId(Long patrolOrderId)
-    {
-        this.patrolOrderId = patrolOrderId;
-    }
-
-    public Long getPatrolOrderId()
-    {
-        return patrolOrderId;
-    }
-    public void setPatrolPointId(Long patrolPointId)
-    {
-        this.patrolPointId = patrolPointId;
-    }
-
-    public Long getPatrolPointId()
-    {
-        return patrolPointId;
-    }
-    public void setPatrolPointName(String patrolPointName)
-    {
-        this.patrolPointName = patrolPointName;
-    }
-
-    public String getPatrolPointName()
-    {
-        return patrolPointName;
-    }
-    public void setPatrolId(Long patrolId)
-    {
-        this.patrolId = patrolId;
-    }
-
-    public Long getPatrolId()
-    {
-        return patrolId;
-    }
-    public void setPatrolName(String patrolName)
-    {
-        this.patrolName = patrolName;
-    }
-
-    public String getPatrolName()
-    {
-        return patrolName;
-    }
-    public void setPersonnelId(Long personnelId)
-    {
-        this.personnelId = personnelId;
-    }
-
-    public Long getPersonnelId()
-    {
-        return personnelId;
-    }
-    public void setPersonnelName(String personnelName)
-    {
-        this.personnelName = personnelName;
-    }
-
-    public String getPersonnelName()
-    {
-        return personnelName;
-    }
-    public void setPatrolResult(String patrolResult)
-    {
-        this.patrolResult = patrolResult;
-    }
-
-    public String getPatrolResult()
-    {
-        return patrolResult;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public List<String> getImgUrls() {
-        return imgUrls;
-    }
-
-    public void setImgUrls(List<String> imgUrls) {
-        this.imgUrls = imgUrls;
-    }
-
-    @Override
-    public String toString() {
-        return "SysPatrolOrder{" +
-                "patrolOrderId=" + patrolOrderId +
-                ", patrolPointId=" + patrolPointId +
-                ", patrolPointName='" + patrolPointName + '\'' +
-                ", patrolId=" + patrolId +
-                ", patrolName='" + patrolName + '\'' +
-                ", personnelId=" + personnelId +
-                ", personnelName='" + personnelName + '\'' +
-                ", patrolResult='" + patrolResult + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", imgUrls=" + imgUrls +
-                '}';
-    }
+    /** 区域划分id */
+    private Long regionId;
 }

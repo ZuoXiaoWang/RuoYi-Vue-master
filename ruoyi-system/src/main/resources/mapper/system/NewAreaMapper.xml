@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.NewAreaMapper">
-    
+
     <resultMap type="NewArea" id="NewAreaResult">
         <result property="areaId"    column="area_id"    />
         <result property="areaName"    column="area_name"    />
@@ -16,17 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectNewAreaList" parameterType="NewArea" resultMap="NewAreaResult">
         <include refid="selectNewAreaVo"/>
-        <where>  
+        <where>
             <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
             <if test="areaValue != null  and areaValue != ''"> and area_value = #{areaValue}</if>
         </where>
     </select>
-    
+
     <select id="selectNewAreaByAreaId" parameterType="Long" resultMap="NewAreaResult">
         <include refid="selectNewAreaVo"/>
         where area_id = #{areaId}
     </select>
-        
+
     <insert id="insertNewArea" parameterType="NewArea">
         insert into new_area
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteNewAreaByAreaIds" parameterType="String">
-        delete from new_area where area_id in 
+        delete from new_area where area_id in
         <foreach item="areaId" collection="array" open="(" separator="," close=")">
             #{areaId}
         </foreach>

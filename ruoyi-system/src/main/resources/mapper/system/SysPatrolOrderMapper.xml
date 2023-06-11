@@ -18,10 +18,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+
+        <result property="regionId"    column="region_id"    />
     </resultMap>
 
     <sql id="selectSysPatrolOrderVo">
-        select patrol_order_id, patrol_point_id, patrol_point_name, patrol_id, patrol_name, personnel_id, personnel_name, patrol_result, remark, create_by, create_time, update_by, update_time from sys_patrol_order
+        select patrol_order_id,
+               patrol_point_id,
+               patrol_point_name,
+               patrol_id,
+               patrol_name,
+               personnel_id,
+               personnel_name,
+               patrol_result,
+               remark,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               region_id,
+        from sys_patrol_order
     </sql>
 
     <select id="selectSysPatrolOrderList" parameterType="SysPatrolOrder" resultMap="SysPatrolOrderResult">
@@ -34,6 +50,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personnelId != null "> and personnel_id = #{personnelId}</if>
             <if test="personnelName != null  and personnelName != ''"> and personnel_name like concat('%', #{personnelName}, '%')</if>
             <if test="patrolResult != null  and patrolResult != ''"> and patrol_result = #{patrolResult}</if>
+
+            <if test="regionId != null "> and region_id = #{regionId}</if>
         </where>
     </select>
 
@@ -57,6 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null and updateBy != ''">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+
+            <if test="regionId != null">region_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolPointId != null">#{patrolPointId},</if>
@@ -71,6 +91,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+
+            <if test="regionId != null">#{regionId},</if>
          </trim>
     </insert>
 

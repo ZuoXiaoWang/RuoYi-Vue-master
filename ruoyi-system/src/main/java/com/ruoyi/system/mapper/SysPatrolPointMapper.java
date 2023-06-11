@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.PersonnelAndPatrolOrder;
 import com.ruoyi.system.domain.SysPatrolPersonnel;
 import com.ruoyi.system.domain.SysPatrolPoint;
 import com.ruoyi.system.domain.SysRepairPersonnel;
@@ -74,4 +75,6 @@ public interface SysPatrolPointMapper {
     public List<SysPatrolPoint> selectPatrolPointListByRepairIdWithName(Long repairId);
 
     public List<SysPatrolPoint> selectSysPatrolPointByPatrolPointIds(Long[] patrolPointIds);
+
+    public List<PersonnelAndPatrolOrder> selectPersonnelAndPatrolOrderByPointId(Long patrolPointId);
 }

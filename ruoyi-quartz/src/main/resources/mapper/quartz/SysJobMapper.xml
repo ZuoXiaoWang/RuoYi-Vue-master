@@ -18,6 +18,7 @@
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
         <result property="remark" column="remark"/>
+        <result property="regionId" column="region_id"/>
     </resultMap>
 
     <sql id="selectJobVo">
@@ -31,7 +32,8 @@
                status,
                create_by,
                create_time,
-               remark
+               remark,
+               region_id
         from sys_job
     </sql>
 
@@ -50,9 +52,13 @@
             <if test="invokeTarget != null and invokeTarget != ''">
                 AND invoke_target like concat('%', #{invokeTarget}, '%')
             </if>
+            <if test="regionId != null and regionId != ''">
+                AND region_id = #{regionId}
+            </if>
         </where>
     </select>
 
+    <!--定时任务查询所有-->
     <select id="selectJobAll" resultMap="SysJobResult">
         <include refid="selectJobVo"/>
     </select>
@@ -103,6 +109,7 @@
         <if test="concurrent != null and concurrent != ''">concurrent,</if>
         <if test="status != null and status != ''">status,</if>
         <if test="remark != null and remark != ''">remark,</if>
+        <if test="regionId != null and regionId != ''">region_id,</if>
         <if test="createBy != null and createBy != ''">create_by,</if>
         create_time
         )values(
@@ -115,6 +122,7 @@
         <if test="concurrent != null and concurrent != ''">#{concurrent},</if>
         <if test="status != null and status != ''">#{status},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="regionId != null and regionId != ''">#{regionId},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
         sysdate()
         )

@@ -21,6 +21,7 @@
         <result property="personnelId" column="personnel_id"/>
         <result property="repairPhone" column="repairPhone"/>
         <result property="newRepairId" column="new_repair_id"/>
+        <result property="regionId" column="region_id"/>
     </resultMap>
 
     <sql id="selectNewRepairFromVo">
@@ -36,6 +37,7 @@
             new_repair_from.create_by,
             new_repair_from.create_time,
             new_repair_from.update_by,
+            new_repair_from.region_id,
             new_repair_from.update_time,
             sys_personnel.personnel_name,
             sys_personnel.personnel_id,
@@ -62,6 +64,7 @@
             <if test="state != null  and state != ''"> and state = #{state}</if>
             <if test="paidType != null  and paidType != ''"> and paid_type = #{paidType}</if>
             <if test="personnelId != null  and personnelId != ''"> and new_repair_from_personnel.personnel_id = #{personnelId}</if>
+            <if test="regionId != null  and regionId != ''"> and new_repair_from.region_id = #{regionId}</if>
         </where>
     </select>
 
@@ -79,6 +82,7 @@
             new_repair_from.create_time,
             new_repair_from.update_by,
             new_repair_from.update_time,
+            new_repair_from.region_id,
             sys_personnel.personnel_name,
             sys_personnel.personnel_id,
             sys_personnel.personnel_phone AS repairPhone,
@@ -114,6 +118,7 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="regionId != null">region_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="location != null">#{location},</if>
@@ -127,6 +132,7 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="regionId != null">#{regionId},</if>
         </trim>
     </insert>
 

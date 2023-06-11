@@ -115,4 +115,7 @@ public class SysPersonnel extends BaseEntity {
      * 小程序openid
      */
     private String openId;
+
+    /** 区域划分id */
+    private Long regionId;
 }

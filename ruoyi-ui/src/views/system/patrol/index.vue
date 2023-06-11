@@ -58,22 +58,22 @@
         >
         </el-date-picker>
       </el-form-item>
-      <!--<el-form-item label="计划开始时间" prop="patrolStartTime">-->
-      <!--  <el-date-picker clearable-->
-      <!--                  v-model="queryParams.patrolStartTime"-->
-      <!--                  type="date"-->
-      <!--                  value-format="yyyy-MM-dd"-->
-      <!--                  placeholder="请选择计划开始时间">-->
-      <!--  </el-date-picker>-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="计划结束时间" prop="patrolEndTime">-->
-      <!--  <el-date-picker clearable-->
-      <!--                  v-model="queryParams.patrolEndTime"-->
-      <!--                  type="date"-->
-      <!--                  value-format="yyyy-MM-dd"-->
-      <!--                  placeholder="请选择计划结束时间">-->
-      <!--  </el-date-picker>-->
-      <!--</el-form-item>-->
+      <el-form-item label="计划开始时间" prop="patrolStartTime">
+        <el-date-picker clearable
+                        v-model="queryParams.patrolStartTime"
+                        type="datetime"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择计划开始时间">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="计划结束时间" prop="patrolEndTime">
+        <el-date-picker clearable
+                        v-model="queryParams.patrolEndTime"
+                        type="datetime"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择计划结束时间">
+        </el-date-picker>
+      </el-form-item>
       <!--<el-form-item label="任务创建时间" prop="patrolCreateTime">-->
       <!--  <el-date-picker clearable-->
       <!--                  v-model="queryParams.patrolCreateTime"-->
@@ -150,16 +150,16 @@
           <dict-tag :options="dict.type.sys_patrol_status" :value="scope.row.patrolStatus" />
         </template>
       </el-table-column>
-      <!--<el-table-column label="计划开始时间" align="center" prop="patrolStartTime" width="180">-->
-      <!--  <template slot-scope="scope">-->
-      <!--    <span>{{ parseTime(scope.row.patrolStartTime, '{y}-{m}-{d}') }}</span>-->
-      <!--  </template>-->
-      <!--</el-table-column>-->
-      <!--<el-table-column label="计划结束时间" align="center" prop="patrolEndTime" width="180">-->
-      <!--  <template slot-scope="scope">-->
-      <!--    <span>{{ parseTime(scope.row.patrolEndTime, '{y}-{m}-{d}') }}</span>-->
-      <!--  </template>-->
-      <!--</el-table-column>-->
+      <el-table-column label="计划开始时间" align="center" prop="patrolStartTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.patrolStartTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="计划结束时间" align="center" prop="patrolEndTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.patrolEndTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="任务发布时间" align="center" prop="patrolCreateTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
@@ -256,22 +256,22 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <!--<el-form-item label="计划开始时间" prop="patrolStartTime">-->
-        <!--  <el-date-picker clearable-->
-        <!--                  v-model="form.patrolStartTime"-->
-        <!--                  type="date"-->
-        <!--                  value-format="yyyy-MM-dd"-->
-        <!--                  placeholder="请选择计划开始时间">-->
-        <!--  </el-date-picker>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item label="计划结束时间" prop="patrolEndTime">-->
-        <!--  <el-date-picker clearable-->
-        <!--                  v-model="form.patrolEndTime"-->
-        <!--                  type="date"-->
-        <!--                  value-format="yyyy-MM-dd"-->
-        <!--                  placeholder="请选择计划结束时间">-->
-        <!--  </el-date-picker>-->
-        <!--</el-form-item>-->
+        <el-form-item label="计划开始时间" prop="patrolStartTime">
+          <el-date-picker clearable
+                          v-model="form.patrolStartTime"
+                          type="datetime"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择计划开始时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="计划结束时间" prop="patrolEndTime">
+          <el-date-picker clearable
+                          v-model="form.patrolEndTime"
+                          type="datetime"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择计划结束时间">
+          </el-date-picker>
+        </el-form-item>
         <!--<el-form-item label="任务创建时间" prop="patrolCreateTime">-->
         <!--  <el-date-picker clearable-->
         <!--                  v-model="form.patrolCreateTime"-->

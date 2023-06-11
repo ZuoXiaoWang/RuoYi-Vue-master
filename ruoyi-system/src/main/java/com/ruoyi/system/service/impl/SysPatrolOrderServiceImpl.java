@@ -69,7 +69,7 @@ public class SysPatrolOrderServiceImpl implements ISysPatrolOrderService
         int row = sysPatrolOrderMapper.insertSysPatrolOrder(sysPatrolOrder);
         insertPatrolOrderImg(sysPatrolOrder);
         //修改巡计划内的巡更点状态(已巡更)
-        changePatrolPatrolPointStatus(sysPatrolOrder,"1");
+        //changePatrolPatrolPointStatus(sysPatrolOrder,"1");
         return row;
     }
 

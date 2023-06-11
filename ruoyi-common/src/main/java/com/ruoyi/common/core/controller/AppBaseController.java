@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.core.domain.model.AppLoginUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.page.PageDomain;
@@ -31,6 +32,10 @@ public class AppBaseController extends BaseController {
 
     public Long getAppUserId() {
         return getAppLoginUser().getUserId();
+    }
+
+    public SysPersonnel getUser() {
+        return getAppLoginUser().getUser();
     }
 
 

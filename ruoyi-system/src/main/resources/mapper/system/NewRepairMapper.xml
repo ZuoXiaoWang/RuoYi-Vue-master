@@ -22,6 +22,7 @@
         <result property="repairPhone" column="repair_phone"/>
         <result property="personnelId" column="personnel_id"/>
         <result property="newRepairFromId" column="new_repair_from_id"/>
+        <result property="regionId" column="region_id"/>
     </resultMap>
 
     <sql id="selectNewRepairVo">
@@ -38,6 +39,7 @@
             new_repair.create_time,
             new_repair.update_by,
             new_repair.update_time,
+            new_repair.region_id,
             sys_personnel.personnel_name AS repairPersonnelName,
             sys_personnel_with_repair_from.personnel_name AS repairFromPersonnelName,
             sys_personnel.personnel_phone AS repair_phone,
@@ -79,6 +81,7 @@
             <if test="state != null  and state != ''"> and state = #{state}</if>
             <if test="paidType != null  and paidType != ''"> and paid_type = #{paidType}</if>
             <if test="personnelId != null  and personnelId != ''"> and new_repair_from_personnel.personnel_id = #{personnelId}</if>
+            <if test="regionId != null  and regionId != ''"> and new_repair.region_id = #{regionId}</if>
         </where>
     </select>
 
@@ -96,6 +99,7 @@
         new_repair.create_time,
         new_repair.update_by,
         new_repair.update_time,
+        new_repair.region_id,
         sys_personnel.personnel_name AS repairPersonnelName,
         sys_personnel_with_repair_from.personnel_name AS repairFromPersonnelName,
         sys_personnel.personnel_phone AS repair_phone,
@@ -132,6 +136,7 @@
             <if test="state != null  and state != ''"> and state = #{state}</if>
             <if test="paidType != null  and paidType != ''"> and paid_type = #{paidType}</if>
             <if test="personnelId != null  and personnelId != ''"> and sys_personnel.personnel_id = #{personnelId}</if>
+            <if test="regionId != null  and regionId != ''"> and new_repair.region_id = #{regionId}</if>
         </where>
     </select>
 
@@ -149,6 +154,7 @@
         new_repair.create_time,
         new_repair.update_by,
         new_repair.update_time,
+        new_repair.region_id,
         sys_personnel.personnel_name AS repairPersonnelName,
         sys_personnel_with_repair_from.personnel_name AS repairFromPersonnelName,
         sys_personnel.personnel_phone AS repair_phone,
@@ -185,6 +191,7 @@
             <if test="state = null  and state = ''"> and new_repair.state != 5</if>
             <if test="paidType != null  and paidType != ''"> and paid_type = #{paidType}</if>
             <if test="personnelId != null  and personnelId != ''"> and sys_personnel.personnel_id = #{personnelId}</if>
+            <if test="regionId != null  and regionId != ''"> and new_repair.region_id = #{regionId}</if>
         </where>
     </select>
 
@@ -207,6 +214,7 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="regionId != null">region_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="location != null">#{location},</if>
@@ -220,6 +228,7 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="regionId != null">#{regionId},</if>
         </trim>
     </insert>
 

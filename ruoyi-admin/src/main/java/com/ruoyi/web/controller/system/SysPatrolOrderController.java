@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.*;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -106,19 +108,33 @@ public class SysPatrolOrderController extends AppBaseController {
     public AjaxResult add(@RequestBody SysPatrolOrder sysPatrolOrder) {
 
 
+
         //将任务中状态点位设置为1
         sysPatrolOrderService.changePatrolPatrolPointStatusService(sysPatrolOrder,"1");
 
+        //新增巡更工单
+        sysPatrolOrderService.insertSysPatrolOrder(sysPatrolOrder);
+
         SysPatrol sysPatrol = sysPatrolService.selectSysPatrolByPatrolId(sysPatrolOrder.getPatrolId());
+        if (sysPatrol.getPatrolStatus().equals("3")){
+            return AjaxResult.error("抱歉任务已经过期");
+        }
         //查询所有任务中状态为0的点位如果没有
         List<SysPatrolPoint> sysPatrolPoints = patrolPointService.selectPatrolPointListByPatrolIdWithStatus(sysPatrolOrder.getPatrolId());
         if (sysPatrolPoints.size() != 0){
+            if (sysPatrolPoints.size() == 1){
+                //设置实际开始时间
+                sysPatrol.setPatrolActualStartTime(DateUtils.getNowDate());
+                sysPatrolService.updateSysPatrolWithStatus(sysPatrol);
+            }
             //设置任务为进行中状态
             sysPatrol.setPatrolStatus("1");
             sysPatrolService.updateSysPatrolWithStatus(sysPatrol);
         }else {
             //设置任务为已完成状态
             sysPatrol.setPatrolStatus("2");
+            //设置实际结束时间
+            sysPatrol.setPatrolActualEndTime(DateUtils.getNowDate());
             sysPatrolService.updateSysPatrolWithStatus(sysPatrol);
         }
         return AjaxResult.success();

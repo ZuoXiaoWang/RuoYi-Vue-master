@@ -154,6 +154,15 @@ public class SysPatrolPointController extends AppBaseController {
     }
 
 
+    //点位倒查
+    @GetMapping("/selectPersonnelAndPatrolOrderByPointId/{patrolPointId}")
+    public TableDataInfo selectPersonnelAndPatrolOrderByPointId(@PathVariable Long patrolPointId){
+        List<PersonnelAndPatrolOrder> list = sysPatrolPointService.selectPersonnelAndPatrolOrderByPointId(patrolPointId);
+        return getDataTable(list);
+    }
+
+
+
     /**
      * 获取二维码压缩包
      *

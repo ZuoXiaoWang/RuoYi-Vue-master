@@ -328,6 +328,22 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="计划开始时间" prop="patrolStartTime">
+          <el-date-picker clearable
+                          v-model="form.patrolStartTime"
+                          type="datetime"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择计划开始时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="计划结束时间" prop="patrolEndTime">
+          <el-date-picker clearable
+                          v-model="form.patrolEndTime"
+                          type="datetime"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择计划结束时间">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item label="点位" prop="PatrolPointId">
           <el-select v-model="patrolFrom.patrolPointIds" multiple placeholder="请选择点位">
             <el-option

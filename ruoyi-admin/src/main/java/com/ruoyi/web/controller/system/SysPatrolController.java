@@ -89,6 +89,7 @@ public class SysPatrolController extends AppBaseController {
         List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
         sysPatrol.setPatrolStatus("1");
         List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList(sysPatrol);
+
         list.addAll(sysPatrols);
         return getDataTable(list);
     }

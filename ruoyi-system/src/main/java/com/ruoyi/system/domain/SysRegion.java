@@ -8,28 +8,29 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 区域对象 new_area
+ * 区域管理对象 sys_region
  *
  * @author ruoyi
- * @date 2023-05-13
+ * @date 2023-06-10
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class NewArea extends BaseEntity
+public class SysRegion extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 区域id */
-    private Long areaId;
+    /** 区域划分id */
+    private Long regionId;
 
     /** 区域名称 */
     @Excel(name = "区域名称")
-    private String areaName;
+    private String name;
 
-    /** 区域值 */
-    @Excel(name = "区域值")
-    private String areaValue;
+    /** 描述 */
+    @Excel(name = "描述")
+    private String description;
 
-
-
+    /** 上级区域id */
+    @Excel(name = "上级区域id")
+    private Long parentId;
 }

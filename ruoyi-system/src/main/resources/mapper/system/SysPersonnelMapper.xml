@@ -23,6 +23,8 @@
         <result property="updateTime" column="update_time"/>
         <result property="avatar" column="avatar"/>
         <result property="openId" column="open_id"/>
+
+        <result property="regionId" column="region_id"/>
         <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
         <collection property="posts" javaType="java.util.List" resultMap="PostResult"/>
     </resultMap>
@@ -63,6 +65,7 @@
                s.create_time,
                s.update_by,
                s.update_time,
+               s.region_id,
                p.post_id,
                p.post_code,
                p.post_name,
@@ -105,6 +108,7 @@
             <if test="personnelResignationTime != null ">and s.personnel_resignation_time =
                 #{personnelResignationTime}
             </if>
+            <if test="regionId != null ">and p.post_id = #{regionId}</if>
             and s.post_id != 1
         </where>
     </select>
@@ -138,6 +142,8 @@
             <if test="deptId != null">dept_id,</if>
             <if test="postId != null">post_id,</if>
             <if test="openId != null">open_id,</if>
+
+            <if test="regionId != null">region_id,</if>
             <if test="personnelLoginName != null and personnelLoginName != ''">personnel_login_name,</if>
             <if test="personnelPassword != null and personnelPassword != ''">personnel_password,</if>
             <if test="personnelName != null and personnelName != ''">personnel_name,</if>
@@ -157,6 +163,8 @@
             <if test="deptId != null">#{deptId},</if>
             <if test="postId != null">#{postId},</if>
             <if test="openId != null">#{openId}</if>
+
+            <if test="regionId != null">#{regionId}</if>
             <if test="personnelLoginName != null and personnelLoginName != ''">#{personnelLoginName},</if>
             <if test="personnelPassword != null and personnelPassword != ''">#{personnelPassword},</if>
             <if test="personnelName != null and personnelName != ''">#{personnelName},</if>
