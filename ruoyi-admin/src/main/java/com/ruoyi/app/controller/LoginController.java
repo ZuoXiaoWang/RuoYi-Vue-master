@@ -108,6 +108,7 @@ public class LoginController extends AppBaseController {
 
     public String appRegister(AppRegisterBody registerBody) {
         String msg = "", username = registerBody.getUsername(), phoneNumber = registerBody.getPhoneNumber(), password = registerBody.getPassword();
+        Long regionId = registerBody.getRegionId();
         SysPersonnel sysPersonnel = new SysPersonnel();
         sysPersonnel.setPersonnelLoginName(username);
         if (StringUtils.isEmpty(username)) {
@@ -134,6 +135,7 @@ public class LoginController extends AppBaseController {
             sysPersonnel.setPersonnelPhone(phoneNumber);
             sysPersonnel.setPersonnelPassword(SecurityUtils.encryptPassword(password));
             sysPersonnel.setPostId(1L);
+            sysPersonnel.setRegionId(regionId);
             int row = sysPersonnelService.insertSysPersonnel(sysPersonnel);
             boolean regFlag = row > 0;
             if (!regFlag) {

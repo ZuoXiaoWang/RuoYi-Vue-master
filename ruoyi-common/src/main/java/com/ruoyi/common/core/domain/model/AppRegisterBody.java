@@ -18,4 +18,6 @@ public class AppRegisterBody {
      * 手机号码
      */
     private String phoneNumber;
+
+    private Long regionId;
 }
