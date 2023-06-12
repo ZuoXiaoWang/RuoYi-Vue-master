@@ -1,5 +1,6 @@
 package com.ruoyi.quartz.task;
 
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.domain.SysPatrol;
 import com.ruoyi.system.service.ISysPatrolPointService;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,18 +46,31 @@ public class RyTask {
 
 
     //生成任务工单
-    public void creatPatrolTask(Long patrolId){
+    public void creatPatrolTask(Long patrolId) {
 //        根据patrolId查询模板任务
         SysPatrol template = patrolService.selectSysPatrolTemplateByPatrolId(patrolId);
         List<Long> personnelList = personnelService.selectPersonnelListByPatrolId(patrolId);
         List<Long> patrolPointList = patrolPointService.selectPatrolPointListByPatrolId(patrolId);
         SysPatrol sysPatrol = new SysPatrol();
         //template.setPatrolId(null);
-        BeanUtils.copyBeanProp(sysPatrol,template);
+        BeanUtils.copyBeanProp(sysPatrol, template);
         sysPatrol.setPatrolId(null);
         sysPatrol.setType("0");
-        patrolService.insertSysPatrol(sysPatrol,personnelList,patrolPointList);
-        System.out.println("_________________________________________________\n"+
+
+
+        //将yy-mm-dd换成当日日期
+        sysPatrol.setPatrolStartTime(changeDate(template.getPatrolStartTime()));
+        sysPatrol.setPatrolEndTime(changeDate(template.getPatrolEndTime()));
+        patrolService.insertSysPatrol(sysPatrol, personnelList, patrolPointList);
+        System.out.println("_________________________________________________\n" +
                 "||||||||||||||||||||||||||||||||||||||||||||||||||");
+    }
+
+    public Date changeDate(Date templateDataTime) {
+        Date nowDate = DateUtils.getNowDate();
+        templateDataTime.setDate(nowDate.getDate());
+        templateDataTime.setMonth(nowDate.getMonth());
+        templateDataTime.setYear(nowDate.getYear());
+        return templateDataTime;
     }
 }

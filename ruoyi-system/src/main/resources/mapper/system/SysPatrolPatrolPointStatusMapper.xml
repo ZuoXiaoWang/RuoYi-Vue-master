@@ -10,6 +10,7 @@
         <result property="patrolPointId"    column="patrol_point_id"    />
         <result property="patrolPointName"    column="patrol_point_name"    />
         <result property="patrolPatrolPointStatus"    column="patrol_patrol_point_status"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <resultMap type="SysPatrolOrder" id="SysPatrolOrderResult">
@@ -109,15 +110,22 @@
 
     <select id="selectPointStatusByPatrolId" resultMap="SysPatrolPatrolPointStatusResult">
         SELECT
-            patrol_id,
-            patrol_patrol_point_status,
-            sys_patrol_point.patrol_point_name
+            sys_patrol_patrol_point_status.patrol_id,
+            sys_patrol_patrol_point_status.patrol_patrol_point_status,
+            sys_patrol_point.patrol_point_name,
+            sys_patrol_order.create_time
         FROM
             sys_patrol_patrol_point_status
                 LEFT JOIN
             sys_patrol_point
             ON
                     sys_patrol_patrol_point_status.patrol_point_id = sys_patrol_point.patrol_point_id
-        where patrol_id = #{patrolId}
+                INNER JOIN
+            sys_patrol_order
+            ON
+                        sys_patrol_patrol_point_status.patrol_point_id = sys_patrol_order.patrol_point_id AND
+                        sys_patrol_patrol_point_status.patrol_id = sys_patrol_order.patrol_id
+        WHERE
+            sys_patrol_patrol_point_status.patrol_id = #{patrolId}
     </select>
 </mapper>

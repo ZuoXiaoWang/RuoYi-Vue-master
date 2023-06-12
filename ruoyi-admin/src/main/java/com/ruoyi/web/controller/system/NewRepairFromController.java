@@ -10,9 +10,7 @@ import com.ruoyi.common.core.domain.model.AppLoginUser;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.framework.app.service.AsyncService;
-import com.ruoyi.system.domain.NewEvaluate;
-import com.ruoyi.system.domain.NewRepair;
-import com.ruoyi.system.domain.SysRepairOrder;
+import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.*;
 import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +27,6 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.NewRepairFrom;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -60,13 +57,40 @@ public class NewRepairFromController extends AppBaseController
     @Autowired
     private AsyncService asyncService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询报修单列表
      */
     @GetMapping("/list")
     public TableDataInfo list(NewRepairFrom newRepairFrom)
     {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
+        ArrayList<NewRepairFrom> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            newRepairFrom.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(newRepairFromService.selectNewRepairFromList(newRepairFrom));
+            for(NewRepairFrom nrf: list){
+                List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
+                if(listStr!=null&&listStr.size()!=0){
+                    nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
+                    nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
+                }
+                Long l = System.currentTimeMillis() - nrf.getCreateTime().getTime();
+                nrf.setDetainHours(l.intValue()/1000/60/60);
+            }
+        }
+        return getDataTable(list);
+    }
+
+    @GetMapping("/applist")
+    public TableDataInfo applist(NewRepairFrom newRepairFrom)
+    {
+        SysPersonnel user = getUser();
+        newRepairFrom.setRegionId(user.getRegionId());
         List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
         for(NewRepairFrom nrf: list){
             List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
@@ -79,6 +103,9 @@ public class NewRepairFromController extends AppBaseController
         }
         return getDataTable(list);
     }
+
+
+
 
 
     /**
@@ -246,6 +273,9 @@ public class NewRepairFromController extends AppBaseController
     @PostMapping("/add")
     public AjaxResult appAdd(@RequestBody NewRepairFrom newRepairFrom)
     {
+        newRepairFrom.setRegionId(getUser().getRegionId());
+
+
         String msg = "";
         if (StringUtils.isEmpty(newRepairFrom.getRegionalClassification())){
             msg = "区域不能为空";

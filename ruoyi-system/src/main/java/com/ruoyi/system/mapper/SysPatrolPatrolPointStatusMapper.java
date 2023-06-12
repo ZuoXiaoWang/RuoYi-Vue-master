@@ -73,5 +73,5 @@ public interface SysPatrolPatrolPointStatusMapper
     /**
      * 查询所有已经巡点和未巡点
      */
-    public List<SysPatrolPoint> selectPointStatusByPatrolId(Long patrolId);
+    public List<SysPatrolPatrolPointStatus> selectPointStatusByPatrolId(Long patrolId);
 }

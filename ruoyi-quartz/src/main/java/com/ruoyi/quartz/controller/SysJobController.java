@@ -1,8 +1,12 @@
 package com.ruoyi.quartz.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.domain.SysUserRegion;
+import com.ruoyi.system.service.IRegionsByUserIdService;
+import org.checkerframework.checker.units.qual.A;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,14 +43,23 @@ public class SysJobController extends BaseController {
     @Autowired
     private ISysJobService jobService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询定时任务列表
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysJob sysJob) {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        List<SysJob> list = jobService.selectJobList(sysJob);
+        ArrayList<SysJob> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            sysJob.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(jobService.selectJobList(sysJob));
+        }
         return getDataTable(list);
     }
 

@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.system;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -16,6 +17,7 @@ import com.ruoyi.common.utils.QrCodeCreateUtil;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.service.IRegionsByUserIdService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,14 +48,21 @@ public class SysPatrolPointController extends AppBaseController {
     @Autowired
     private ISysPatrolPointService sysPatrolPointService;
 
-
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
     /**
      * 查询巡更点管理列表
      */
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolPoint sysPatrolPoint) {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
+        List<SysPatrolPoint> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            sysPatrolPoint.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint));
+        }
         return getDataTable(list);
     }
 
@@ -62,7 +71,13 @@ public class SysPatrolPointController extends AppBaseController {
      */
     @GetMapping("/listAll")
     public TableDataInfo listAll(SysPatrolPoint sysPatrolPoint) {
-        List<SysPatrolPoint> list = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+        List<SysPatrolPoint> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            sysPatrolPoint.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint));
+        }
         return getDataTable(list);
     }
 

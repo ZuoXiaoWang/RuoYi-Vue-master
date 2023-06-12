@@ -60,19 +60,19 @@ public class SysPatrol extends BaseEntity {
     /**
      * 计划开始时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date patrolStartTime;
 
     /**
      * 计划结束时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date patrolEndTime;
 
     /**
      * 任务创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date patrolCreateTime;
 
 

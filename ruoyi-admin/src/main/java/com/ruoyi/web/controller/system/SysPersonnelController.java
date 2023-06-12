@@ -1,10 +1,14 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.NewEvaluate;
+import com.ruoyi.system.domain.SysUserRegion;
+import com.ruoyi.system.service.IRegionsByUserIdService;
 import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,14 +48,23 @@ public class SysPersonnelController extends BaseController {
     @Autowired
     private ISysUserService userService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询员工管理列表
      */
     @PreAuthorize("@ss.hasPermi('system:personnel:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPersonnel sysPersonnel) {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        List<SysPersonnel> list = sysPersonnelService.selectSysPersonnelList(sysPersonnel);
+        List<SysPersonnel> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            sysPersonnel.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(sysPersonnelService.selectSysPersonnelList(sysPersonnel));
+        }
         return getDataTable(list);
     }
 

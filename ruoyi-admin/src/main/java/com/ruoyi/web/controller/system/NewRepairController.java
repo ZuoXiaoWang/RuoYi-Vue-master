@@ -1,13 +1,17 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
+import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.system.domain.NewEvaluate;
 import com.ruoyi.system.domain.NewRepairFrom;
+import com.ruoyi.system.domain.SysUserRegion;
 import com.ruoyi.system.service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +48,28 @@ public class NewRepairController extends AppBaseController {
     @Autowired
     private INewEvaluateService newEvaluateService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询维修单列表
      */
     @GetMapping("/list")
     public TableDataInfo list(NewRepair newRepair) {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
+        List<NewRepair> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion : sysUserRegions) {
+            newRepair.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(newRepairService.selectNewRepairList(newRepair));
+        }
+        return getDataTable(list);
+    }
+
+    @GetMapping("/applist")
+    public TableDataInfo applist(NewRepair newRepair) {
+        SysPersonnel user = getUser();
+        newRepair.setRegionId(user.getRegionId());
         List<NewRepair> list = newRepairService.selectNewRepairList(newRepair);
         return getDataTable(list);
     }
@@ -57,7 +77,7 @@ public class NewRepairController extends AppBaseController {
     @GetMapping("/selectOwnerPersonnelAll")
     public AjaxResult selectOwnerPersonnelAll() {
         AjaxResult success = AjaxResult.success();
-        success.put("OwnerPersonnel",sysPersonnelService.selectOwnerPersonnelAll());
+        success.put("OwnerPersonnel", sysPersonnelService.selectOwnerPersonnelAll());
         return success;
     }
 
@@ -66,14 +86,14 @@ public class NewRepairController extends AppBaseController {
         startPage();
         newRepair.setPersonnelId(getAppUserId());
         List<NewRepair> list;
-        if (StringUtils.isNotEmpty(newRepair.getState())){
+        if (StringUtils.isNotEmpty(newRepair.getState())) {
             list = newRepairService.selectNewRepairListWithStateFive(newRepair);
-        }else{
+        } else {
             list = newRepairService.selectNewRepairListWithState(newRepair);
         }
-        for(NewRepair nr: list){
+        for (NewRepair nr : list) {
             List<String> listStr = newRepairService.selectImgUrls(nr.getNewRepairId());
-            if(listStr!=null&&listStr.size()!=0){
+            if (listStr != null && listStr.size() != 0) {
                 nr.setImgUrl(newRepairService.selectImgUrls(nr.getNewRepairId()).get(0));
                 nr.setImgUrls(newRepairService.selectImgUrls(nr.getNewRepairId()));
             }
@@ -100,7 +120,7 @@ public class NewRepairController extends AppBaseController {
         AjaxResult ajax = AjaxResult.success();
         NewRepair newRepair = newRepairService.selectNewRepairByNewRepairId(newRepairId);
         newRepair.setMaintenanceClassification(sysDictDataService.selectDictLabel("maintenance_classification", newRepair.getMaintenanceClassification()));
-        newRepair.setRegionalClassification(sysDictDataService.selectDictLabel("regional_classification" ,newRepair.getRegionalClassification()));
+        newRepair.setRegionalClassification(sysDictDataService.selectDictLabel("regional_classification", newRepair.getRegionalClassification()));
 
         NewEvaluate newEvaluate = new NewEvaluate();
         newEvaluate.setNewRepairId(newRepair.getNewRepairId());
@@ -127,7 +147,7 @@ public class NewRepairController extends AppBaseController {
             msg = "状态不能为空";
         } else if (StringUtils.isEmpty(newRepair.getPaidType())) {
             msg = "是否有偿不能为空";
-        }else if (newRepair.getPersonnelId() == null) {
+        } else if (newRepair.getPersonnelId() == null) {
             msg = "维修人员不能为空";
         } else {
             int row = newRepairService.insertNewRepair(newRepair);
@@ -177,7 +197,6 @@ public class NewRepairController extends AppBaseController {
 //        NewRepairFrom newRepairFrom = newRepairFromService.selectNewRepairFromByRepairFromId(newRepairFromId);
 //        NewRepair newRepair = newRepairService.selectNewRepairByNewRepairId(newRepairFrom.getNewRepairId());
 //        newRepair.setState("4");
-
 
 
         return toAjax(newRepairFromService.deleteNewRepairFromByRepairFromId(newRepairFromId));

@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,8 +10,7 @@ import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.system.domain.SysPatrolPoint;
-import com.ruoyi.system.domain.SysRepair;
+import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.SysPatrol;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
@@ -54,14 +53,23 @@ public class SysPatrolController extends AppBaseController {
     @Autowired
     private ISysPatrolPointService patrolPointService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询巡更任务管理列表
      */
     @PreAuthorize("@ss.hasPermi('system:patrol:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPatrol sysPatrol) {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        List<SysPatrol> list = sysPatrolService.selectSysPatrolList4vue(sysPatrol);
+        ArrayList<SysPatrol> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            sysPatrol.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(sysPatrolService.selectSysPatrolList4vue(sysPatrol));
+        }
         return getDataTable(list);
     }
 
@@ -89,8 +97,11 @@ public class SysPatrolController extends AppBaseController {
         List<SysPatrol> list = sysPatrolService.selectSysPatrolList(sysPatrol);
         sysPatrol.setPatrolStatus("1");
         List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList(sysPatrol);
+        sysPatrol.setPatrolStatus("3");
+        List<SysPatrol> sysPatrolsWith3 = sysPatrolService.selectSysPatrolList(sysPatrol);
 
         list.addAll(sysPatrols);
+        list.addAll(sysPatrolsWith3);
         return getDataTable(list);
     }
 
@@ -176,9 +187,9 @@ public class SysPatrolController extends AppBaseController {
      * 显示所有已巡点和未巡点
      */
     @GetMapping("/getPotinStatusByPatrolId/{patrolId}")
-    public AjaxResult getPointStatusByPatrolId(){
+    public AjaxResult getPointStatusByPatrolId(@PathVariable Long patrolId){
         AjaxResult ajaxResult = new AjaxResult();
-        List<SysPatrolPoint> list = sysPatrolService.selectPointStatusByPatrolId(296L);
+        List<SysPatrolPatrolPointStatus> list = sysPatrolService.selectPointStatusByPatrolId(patrolId);
         return ajaxResult.put("pointListStatus",list);
     }
 

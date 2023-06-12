@@ -1,4 +1,4 @@
-package com.ruoyi.system.controller;
+package com.ruoyi.web.controller.system;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,6 @@ public class NewEvaluateController extends AppBaseController
     {
         SysPersonnel user = getUser();
         newEvaluate.setRegionId(user.getRegionId());
-        startPage();
         List<NewEvaluate> list = newEvaluateService.selectNewEvaluateList(newEvaluate);
         return getDataTable(list);
     }

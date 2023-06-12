@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,13 +48,22 @@ public class SysPatrolOrderController extends AppBaseController {
     @Autowired
     private ISysPatrolService sysPatrolService;
 
+    @Autowired
+    private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询巡更工单管理列表
      */
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolOrder sysPatrolOrder) {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        List<SysPatrolOrder> list = sysPatrolOrderService.selectSysPatrolOrderList(sysPatrolOrder);
+        ArrayList<SysPatrolOrder> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion: sysUserRegions
+        ) {
+            sysPatrolOrder.setRegionId(sysUserRegion.getRegionId());
+            list.addAll(sysPatrolOrderService.selectSysPatrolOrderList(sysPatrolOrder));
+        }
         return getDataTable(list);
     }
 
@@ -76,9 +86,10 @@ public class SysPatrolOrderController extends AppBaseController {
         AjaxResult ajax = AjaxResult.success();
         SysPatrolOrder sysPatrolOrder = sysPatrolOrderService.selectSysPatrolOrderByPatrolOrderId(patrolOrderId);
         ajax.put(AjaxResult.DATA_TAG, sysPatrolOrder);
-        ajax.put("imgUrls",sysPatrolOrderService.selectImgUrlsByPatrolOrderId(patrolOrderId));
+        ajax.put("imgUrls", sysPatrolOrderService.selectImgUrlsByPatrolOrderId(patrolOrderId));
         return ajax;
     }
+
     /**
      * 生成维修任务
      */
@@ -96,7 +107,7 @@ public class SysPatrolOrderController extends AppBaseController {
         ajax.put("patrolPoints", patrolPointService.selectPatrolPointAll());
         ajax.put(AjaxResult.DATA_TAG, repair);
         ajax.put("patrolPointIds", longArrayForPoints);
-        ajax.put("imgUrls",sysPatrolOrder.getImgUrls());
+        ajax.put("imgUrls", sysPatrolOrder.getImgUrls());
         return ajax;
     }
 
@@ -106,31 +117,32 @@ public class SysPatrolOrderController extends AppBaseController {
     @Log(title = "巡更工单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysPatrolOrder sysPatrolOrder) {
+        sysPatrolOrder.setRegionId(getUser().getRegionId());
 
 
 
-        //将任务中状态点位设置为1
-        sysPatrolOrderService.changePatrolPatrolPointStatusService(sysPatrolOrder,"1");
-
-        //新增巡更工单
-        sysPatrolOrderService.insertSysPatrolOrder(sysPatrolOrder);
-
+        sysPatrolOrder.setPersonnelId(getAppUserId());
         SysPatrol sysPatrol = sysPatrolService.selectSysPatrolByPatrolId(sysPatrolOrder.getPatrolId());
-        if (sysPatrol.getPatrolStatus().equals("3")){
+        if (sysPatrol.getPatrolStatus().equals("3")) {
             return AjaxResult.error("抱歉任务已经过期");
         }
-        //查询所有任务中状态为0的点位如果没有
+
+        if (sysPatrol.getPatrolActualStartTime() == null){
+            //设置实际开始时间
+            sysPatrol.setPatrolActualStartTime(DateUtils.getNowDate());
+            sysPatrolService.updateSysPatrolWithStatus(sysPatrol);
+        }
+        //将任务中状态点位设置为1
+        sysPatrolOrderService.changePatrolPatrolPointStatusService(sysPatrolOrder, "1");
+        //新增巡更工单
+        sysPatrolOrderService.insertSysPatrolOrder(sysPatrolOrder);
+        //查询所有任务中状态为0的点位
         List<SysPatrolPoint> sysPatrolPoints = patrolPointService.selectPatrolPointListByPatrolIdWithStatus(sysPatrolOrder.getPatrolId());
-        if (sysPatrolPoints.size() != 0){
-            if (sysPatrolPoints.size() == 1){
-                //设置实际开始时间
-                sysPatrol.setPatrolActualStartTime(DateUtils.getNowDate());
-                sysPatrolService.updateSysPatrolWithStatus(sysPatrol);
-            }
+        if (sysPatrolPoints.size() > 0) {
             //设置任务为进行中状态
             sysPatrol.setPatrolStatus("1");
             sysPatrolService.updateSysPatrolWithStatus(sysPatrol);
-        }else {
+        } else {
             //设置任务为已完成状态
             sysPatrol.setPatrolStatus("2");
             //设置实际结束时间

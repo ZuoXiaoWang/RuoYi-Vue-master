@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import java.beans.Transient;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,6 +105,16 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
 
         //设置巡更计划内点位状态
         insertPatrolPatrolPointStatus(sysPatrol);
+
+        //获取过期时间(任务结束时间减去当前时间)
+        Date patrolEndTime = sysPatrol.getPatrolEndTime();
+        Date nowDate = DateUtils.getNowDate();
+        int timeout = timeDistance4Patrol(patrolEndTime, nowDate);
+        if (timeout < 0){
+            return 0;
+        }
+        //向redis中添加过期时间
+        redisCache.setCacheObject("patrolOverdueTime/"+sysPatrol.getPatrolId(),sysPatrol.getPatrolId(),timeout, TimeUnit.MINUTES);
         return row;
     }
 
@@ -146,8 +157,11 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         Date patrolEndTime = sysPatrol.getPatrolEndTime();
         Date nowDate = DateUtils.getNowDate();
         int timeout = timeDistance4Patrol(patrolEndTime, nowDate);
+        if (timeout < 0){
+            return 0;
+        }
         //向redis中添加过期时间
-        redisCache.setCacheObject("patrolOverdueTime",sysPatrol.getPatrolId(),timeout, TimeUnit.MINUTES);
+        redisCache.setCacheObject("patrolOverdueTime/"+sysPatrol.getPatrolId(),sysPatrol.getPatrolId(),timeout, TimeUnit.MINUTES);
         return row;
     }
 
@@ -226,7 +240,7 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
      * @return
      */
     @Override
-    public List<SysPatrolPoint> selectPointStatusByPatrolId(Long patrolId) {
+    public List<SysPatrolPatrolPointStatus> selectPointStatusByPatrolId(Long patrolId) {
         return sysPatrolPatrolPointStatusMapper.selectPointStatusByPatrolId(patrolId);
     }
 
@@ -295,6 +309,7 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
 
 
     public int timeDistance4Patrol(Date endDate, Date startTime) {
+
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
@@ -306,10 +321,13 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         // 计算差多少小时
         long hour = diff % nd / nh;
         // 计算差多少分钟
-        long min = diff / nm;
+        long min = diff % nd % nh / nm;
         // 计算差多少秒//输出结果
         // long sec = diff % nd % nh % nm / ns;
-        return (int) min;
+
+        long timeout = day * 24 * 60 + hour * 60 + min;
+
+        return (int) timeout;
     }
 
 }

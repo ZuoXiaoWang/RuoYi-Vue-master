@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                create_time,
                update_by,
                update_time,
-               region_id,
+               region_id
         from sys_patrol_order
     </sql>
 
