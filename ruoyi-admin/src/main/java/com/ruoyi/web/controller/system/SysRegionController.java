@@ -40,7 +40,6 @@ public class SysRegionController extends BaseController
     /**
      * 查询区域管理列表
      */
-    @PreAuthorize("@ss.hasPermi('system:region:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysRegion sysRegion)
     {

@@ -328,7 +328,7 @@ import {
   zipDownloadVue,
   selectPersonnelAndPatrolOrderByPointId
 } from "@/api/system/point";
-import { listRegion } from "@/api/system/region";
+import {listRegion, listRegionAll} from "@/api/system/region";
 import { saveAs } from "file-saver";
 
 export default {
@@ -403,7 +403,7 @@ export default {
   methods: {
     //查询区域列表
     regionListQuery() {
-      listRegion().then((response) => {
+      listRegionAll().then((response) => {
         this.regionList = response.rows;
       });
     },

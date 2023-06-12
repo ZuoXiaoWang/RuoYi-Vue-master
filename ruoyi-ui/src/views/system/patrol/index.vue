@@ -484,7 +484,7 @@ import {
   updatePatrol,
   getPotinStatusByPatrolId,
 } from "@/api/system/patrol";
-import { listRegion } from "@/api/system/region";
+import {listRegion, listRegionAll} from "@/api/system/region";
 import item from "@/layout/components/Sidebar/Item.vue";
 
 export default {
@@ -573,7 +573,7 @@ export default {
   methods: {
     //查询区域列表
     regionListQuery() {
-      listRegion().then((response) => {
+      listRegionAll().then((response) => {
         this.regionList = response.rows;
       });
     },

@@ -9,6 +9,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysPersonnel;
 import com.ruoyi.common.core.domain.model.AppLoginBody;
 import com.ruoyi.common.core.domain.model.AppRegisterBody;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -17,8 +18,10 @@ import com.ruoyi.framework.app.service.AppLoginService;
 import com.ruoyi.framework.config.properties.WeixinMpConfig;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
+import com.ruoyi.system.domain.SysRegion;
 import com.ruoyi.system.service.ISysPersonnelService;
 import com.ruoyi.system.service.ISysPostService;
+import com.ruoyi.system.service.ISysRegionService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,6 +51,9 @@ public class LoginController extends AppBaseController {
 
     @Autowired
     private WeixinMpConfig weixinMpConfig;
+
+    @Autowired
+    private ISysRegionService sysRegionService;
 
     @PostMapping("/register")
     public AjaxResult register(@RequestBody AppRegisterBody user) {
@@ -160,6 +167,13 @@ public class LoginController extends AppBaseController {
         if (jsonObject.get("errcode") != null)
             System.out.println(jsonObject.get("errcode").toString() + ":" + jsonObject.get("errmsg"));
         return jsonObject.getString("openid");
+    }
+
+    @GetMapping("/listAll")
+    public TableDataInfo listAll(SysRegion sysRegion)
+    {
+        List<SysRegion> list = sysRegionService.selectSysRegionList(sysRegion);
+        return getDataTable(list);
     }
 
 

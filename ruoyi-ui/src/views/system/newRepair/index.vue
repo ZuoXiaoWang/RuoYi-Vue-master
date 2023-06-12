@@ -452,7 +452,7 @@ import {
   addNewRepair,
   updateNewRepair,
 } from "@/api/system/newRepair";
-import { listRegion } from "@/api/system/region";
+import {listRegion, listRegionAll} from "@/api/system/region";
 import { deptTreeSelect } from "@/api/system/user";
 import { listPersonnel } from "@/api/system/personnel";
 import { getToken } from "@/utils/auth";
@@ -523,7 +523,7 @@ export default {
   methods: {
     //查询区域列表
     regionListQuery() {
-      listRegion().then((response) => {
+      listRegionAll().then((response) => {
         this.regionList = response.rows;
       });
     },

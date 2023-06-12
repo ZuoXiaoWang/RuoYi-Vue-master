@@ -461,7 +461,7 @@ import {
   updatePersonnel,
   resetPersonnelPwd,
 } from "@/api/system/personnel";
-import { listRegion } from "@/api/system/region";
+import {listRegion, listRegionAll} from "@/api/system/region";
 import { deptTreeSelect } from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
@@ -581,7 +581,7 @@ export default {
   methods: {
     //查询区域列表
     regionListQuery() {
-      listRegion().then((response) => {
+      listRegionAll().then((response) => {
         this.regionList = response.rows;
       });
     },

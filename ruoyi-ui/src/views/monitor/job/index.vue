@@ -539,7 +539,7 @@ import {
   runJob,
   changeJobStatus,
 } from "@/api/monitor/job";
-import { listRegion } from "@/api/system/region";
+import {listRegion, listRegionAll} from "@/api/system/region";
 import Crontab from "@/components/Crontab";
 import {
   addPatrol,
@@ -639,7 +639,7 @@ export default {
   methods: {
     //查询区域列表
     regionListQuery() {
-      listRegion().then((response) => {
+      listRegionAll().then((response) => {
         this.regionList = response.rows;
       });
     },
