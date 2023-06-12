@@ -55,4 +55,10 @@ export function zipDownloadVue(){
   })
 }
 
-
+//点位倒查
+export function selectPersonnelAndPatrolOrderByPointId(patrolPointId) {
+  return request({
+    url: 'system/point/selectPersonnelAndPatrolOrderByPointId/' + patrolPointId,
+    method: 'get'
+  })
+}

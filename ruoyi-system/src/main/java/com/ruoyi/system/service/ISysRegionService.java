@@ -62,4 +62,6 @@ public interface ISysRegionService
 
     // 添加区域和用户关联一对多
     public int insertSysUsersRegion(SysUserRegion sysUserRegion);
+
+    public List<SysUserRegion> selectRegionUserByRegionId(Long regionId);
 }

@@ -119,8 +119,6 @@ public class SysPatrolOrderController extends AppBaseController {
     public AjaxResult add(@RequestBody SysPatrolOrder sysPatrolOrder) {
         sysPatrolOrder.setRegionId(getUser().getRegionId());
 
-
-
         sysPatrolOrder.setPersonnelId(getAppUserId());
         SysPatrol sysPatrol = sysPatrolService.selectSysPatrolByPatrolId(sysPatrolOrder.getPatrolId());
         if (sysPatrol.getPatrolStatus().equals("3")) {

@@ -238,6 +238,16 @@
         <el-form-item label="维修描述" prop="describe">
           <el-input v-model="form.describe" placeholder="请输入维修描述" />
         </el-form-item>
+        <el-form-item label="区域" prop="regionId" v-if="title == '添加维修单'">
+          <el-select v-model="form.regionId" placeholder="请选择区域" clearable>
+            <el-option
+              v-for="item in regionList"
+              :key="item.regionId"
+              :label="item.name"
+              :value="item.regionId"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="区域分类" prop="regionalClassification">
           <el-select
             v-model="form.regionalClassification"
@@ -442,6 +452,7 @@ import {
   addNewRepair,
   updateNewRepair,
 } from "@/api/system/newRepair";
+import { listRegion } from "@/api/system/region";
 import { deptTreeSelect } from "@/api/system/user";
 import { listPersonnel } from "@/api/system/personnel";
 import { getToken } from "@/utils/auth";
@@ -501,13 +512,21 @@ export default {
       personnelList: [],
       dialogImageUrl: "",
       dialogVisible: false,
+      regionList: [], //区域列表
     };
   },
   created() {
     this.getList();
     this.personnelGetList();
+    this.regionListQuery();
   },
   methods: {
+    //查询区域列表
+    regionListQuery() {
+      listRegion().then((response) => {
+        this.regionList = response.rows;
+      });
+    },
     handleAvatarSuccess(res, file) {
       let url = {
         url: res.fileName,

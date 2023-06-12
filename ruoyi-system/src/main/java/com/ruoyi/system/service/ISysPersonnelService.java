@@ -21,7 +21,7 @@ public interface ISysPersonnelService {
 
     public SysPersonnel selectSysRepairPersonnelByPersonnelId(Long personnelId);
 
-    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId();
+    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId(Long regionId);
 
     /**
      * 根据登录名查
@@ -86,7 +86,7 @@ public interface ISysPersonnelService {
 
     public List<SysPersonnel> selectPersonnelAll();
 
-    public List<SysPersonnel> selectOwnerPersonnelAll();
+    public List<SysPersonnel> selectOwnerPersonnelAll(Long regionId);
 
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 

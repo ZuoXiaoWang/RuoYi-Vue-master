@@ -22,7 +22,7 @@ public interface SysPersonnelMapper {
 
     public SysPersonnel selectSysRepairPersonnelByPersonnelId(Long personnelId);
 
-    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId();
+    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId(Long regionId);
 
     public SysPersonnel selectSysPersonnelByPersonnelLoginName(String loginName);
 
@@ -76,7 +76,7 @@ public interface SysPersonnelMapper {
 
     public List<SysPersonnel> selectPersonnelAll();
 
-    public List<SysPersonnel> selectOwnerPersonnelAll();
+    public List<SysPersonnel> selectOwnerPersonnelAll(Long regionId);
 
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 

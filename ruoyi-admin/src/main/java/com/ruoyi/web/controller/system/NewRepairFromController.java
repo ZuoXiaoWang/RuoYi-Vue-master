@@ -38,8 +38,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/newRepairFrom")
-public class NewRepairFromController extends AppBaseController
-{
+public class NewRepairFromController extends AppBaseController {
     @Autowired
     private ISysPersonnelService sysPersonnelService;
     @Autowired
@@ -64,64 +63,59 @@ public class NewRepairFromController extends AppBaseController
      * 查询报修单列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(NewRepairFrom newRepairFrom)
-    {
+    public TableDataInfo list(NewRepairFrom newRepairFrom) {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
         ArrayList<NewRepairFrom> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
+        for (SysUserRegion sysUserRegion : sysUserRegions
         ) {
             newRepairFrom.setRegionId(sysUserRegion.getRegionId());
             list.addAll(newRepairFromService.selectNewRepairFromList(newRepairFrom));
-            for(NewRepairFrom nrf: list){
+            for (NewRepairFrom nrf : list) {
                 List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
-                if(listStr!=null&&listStr.size()!=0){
+                if (listStr != null && listStr.size() != 0) {
                     nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
                     nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
                 }
                 Long l = System.currentTimeMillis() - nrf.getCreateTime().getTime();
-                nrf.setDetainHours(l.intValue()/1000/60/60);
+                nrf.setDetainHours(l.intValue() / 1000 / 60 / 60);
             }
         }
         return getDataTable(list);
     }
 
     @GetMapping("/applist")
-    public TableDataInfo applist(NewRepairFrom newRepairFrom)
-    {
+    public TableDataInfo applist(NewRepairFrom newRepairFrom) {
         SysPersonnel user = getUser();
         newRepairFrom.setRegionId(user.getRegionId());
         List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
-        for(NewRepairFrom nrf: list){
+        for (NewRepairFrom nrf : list) {
             List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
-            if(listStr!=null&&listStr.size()!=0){
+            if (listStr != null && listStr.size() != 0) {
                 nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
                 nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
             }
             Long l = System.currentTimeMillis() - nrf.getCreateTime().getTime();
-            nrf.setDetainHours(l.intValue()/1000/60/60);
+            nrf.setDetainHours(l.intValue() / 1000 / 60 / 60);
         }
         return getDataTable(list);
     }
-
-
-
 
 
     /**
      * 维修人员查询
      */
     @GetMapping("/listByRepairPersonnel")
-    public TableDataInfo listByRepairPersonnel(NewRepairFrom newRepairFrom)
-    {
+    public TableDataInfo listByRepairPersonnel(NewRepairFrom newRepairFrom) {
+        newRepairFrom.setRegionId(getUser().getRegionId());
         newRepairFrom.setState("0");
         startPage();
         List<NewRepairFrom> list = new ArrayList<>();
-        if (isRepairPersonnel()){
+        if (isRepairPersonnel()) {
             list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
-            for(NewRepairFrom nrf: list){
+            for (NewRepairFrom nrf : list) {
                 List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
-                if(listStr!=null&&listStr.size()!=0){
+                if (listStr != null && listStr.size() != 0) {
                     nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
                     nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
                 }
@@ -132,14 +126,13 @@ public class NewRepairFromController extends AppBaseController
 
     //根据用户查询报修
     @GetMapping("/listByPersonnel")
-    public TableDataInfo listByPersonnel(NewRepairFrom newRepairFrom)
-    {
+    public TableDataInfo listByPersonnel(NewRepairFrom newRepairFrom) {
         startPage();
         newRepairFrom.setPersonnelId(getAppUserId());
         List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
-        for(NewRepairFrom nrf: list){
+        for (NewRepairFrom nrf : list) {
             List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
-            if(listStr!=null&&listStr.size()!=0){
+            if (listStr != null && listStr.size() != 0) {
                 nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
                 nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
             }
@@ -153,8 +146,7 @@ public class NewRepairFromController extends AppBaseController
     @PreAuthorize("@ss.hasPermi('system:newRrepairFrom:export')")
     @Log(title = "报修单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, NewRepairFrom newRepairFrom)
-    {
+    public void export(HttpServletResponse response, NewRepairFrom newRepairFrom) {
         List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
         ExcelUtil<NewRepairFrom> util = new ExcelUtil<NewRepairFrom>(NewRepairFrom.class);
         util.exportExcel(response, list, "报修单数据");
@@ -164,24 +156,23 @@ public class NewRepairFromController extends AppBaseController
      * 获取报修单详细信息
      */
     @GetMapping(value = "/{repairFromId}")
-    public AjaxResult getInfo(@PathVariable("repairFromId") Long repairFromId)
-    {
+    public AjaxResult getInfo(@PathVariable("repairFromId") Long repairFromId) {
         AjaxResult ajax = AjaxResult.success();
         NewRepairFrom newRepairFrom = newRepairFromService.selectNewRepairFromByRepairFromId(repairFromId);
         newRepairFrom.setMaintenanceClassification(sysDictDataService.selectDictLabel("maintenance_classification", newRepairFrom.getMaintenanceClassification()));
-        newRepairFrom.setRegionalClassification(sysDictDataService.selectDictLabel("regional_classification" ,newRepairFrom.getRegionalClassification()));
+        newRepairFrom.setRegionalClassification(sysDictDataService.selectDictLabel("regional_classification", newRepairFrom.getRegionalClassification()));
 
-        if(newRepairFrom.getNewRepairId()==null||"".equals(newRepairFrom.getNewRepairId())){
+        if (newRepairFrom.getNewRepairId() == null || "".equals(newRepairFrom.getNewRepairId())) {
             newRepairFrom.setEvaluateList(null);
-        }else {
+        } else {
             NewEvaluate newEvaluate = new NewEvaluate();
             newEvaluate.setNewRepairId(newRepairFrom.getNewRepairId());
             List<NewEvaluate> newEvaluates = newEvaluateService.selectNewEvaluateList(newEvaluate);
             newRepairFrom.setEvaluateList(newEvaluates);
         }
 
-        ajax.put(AjaxResult.DATA_TAG,newRepairFrom);
-        ajax.put("imgUrls",newRepairFromService.selectImgUrls(repairFromId));
+        ajax.put(AjaxResult.DATA_TAG, newRepairFrom);
+        ajax.put("imgUrls", newRepairFromService.selectImgUrls(repairFromId));
         return ajax;
     }
 
@@ -190,14 +181,14 @@ public class NewRepairFromController extends AppBaseController
      */
     @Log(title = "报修单", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody NewRepairFrom newRepairFrom)
-    {
+    public AjaxResult add(@RequestBody NewRepairFrom newRepairFrom) {
+        newRepairFrom.setRegionId(getUser().getRegionId());
         String msg = "";
-        if (StringUtils.isEmpty(newRepairFrom.getRegionalClassification())){
+        if (StringUtils.isEmpty(newRepairFrom.getRegionalClassification())) {
             msg = "区域不能为空";
-        } else if(StringUtils.isEmpty(newRepairFrom.getMaintenanceClassification())){
+        } else if (StringUtils.isEmpty(newRepairFrom.getMaintenanceClassification())) {
             msg = "维修分类不能为空";
-        }else {
+        } else {
             //设置报修人
             newRepairFrom.setPersonnelId(getUserId());
             //报修单设置未开始
@@ -208,11 +199,11 @@ public class NewRepairFromController extends AppBaseController
             boolean regFlag = row > 0;
             if (!regFlag) {
                 msg = "添加失败,请联系系统管理人员";
-            }else {
-                List<SysPersonnel> list = sysPersonnelService.selectAllSysRepairPersonnelOpenId();
-                for (SysPersonnel sysPersonnel: list
-                     ) {
-                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(),newRepairFrom.getLocation(),newRepairFrom.getDescribe());
+            } else {
+                List<SysPersonnel> list = sysPersonnelService.selectAllSysRepairPersonnelOpenId(getUser().getRegionId());
+                for (SysPersonnel sysPersonnel : list
+                ) {
+                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(), newRepairFrom.getPersonnelName(), newRepairFrom.getLocation());
                 }
 
             }
@@ -225,8 +216,7 @@ public class NewRepairFromController extends AppBaseController
      */
     @Log(title = "报修单", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody NewRepairFrom newRepairFrom)
-    {
+    public AjaxResult edit(@RequestBody NewRepairFrom newRepairFrom) {
         return toAjax(newRepairFromService.updateNewRepairFrom(newRepairFrom));
     }
 
@@ -234,9 +224,8 @@ public class NewRepairFromController extends AppBaseController
      * 删除报修单
      */
     @Log(title = "报修单", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{repairFromIds}")
-    public AjaxResult remove(@PathVariable Long[] repairFromIds)
-    {
+    @DeleteMapping("/{repairFromIds}")
+    public AjaxResult remove(@PathVariable Long[] repairFromIds) {
         return toAjax(newRepairFromService.deleteNewRepairFromByRepairFromIds(repairFromIds));
     }
 
@@ -244,20 +233,20 @@ public class NewRepairFromController extends AppBaseController
     //接单
     //派单 isApp0
     @PostMapping("/pickUpRepairFrom/{repairFromId}/{userId}")
-    public AjaxResult remove(@PathVariable("repairFromId") Long repairFromId,@PathVariable("userId") Long userId){
+    public AjaxResult remove(@PathVariable("repairFromId") Long repairFromId, @PathVariable("userId") Long userId) {
         //报修单设为进行中
         NewRepairFrom newRepairFrom = newRepairFromService.selectNewRepairFromByRepairFromId(repairFromId);
         newRepairFrom.setState("1");
         newRepairFromService.updateNewRepairFromWithPickUp(newRepairFrom);
         //生成维修单
         NewRepair newRepair = new NewRepair();
-        BeanUtils.copyBeanProp(newRepair,newRepairFrom);
+        BeanUtils.copyBeanProp(newRepair, newRepairFrom);
         newRepair.setImgUrls(newRepairFromService.selectImgUrls(repairFromId));
         newRepair.setNewRepairFromId(newRepairFrom.getRepairFromId());
         //派单需要指定维修员工
-        if(userId!=null&&userId!=0){
+        if (userId != null && userId != 0) {
             newRepair.setPersonnelId(userId);
-        }else {
+        } else {
             //app端接单默认使用登录用户
             newRepair.setPersonnelId(getAppUserId());
         }
@@ -271,17 +260,16 @@ public class NewRepairFromController extends AppBaseController
      */
     @Log(title = "报修单", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult appAdd(@RequestBody NewRepairFrom newRepairFrom)
-    {
+    public AjaxResult appAdd(@RequestBody NewRepairFrom newRepairFrom) {
         newRepairFrom.setRegionId(getUser().getRegionId());
 
 
         String msg = "";
-        if (StringUtils.isEmpty(newRepairFrom.getRegionalClassification())){
+        if (StringUtils.isEmpty(newRepairFrom.getRegionalClassification())) {
             msg = "区域不能为空";
-        } else if(StringUtils.isEmpty(newRepairFrom.getMaintenanceClassification())){
+        } else if (StringUtils.isEmpty(newRepairFrom.getMaintenanceClassification())) {
             msg = "维修分类不能为空";
-        }else {
+        } else {
             //设置报修人
             newRepairFrom.setPersonnelId(getAppUserId());
             //报修单设置未开始
@@ -292,17 +280,23 @@ public class NewRepairFromController extends AppBaseController
             boolean regFlag = row > 0;
             if (!regFlag) {
                 msg = "添加失败,请联系系统管理人员";
+            } else {
+                List<SysPersonnel> list = sysPersonnelService.selectAllSysRepairPersonnelOpenId(getUser().getRegionId());
+                for (SysPersonnel sysPersonnel : list
+                ) {
+                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(), newRepairFrom.getPersonnelName(), newRepairFrom.getLocation());
+                }
+
             }
         }
         return StringUtils.isEmpty(msg) ? success() : error(msg);
     }
 
 
-
     /*
      * 判断是否维修人员
      */
-    public boolean isRepairPersonnel(){
+    public boolean isRepairPersonnel() {
         SysPersonnel sysPersonnel = sysPersonnelService.selectSysRepairPersonnelByPersonnelId(getAppUserId());
         return sysPersonnel != null;
     }

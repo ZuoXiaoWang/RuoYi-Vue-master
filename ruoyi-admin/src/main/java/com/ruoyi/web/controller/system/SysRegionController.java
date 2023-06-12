@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.domain.SysUserRegion;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,5 +111,21 @@ public class SysRegionController extends BaseController
     public AjaxResult addRegionWithUser(@RequestBody SysUserRegion sysUserRegion)
     {
         return toAjax(sysRegionService.insertSysUsersRegion(sysUserRegion));
+    }
+
+
+//    // 修改用户列表
+//    @PostMapping("/updataRegionWithUser")
+//    public AjaxResult updataRegionWithUser(@RequestBody SysUserRegion sysUserRegion)
+//    {
+//        return toAjax(sysRegionService.insertSysUsersRegion(sysUserRegion));
+//    }
+//
+
+    @GetMapping("/getRegionUserByRegionId/{regionId}")
+    public AjaxResult getRegionUserByRegionId(@PathVariable Long regionId){
+        AjaxResult ajax = AjaxResult.success();
+        List<SysUserRegion> sysUserRegions = sysRegionService.selectRegionUserByRegionId(regionId);
+        return ajax.put("sysUserRegions",sysUserRegions);
     }
 }

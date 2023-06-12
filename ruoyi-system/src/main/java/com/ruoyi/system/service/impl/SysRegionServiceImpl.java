@@ -104,6 +104,9 @@ public class SysRegionServiceImpl implements ISysRegionService
     // 添加区域和用户关联一对多
     @Override
     public int insertSysUsersRegion(SysUserRegion sysUsersRegion) {
+
+        sysUserRegionMapper.deleteSysUserRegionByRegionId(sysUsersRegion.getRegionId());
+
         Long[] userIds = sysUsersRegion.getUserIds();
         if (StringUtils.isNotEmpty(userIds)) {
             //循环添加
@@ -118,6 +121,11 @@ public class SysRegionServiceImpl implements ISysRegionService
             return sysUserRegionMapper.batchUserRegion(list);
         }
         return 0;
+    }
+
+    @Override
+    public List<SysUserRegion> selectRegionUserByRegionId(Long regionId) {
+        return sysUserRegionMapper.selectRegionUserByRegionId(regionId);
     }
 
 }

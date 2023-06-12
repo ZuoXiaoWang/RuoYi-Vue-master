@@ -46,8 +46,8 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
     }
 
     @Override
-    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId() {
-        return sysPersonnelMapper.selectAllSysRepairPersonnelOpenId();
+    public List<SysPersonnel> selectAllSysRepairPersonnelOpenId(Long regionId) {
+        return sysPersonnelMapper.selectAllSysRepairPersonnelOpenId(regionId);
     }
 
     @Override
@@ -156,8 +156,8 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
     }
 
     @Override
-    public List<SysPersonnel> selectOwnerPersonnelAll() {
-        return sysPersonnelMapper.selectOwnerPersonnelAll();
+    public List<SysPersonnel> selectOwnerPersonnelAll(Long regionId) {
+        return sysPersonnelMapper.selectOwnerPersonnelAll(regionId);
     }
 
     @Override

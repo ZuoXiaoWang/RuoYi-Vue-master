@@ -57,3 +57,10 @@ export function delPatrol(patrolId) {
     url: '/system/patrol/' + patrolId, method: 'delete'
   })
 }
+
+// 巡更点已巡和未巡信息
+export function getPotinStatusByPatrolId(patrolId) {
+  return request({
+    url: 'system/patrol/getPotinStatusByPatrolId/' + patrolId, method: "get"
+  })
+}

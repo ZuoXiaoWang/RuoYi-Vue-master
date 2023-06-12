@@ -52,3 +52,11 @@ export function addRegionWithUser(data) {
     data: data
   })
 }
+
+//管理员回查
+export function getRegionUserByRegionId(regionId) {
+  return request({
+    url: '/system/region/getRegionUserByRegionId/' + regionId,
+    method: 'get',
+  })
+}

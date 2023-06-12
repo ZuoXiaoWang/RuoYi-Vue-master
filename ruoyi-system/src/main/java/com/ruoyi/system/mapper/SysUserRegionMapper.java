@@ -64,4 +64,9 @@ public interface SysUserRegionMapper
      */
     public int batchUserRegion(List<SysUserRegion> list);
 
+    public List<SysUserRegion> selectRegionUserByRegionId(Long regionId);
+
+
+    public int deleteSysUserRegionByRegionId(Long regionId);
+
 }

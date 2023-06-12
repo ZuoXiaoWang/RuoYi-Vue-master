@@ -87,7 +87,7 @@
             icon="el-icon-add"
             @click="editRegionWithUser(scope.row)"
             v-hasPermi="['system:region:add']"
-          >添加许可管理员
+          >许可管理员
           </el-button>
           <el-button
             size="mini"
@@ -135,12 +135,12 @@
 
 
     <!-- 添加或修改区域管理对话框 -->
-    <el-dialog title="添加许可管理员" :visible.sync="regionUserOpen" width="500px" append-to-body>
+    <el-dialog title="许可管理员" :visible.sync="regionUserOpen" width="500px" append-to-body>
       <el-form ref="regionUserFrom" :model="regionUserFrom" :rules="regionUserRules" label-width="80px">
         <el-form-item label="区域名称" prop="name">
           <el-input v-model="regionUserFrom.name" :disabled="true"/>
         </el-form-item>
-        <el-form-item label="描述" prop="userIds">
+        <el-form-item label="管理员" prop="userIds">
           <el-select v-model="regionUserFrom.userIds" multiple placeholder="请选择用户">
             <el-option
               v-for="item in userOptions"
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { listRegion, getRegion, delRegion, addRegion, updateRegion, addRegionWithUser } from '@/api/system/region'
+import { listRegion, getRegion, delRegion, addRegion, updateRegion, addRegionWithUser ,getRegionUserByRegionId } from '@/api/system/region'
 import { listUser } from '@/api/system/user'
 
 export default {
@@ -327,8 +327,17 @@ export default {
     // 修改许可管理员按钮操作
     editRegionWithUser(row) {
       //查询原有许可管理员
+      getRegionUserByRegionId(row.regionId).then(res => {
+        console.log(res);
+        this.regionUserFrom.userIds = [];
+        for(let i = 0;i<res.sysUserRegions.length;i++){
+          if(res.sysUserRegions[i]){
+            this.regionUserFrom.userIds.push(res.sysUserRegions[i].userId)
+            this.regionUserFrom.regionId = res.sysUserRegions[i].regionId
+          }
+        }
+      })
       this.regionUserFrom.name = row.name
-      this.regionUserFrom.regionId = row.regionId
       this.regionUserOpen = true
     },
     // 添加许可管理员按钮操作

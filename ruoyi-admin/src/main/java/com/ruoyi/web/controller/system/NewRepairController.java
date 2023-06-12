@@ -76,8 +76,13 @@ public class NewRepairController extends AppBaseController {
 
     @GetMapping("/selectOwnerPersonnelAll")
     public AjaxResult selectOwnerPersonnelAll() {
+        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         AjaxResult success = AjaxResult.success();
-        success.put("OwnerPersonnel", sysPersonnelService.selectOwnerPersonnelAll());
+        List<SysPersonnel> list = new ArrayList<>();
+        for (SysUserRegion sysUserRegion : sysUserRegions) {
+            list.addAll(sysPersonnelService.selectOwnerPersonnelAll(sysUserRegion.getRegionId()));
+        }
+        success.put("OwnerPersonnel", list);
         return success;
     }
 

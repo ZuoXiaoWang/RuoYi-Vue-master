@@ -112,6 +112,7 @@ public class NewEvaluateController extends AppBaseController
     @PostMapping
     public AjaxResult add(@RequestBody NewEvaluate newEvaluate)
     {
+        newEvaluate.setRegionId(getUser().getRegionId());
         String msg = "";
         if(newEvaluate.getNewRepairId() == null){
             msg = "维修id不能为空";
