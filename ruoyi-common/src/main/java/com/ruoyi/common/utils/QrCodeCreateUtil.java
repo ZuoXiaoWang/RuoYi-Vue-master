@@ -27,7 +27,7 @@ public class QrCodeCreateUtil {
      * @throws WriterException
      * @throws IOException
      */
-    public static BufferedImage createQrCode(String content, int qrCodeSize, String title)
+    public static BufferedImage createQrCode(String content, int qrCodeSize, String title, Long userId)
             throws WriterException, IOException {
         // 设置二维码纠错级别ＭＡＰ
         Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
@@ -64,8 +64,11 @@ public class QrCodeCreateUtil {
         int widthX = (picWidth - textWidth) / 2;
         graphics.drawString(title, widthX, image.getHeight() - 50);
         graphics.dispose();
-        return resize(image, 600, 600);
-
+        if (userId.equals(1L)){
+            return resize(image, 600, 600);
+        }else {
+            return resize(image, 100, 100);
+        }
     }
     /**
      * 设置图片大小，并在底部加上字

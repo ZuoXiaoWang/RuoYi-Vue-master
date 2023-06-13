@@ -50,6 +50,7 @@ public class SysPatrolPointController extends AppBaseController {
 
     @Autowired
     private IRegionsByUserIdService regionsByUserIdService;
+
     /**
      * 查询巡更点管理列表
      */
@@ -58,7 +59,7 @@ public class SysPatrolPointController extends AppBaseController {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
         List<SysPatrolPoint> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
+        for (SysUserRegion sysUserRegion : sysUserRegions
         ) {
             sysPatrolPoint.setRegionId(sysUserRegion.getRegionId());
             list.addAll(sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint));
@@ -73,7 +74,7 @@ public class SysPatrolPointController extends AppBaseController {
     public TableDataInfo listAll(SysPatrolPoint sysPatrolPoint) {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         List<SysPatrolPoint> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
+        for (SysUserRegion sysUserRegion : sysUserRegions
         ) {
             sysPatrolPoint.setRegionId(sysUserRegion.getRegionId());
             list.addAll(sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint));
@@ -171,11 +172,10 @@ public class SysPatrolPointController extends AppBaseController {
 
     //点位倒查
     @GetMapping("/selectPersonnelAndPatrolOrderByPointId/{patrolPointId}")
-    public TableDataInfo selectPersonnelAndPatrolOrderByPointId(@PathVariable Long patrolPointId){
+    public TableDataInfo selectPersonnelAndPatrolOrderByPointId(@PathVariable Long patrolPointId) {
         List<PersonnelAndPatrolOrder> list = sysPatrolPointService.selectPersonnelAndPatrolOrderByPointId(patrolPointId);
         return getDataTable(list);
     }
-
 
 
     /**
@@ -195,7 +195,12 @@ public class SysPatrolPointController extends AppBaseController {
 //                String codeString = String.valueOf(list.get(j).getPatrolPointId());
                 String codeString = handelForPointScan(list.get(j));// 获取二维码字符串
                 String title = String.valueOf(list.get(j).getPatrolPointId());// 获取二维码title
-                BufferedImage qrCode = QrCodeCreateUtil.createQrCode(codeString, 2500, title);// 生成二维码图片
+                BufferedImage qrCode;
+                if (getUserId().equals(1L)) {
+                    qrCode = QrCodeCreateUtil.createQrCode(codeString, 2500, title, getUserId());// 生成二维码图片
+                } else {
+                    qrCode = QrCodeCreateUtil.createQrCode(codeString, 800, title, getUserId());
+                }
                 try (ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                      ImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteOutputStream)) {
                     ImageIO.write(qrCode, "PNG", imageOutputStream);

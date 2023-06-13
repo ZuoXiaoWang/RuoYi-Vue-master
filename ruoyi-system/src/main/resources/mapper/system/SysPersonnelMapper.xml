@@ -161,8 +161,8 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deptId != null">#{deptId},</if>
             <if test="postId != null">#{postId},</if>
-            <if test="openId != null">#{openId}</if>
-            <if test="regionId != null">#{regionId}</if>
+            <if test="openId != null">#{openId},</if>
+            <if test="regionId != null">#{regionId},</if>
             <if test="personnelLoginName != null and personnelLoginName != ''">#{personnelLoginName},</if>
             <if test="personnelPassword != null and personnelPassword != ''">#{personnelPassword},</if>
             <if test="personnelName != null and personnelName != ''">#{personnelName},</if>
