@@ -65,7 +65,7 @@ public class NewRepairFromController extends AppBaseController {
     @GetMapping("/list")
     public TableDataInfo list(NewRepairFrom newRepairFrom) {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        startPage();
+//        startPage();
         ArrayList<NewRepairFrom> list = new ArrayList<>();
         for (SysUserRegion sysUserRegion : sysUserRegions
         ) {
@@ -109,7 +109,7 @@ public class NewRepairFromController extends AppBaseController {
     public TableDataInfo listByRepairPersonnel(NewRepairFrom newRepairFrom) {
         newRepairFrom.setRegionId(getUser().getRegionId());
         newRepairFrom.setState("0");
-        startPage();
+//        startPage();
         List<NewRepairFrom> list = new ArrayList<>();
         if (isRepairPersonnel()) {
             list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
@@ -127,7 +127,7 @@ public class NewRepairFromController extends AppBaseController {
     //根据用户查询报修
     @GetMapping("/listByPersonnel")
     public TableDataInfo listByPersonnel(NewRepairFrom newRepairFrom) {
-        startPage();
+//        startPage();
         newRepairFrom.setPersonnelId(getAppUserId());
         List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
         for (NewRepairFrom nrf : list) {
@@ -203,7 +203,7 @@ public class NewRepairFromController extends AppBaseController {
                 List<SysPersonnel> list = sysPersonnelService.selectAllSysRepairPersonnelOpenId(getUser().getRegionId());
                 for (SysPersonnel sysPersonnel : list
                 ) {
-                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(), newRepairFrom.getPersonnelName(), newRepairFrom.getLocation());
+                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(), getUser().getPersonnelName(), newRepairFrom.getLocation());
                 }
 
             }
@@ -284,7 +284,7 @@ public class NewRepairFromController extends AppBaseController {
                 List<SysPersonnel> list = sysPersonnelService.selectAllSysRepairPersonnelOpenId(getUser().getRegionId());
                 for (SysPersonnel sysPersonnel : list
                 ) {
-                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(), newRepairFrom.getPersonnelName(), newRepairFrom.getLocation());
+                    asyncService.sendSubscribeMsg(sysPersonnel.getOpenId(), getUser().getPersonnelName(), newRepairFrom.getLocation());
                 }
 
             }

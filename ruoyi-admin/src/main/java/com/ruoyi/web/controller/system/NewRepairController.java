@@ -56,8 +56,8 @@ public class NewRepairController extends AppBaseController {
      */
     @GetMapping("/list")
     public TableDataInfo list(NewRepair newRepair) {
+//        startPage();
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        startPage();
         List<NewRepair> list = new ArrayList<>();
         for (SysUserRegion sysUserRegion : sysUserRegions) {
             newRepair.setRegionId(sysUserRegion.getRegionId());
@@ -88,7 +88,6 @@ public class NewRepairController extends AppBaseController {
 
     @GetMapping("/listByPersonnel")
     public TableDataInfo listByPersonnel(NewRepair newRepair) {
-        startPage();
         newRepair.setPersonnelId(getAppUserId());
         List<NewRepair> list;
         if (StringUtils.isNotEmpty(newRepair.getState())) {
@@ -96,6 +95,7 @@ public class NewRepairController extends AppBaseController {
         } else {
             list = newRepairService.selectNewRepairListWithState(newRepair);
         }
+        startPage();
         for (NewRepair nr : list) {
             List<String> listStr = newRepairService.selectImgUrls(nr.getNewRepairId());
             if (listStr != null && listStr.size() != 0) {

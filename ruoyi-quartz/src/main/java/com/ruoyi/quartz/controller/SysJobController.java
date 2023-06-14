@@ -53,7 +53,6 @@ public class SysJobController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(SysJob sysJob) {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        startPage();
         ArrayList<SysJob> list = new ArrayList<>();
         for (SysUserRegion sysUserRegion: sysUserRegions
         ) {

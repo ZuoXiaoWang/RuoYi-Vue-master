@@ -63,7 +63,6 @@ public class SysPatrolController extends AppBaseController {
     @GetMapping("/list")
     public TableDataInfo list(SysPatrol sysPatrol) {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        startPage();
         ArrayList<SysPatrol> list = new ArrayList<>();
         for (SysUserRegion sysUserRegion: sysUserRegions
         ) {

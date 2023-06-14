@@ -120,7 +120,7 @@
             sys_patrol_point
             ON
                     sys_patrol_patrol_point_status.patrol_point_id = sys_patrol_point.patrol_point_id
-                INNER JOIN
+                LEFT JOIN
             sys_patrol_order
             ON
                         sys_patrol_patrol_point_status.patrol_point_id = sys_patrol_order.patrol_point_id AND

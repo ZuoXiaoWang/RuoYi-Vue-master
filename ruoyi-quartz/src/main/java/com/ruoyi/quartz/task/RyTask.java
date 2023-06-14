@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -57,20 +58,34 @@ public class RyTask {
         sysPatrol.setPatrolId(null);
         sysPatrol.setType("0");
 
+        //计算差值
+        long diff = template.getPatrolEndTime().getTime() - template.getPatrolStartTime().getTime();
+        sysPatrol.setPatrolStartTime(changeDate(template.getPatrolStartTime(),0));
+        long time = sysPatrol.getPatrolStartTime().getTime();
+        time = time + diff;
+        Date date = new Date();
+        date.setTime(time);
+        sysPatrol.setPatrolEndTime(date);
 
-        //将yy-mm-dd换成当日日期
-        sysPatrol.setPatrolStartTime(changeDate(template.getPatrolStartTime()));
-        sysPatrol.setPatrolEndTime(changeDate(template.getPatrolEndTime()));
+//        //将yy-mm-dd换成当日日期
+//        sysPatrol.setPatrolStartTime(changeDate(template.getPatrolStartTime(),0));
+//        sysPatrol.setPatrolEndTime(changeDate(template.getPatrolEndTime(),0));
+
+
+
         patrolService.insertSysPatrol(sysPatrol, personnelList, patrolPointList);
         System.out.println("_________________________________________________\n" +
                 "||||||||||||||||||||||||||||||||||||||||||||||||||");
     }
 
-    public Date changeDate(Date templateDataTime) {
+    public Date changeDate(Date templateDataTime, int addDate) {
         Date nowDate = DateUtils.getNowDate();
+        Calendar calendar = Calendar.getInstance();
         templateDataTime.setDate(nowDate.getDate());
         templateDataTime.setMonth(nowDate.getMonth());
         templateDataTime.setYear(nowDate.getYear());
-        return templateDataTime;
+        calendar.setTime(templateDataTime);
+        calendar.add(Calendar.DAY_OF_YEAR,addDate);
+        return calendar.getTime();
     }
 }

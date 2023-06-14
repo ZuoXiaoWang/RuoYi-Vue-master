@@ -36,6 +36,7 @@ public class AsyncService{
         wxMssVo.setData(m);
         ResponseEntity<String> responseEntity =
                 restTemplate.postForEntity(url, wxMssVo, String.class);
+        System.out.println(responseEntity.getBody());
     }
 
     public String getAccessToken() {

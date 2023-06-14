@@ -58,7 +58,7 @@ public class SysPersonnelController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(SysPersonnel sysPersonnel) {
         List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        startPage();
+//        startPage();
         List<SysPersonnel> list = new ArrayList<>();
         for (SysUserRegion sysUserRegion: sysUserRegions
         ) {
@@ -121,6 +121,7 @@ public class SysPersonnelController extends BaseController {
         if (!sysPersonnelService.checkPersonnelLoginNameUnique(sysPersonnel)) {
             return error("新增员工'" + sysPersonnel.getPersonnelLoginName() + "'失败,登录账号已存在");
         }
+        sysPersonnel.setPostId(1L);
         sysPersonnel.setCreateBy(getUsername());
         sysPersonnel.setPersonnelPassword(SecurityUtils.encryptPassword(sysPersonnel.getPersonnelPassword()));
         return toAjax(sysPersonnelService.insertSysPersonnel(sysPersonnel));
