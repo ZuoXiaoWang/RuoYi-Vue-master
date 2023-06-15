@@ -43,15 +43,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSysPatrolOrderList" parameterType="SysPatrolOrder" resultMap="SysPatrolOrderResult">
         <include refid="selectSysPatrolOrderVo"/>
         <where>
-            <if test="patrolPointId != null "> and patrol_point_id = #{patrolPointId}</if>
-            <if test="patrolPointName != null  and patrolPointName != ''"> and patrol_point_name like concat('%', #{patrolPointName}, '%')</if>
-            <if test="patrolId != null "> and patrol_id = #{patrolId}</if>
-            <if test="patrolName != null  and patrolName != ''"> and patrol_name like concat('%', #{patrolName}, '%')</if>
-            <if test="personnelId != null "> and personnel_id = #{personnelId}</if>
-            <if test="personnelName != null  and personnelName != ''"> and personnel_name like concat('%', #{personnelName}, '%')</if>
-            <if test="patrolResult != null  and patrolResult != ''"> and patrol_result = #{patrolResult}</if>
+            <if test="patrolPointId != null ">and patrol_point_id = #{patrolPointId}</if>
+            <if test="patrolPointName != null  and patrolPointName != ''">and patrol_point_name like concat('%',
+                #{patrolPointName}, '%')
+            </if>
+            <if test="patrolId != null ">and patrol_id = #{patrolId}</if>
+            <if test="patrolName != null  and patrolName != ''">and patrol_name like concat('%', #{patrolName}, '%')
+            </if>
+            <if test="personnelId != null ">and personnel_id = #{personnelId}</if>
+            <if test="personnelName != null  and personnelName != ''">and personnel_name like concat('%',
+                #{personnelName}, '%')
+            </if>
+            <if test="patrolResult != null  and patrolResult != ''">and patrol_result = #{patrolResult}</if>
 
-            <if test="regionId != null "> and region_id = #{regionId}</if>
+            <if test="regionId != null ">and region_id = #{regionId}
+                <!--<foreach collection="array" item="regionIdsArray" index="index" open="(" separator="," close=")">-->
+                <!--    #{regionId}-->
+                <!--</foreach>-->
+            </if>
+
+
         </where>
     </select>
 
