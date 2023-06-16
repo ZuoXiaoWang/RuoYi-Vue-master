@@ -76,7 +76,7 @@ public interface SysPersonnelMapper {
 
     public List<SysPersonnel> selectPersonnelAll();
 
-    public List<SysPersonnel> selectOwnerPersonnelAll(Long regionId);
+    public List<SysPersonnel> selectOwnerPersonnelAll(Long userId);
 
     public List<Long> selectPersonnelListByPatrolId(Long patrolId);
 

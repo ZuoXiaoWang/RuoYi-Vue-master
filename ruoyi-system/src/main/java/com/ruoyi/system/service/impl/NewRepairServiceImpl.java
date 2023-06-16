@@ -65,6 +65,7 @@ public class NewRepairServiceImpl implements INewRepairService
         return newRepairMapper.selectNewRepairList(newRepair);
     }
 
+
     @Override
     public List<NewRepair> selectNewRepairListWithStateFive(NewRepair newRepair)
     {

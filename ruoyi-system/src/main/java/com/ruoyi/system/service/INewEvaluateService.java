@@ -27,6 +27,7 @@ public interface INewEvaluateService
      */
     public List<NewEvaluate> selectNewEvaluateList(NewEvaluate newEvaluate);
 
+
     /**
      * 新增评价单
      *

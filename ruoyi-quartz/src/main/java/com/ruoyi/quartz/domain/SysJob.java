@@ -165,6 +165,7 @@ public class SysJob extends BaseEntity {
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
                 .append("regionId", getRemark())
+                .append("userId", getRemark())
                 .toString();
     }
 
@@ -178,4 +179,14 @@ public class SysJob extends BaseEntity {
 
     /** 区域划分id */
     private Long regionId;
+
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

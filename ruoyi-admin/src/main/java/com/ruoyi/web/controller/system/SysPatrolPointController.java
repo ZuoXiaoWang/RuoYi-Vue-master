@@ -56,15 +56,21 @@ public class SysPatrolPointController extends AppBaseController {
      */
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolPoint sysPatrolPoint) {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+        startPage();
+        sysPatrolPoint.setUserId(getUserId());
+        List<SysPatrolPoint> sysPatrolPoints = sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint);
+        return getDataTable(sysPatrolPoints);
+
+
+//        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
 //        startPage();
-        List<SysPatrolPoint> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion : sysUserRegions
-        ) {
-            sysPatrolPoint.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint));
-        }
-        return getDataTable(list);
+//        List<SysPatrolPoint> list = new ArrayList<>();
+//        for (SysUserRegion sysUserRegion : sysUserRegions
+//        ) {
+//            sysPatrolPoint.setRegionId(sysUserRegion.getRegionId());
+//            list.addAll(sysPatrolPointService.selectSysPatrolPointList(sysPatrolPoint));
+//        }
+//        return getDataTable(list);
     }
 
     /**

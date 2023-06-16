@@ -117,5 +117,8 @@ public class SysPersonnel extends BaseEntity {
     private String openId;
 
     /** 区域划分id */
+
     private Long regionId;
+
+    private Long userId;
 }

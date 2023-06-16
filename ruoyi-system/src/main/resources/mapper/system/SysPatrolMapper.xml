@@ -133,12 +133,17 @@
             <if test="patrolPrincipal != null  and patrolPrincipal != ''">and sys_patrol.patrol_principal =
                 #{patrolPrincipal}
             </if>
-            <if test="regionId != null "> and sys_patrol.region_id = #{regionId}</if>
             <if test="patrolPhone != null  and patrolPhone != ''">and psys_patrol.atrol_phone = #{patrolPhone}</if>
             <if test="patrolStatus != null  and patrolStatus != ''">and sys_patrol.patrol_status = #{patrolStatus}</if>
             <if test="patrolStartTime != null ">and sys_patrol.create_time <![CDATA[>=]]> #{patrolStartTime}</if>
             <if test="patrolEndTime != null ">and sys_patrol.create_time <![CDATA[<=]]> #{patrolEndTime}</if>
             <if test="patrolCreateTime != null ">and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
+            <if test="regionId != null "> and sys_patrol.region_id = #{regionId}</if>
+            <if test="userId != null  and userId != ''">
+                AND sys_patrol.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
             and sys_patrol.type = 0
         </where>
     </select>

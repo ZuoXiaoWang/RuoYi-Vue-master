@@ -51,8 +51,6 @@ public class NewEvaluateController extends AppBaseController
     @Autowired
     private INewRepairFromService newRepairFromService;
 
-    @Autowired
-    private IRegionsByUserIdService regionsByUserIdService;
 
     /**
      * 查询评价单列表
@@ -60,15 +58,10 @@ public class NewEvaluateController extends AppBaseController
     @GetMapping("/list")
     public TableDataInfo list(NewEvaluate newEvaluate)
     {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        List<NewEvaluate> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
-             ) {
-            newEvaluate.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(newEvaluateService.selectNewEvaluateList(newEvaluate));
-        }
-        return getDataTable(list);
+        newEvaluate.setUserId(getUserId());
+        List<NewEvaluate> newEvaluates = newEvaluateService.selectNewEvaluateList(newEvaluate);
+        return getDataTable(newEvaluates);
     }
 
     /**

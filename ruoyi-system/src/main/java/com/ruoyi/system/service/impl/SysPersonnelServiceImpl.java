@@ -156,8 +156,8 @@ public class SysPersonnelServiceImpl implements ISysPersonnelService {
     }
 
     @Override
-    public List<SysPersonnel> selectOwnerPersonnelAll(Long regionId) {
-        return sysPersonnelMapper.selectOwnerPersonnelAll(regionId);
+    public List<SysPersonnel> selectOwnerPersonnelAll(Long userId) {
+        return sysPersonnelMapper.selectOwnerPersonnelAll(userId);
     }
 
     @Override

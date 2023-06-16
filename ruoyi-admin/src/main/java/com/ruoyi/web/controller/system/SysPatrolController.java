@@ -62,14 +62,17 @@ public class SysPatrolController extends AppBaseController {
     @PreAuthorize("@ss.hasPermi('system:patrol:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPatrol sysPatrol) {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        ArrayList<SysPatrol> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
-        ) {
-            sysPatrol.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(sysPatrolService.selectSysPatrolList4vue(sysPatrol));
-        }
-        return getDataTable(list);
+        startPage();
+        sysPatrol.setUserId(getUserId());
+        List<SysPatrol> sysPatrols = sysPatrolService.selectSysPatrolList4vue(sysPatrol);
+//        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+//        ArrayList<SysPatrol> list = new ArrayList<>();
+//        for (SysUserRegion sysUserRegion: sysUserRegions
+//        ) {
+//            sysPatrol.setRegionId(sysUserRegion.getRegionId());
+//            list.addAll(sysPatrolService.selectSysPatrolList4vue(sysPatrol));
+//        }
+        return getDataTable(sysPatrols);
     }
 
     /**

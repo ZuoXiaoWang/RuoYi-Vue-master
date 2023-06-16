@@ -30,6 +30,7 @@ public interface INewRepairService
     public List<NewRepair> selectNewRepairList(NewRepair newRepair);
 
 
+
     public List<NewRepair> selectNewRepairListWithStateFive(NewRepair newRepair);
     public List<NewRepair> selectNewRepairListWithState(NewRepair newRepair);
 

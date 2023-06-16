@@ -57,15 +57,21 @@ public class SysPersonnelController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:personnel:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPersonnel sysPersonnel) {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-//        startPage();
-        List<SysPersonnel> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
-        ) {
-            sysPersonnel.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(sysPersonnelService.selectSysPersonnelList(sysPersonnel));
-        }
+        startPage();
+        sysPersonnel.setUserId(getUserId());
+        List<SysPersonnel> list = sysPersonnelService.selectSysPersonnelList(sysPersonnel);
         return getDataTable(list);
+
+
+//        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+////        startPage();
+//        List<SysPersonnel> list = new ArrayList<>();
+//        for (SysUserRegion sysUserRegion: sysUserRegions
+//        ) {
+//            sysPersonnel.setRegionId(sysUserRegion.getRegionId());
+//            list.addAll(sysPersonnelService.selectSysPersonnelList(sysPersonnel));
+//        }
+//        return getDataTable(list);
     }
 
     /**

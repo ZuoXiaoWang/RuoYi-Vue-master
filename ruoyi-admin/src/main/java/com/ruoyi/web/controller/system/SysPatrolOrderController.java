@@ -56,15 +56,20 @@ public class SysPatrolOrderController extends AppBaseController {
      */
     @GetMapping("/list")
     public TableDataInfo list(SysPatrolOrder sysPatrolOrder) {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
         startPage();
-        ArrayList<SysPatrolOrder> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
-        ) {
-            sysPatrolOrder.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(sysPatrolOrderService.selectSysPatrolOrderList(sysPatrolOrder));
-        }
-        return getDataTable(list);
+        sysPatrolOrder.setUserId(getUserId());
+        List<SysPatrolOrder> sysPatrolOrders = sysPatrolOrderService.selectSysPatrolOrderList(sysPatrolOrder);
+        return getDataTable(sysPatrolOrders);
+
+//        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+//        ArrayList<SysPatrolOrder> list = new ArrayList<>();
+//        for (SysUserRegion sysUserRegion: sysUserRegions
+//        ) {
+//            sysPatrolOrder.setRegionId(sysUserRegion.getRegionId());
+//            sysPatrolOrder.setUserId(getUserId());
+//            list.addAll(sysPatrolOrderService.selectSysPatrolOrderList(sysPatrolOrder));
+//        }
+//        return getDataTable(list);
     }
 
     /**

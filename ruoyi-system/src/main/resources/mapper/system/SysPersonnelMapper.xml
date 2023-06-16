@@ -108,7 +108,11 @@
             <if test="personnelResignationTime != null ">and s.personnel_resignation_time =
                 #{personnelResignationTime}
             </if>
-            <if test="regionId != null ">and s.region_id = #{regionId}</if>
+            <if test="userId != null  and userId != ''">
+                AND s.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
             and s.post_id != 1
         </where>
     </select>
@@ -234,7 +238,12 @@
 
     <select id="selectOwnerPersonnelAll" parameterType="Long" resultMap="SysPersonnelResult">
         <include refid="selectSysPersonnelVo"/>
-        where s.post_id = 1 and s.region_id = #{regionId}
+        <if test="userId != null  and userId != ''">
+            AND s.region_id IN (
+            SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+            )
+        </if>
+        where s.post_id = 1
     </select>
 
     <select id="selectPersonnelListByPatrolId" parameterType="Long" resultType="Long">

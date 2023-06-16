@@ -64,22 +64,17 @@ public class NewRepairFromController extends AppBaseController {
      */
     @GetMapping("/list")
     public TableDataInfo list(NewRepairFrom newRepairFrom) {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-//        startPage();
-        ArrayList<NewRepairFrom> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion : sysUserRegions
-        ) {
-            newRepairFrom.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(newRepairFromService.selectNewRepairFromList(newRepairFrom));
-            for (NewRepairFrom nrf : list) {
-                List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
-                if (listStr != null && listStr.size() != 0) {
-                    nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
-                    nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
-                }
-                Long l = System.currentTimeMillis() - nrf.getCreateTime().getTime();
-                nrf.setDetainHours(l.intValue() / 1000 / 60 / 60);
+        startPage();
+        newRepairFrom.setUserId(getUserId());
+        List<NewRepairFrom> list = newRepairFromService.selectNewRepairFromList(newRepairFrom);
+        for (NewRepairFrom nrf : list) {
+            List<String> listStr = newRepairFromService.selectImgUrls(nrf.getRepairFromId());
+            if (listStr != null && listStr.size() != 0) {
+                nrf.setImgUrl(newRepairFromService.selectImgUrls(nrf.getRepairFromId()).get(0));
+                nrf.setImgUrls(newRepairFromService.selectImgUrls(nrf.getRepairFromId()));
             }
+            Long l = System.currentTimeMillis() - nrf.getCreateTime().getTime();
+            nrf.setDetainHours(l.intValue() / 1000 / 60 / 60);
         }
         return getDataTable(list);
     }

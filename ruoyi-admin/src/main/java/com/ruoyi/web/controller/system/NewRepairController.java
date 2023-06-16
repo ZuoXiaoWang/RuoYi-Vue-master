@@ -48,22 +48,16 @@ public class NewRepairController extends AppBaseController {
     @Autowired
     private INewEvaluateService newEvaluateService;
 
-    @Autowired
-    private IRegionsByUserIdService regionsByUserIdService;
 
     /**
      * 查询维修单列表
      */
     @GetMapping("/list")
     public TableDataInfo list(NewRepair newRepair) {
-//        startPage();
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        List<NewRepair> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion : sysUserRegions) {
-            newRepair.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(newRepairService.selectNewRepairList(newRepair));
-        }
-        return getDataTable(list);
+        startPage();
+        newRepair.setUserId(getUserId());
+        List<NewRepair> newRepairs = newRepairService.selectNewRepairList(newRepair);
+        return getDataTable(newRepairs);
     }
 
     @GetMapping("/applist")
@@ -75,15 +69,20 @@ public class NewRepairController extends AppBaseController {
     }
 
     @GetMapping("/selectOwnerPersonnelAll")
-    public AjaxResult selectOwnerPersonnelAll() {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        AjaxResult success = AjaxResult.success();
-        List<SysPersonnel> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion : sysUserRegions) {
-            list.addAll(sysPersonnelService.selectOwnerPersonnelAll(sysUserRegion.getRegionId()));
-        }
-        success.put("OwnerPersonnel", list);
-        return success;
+    public TableDataInfo selectOwnerPersonnelAll() {
+        startPage();
+        List<SysPersonnel> list = sysPersonnelService.selectOwnerPersonnelAll(getUserId());
+        return getDataTable(list);
+
+
+//        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+//        AjaxResult success = AjaxResult.success();
+//        List<SysPersonnel> list = new ArrayList<>();
+//        for (SysUserRegion sysUserRegion : sysUserRegions) {
+//            list.addAll(sysPersonnelService.selectOwnerPersonnelAll(sysUserRegion.getRegionId()));
+//        }
+//        success.put("OwnerPersonnel", list);
+//        return success;
     }
 
     @GetMapping("/listByPersonnel")

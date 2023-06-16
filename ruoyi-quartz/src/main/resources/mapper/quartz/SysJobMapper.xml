@@ -55,6 +55,12 @@
             <if test="regionId != null and regionId != ''">
                 AND region_id = #{regionId}
             </if>
+
+            <if test="userId != null  and userId != ''">
+                AND sys_job.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
         </where>
     </select>
 

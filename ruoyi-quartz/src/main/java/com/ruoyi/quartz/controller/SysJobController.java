@@ -52,14 +52,19 @@ public class SysJobController extends BaseController {
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysJob sysJob) {
-        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
-        ArrayList<SysJob> list = new ArrayList<>();
-        for (SysUserRegion sysUserRegion: sysUserRegions
-        ) {
-            sysJob.setRegionId(sysUserRegion.getRegionId());
-            list.addAll(jobService.selectJobList(sysJob));
-        }
-        return getDataTable(list);
+        startPage();
+        sysJob.setUserId(getUserId());
+        List<SysJob> sysJobs = jobService.selectJobList(sysJob);
+
+
+//        List<SysUserRegion> sysUserRegions = regionsByUserIdService.selectRegionsByUser(getUserId());
+//        ArrayList<SysJob> list = new ArrayList<>();
+//        for (SysUserRegion sysUserRegion: sysUserRegions
+//        ) {
+//            sysJob.setRegionId(sysUserRegion.getRegionId());
+//            list.addAll(jobService.selectJobList(sysJob));
+//        }
+        return getDataTable(sysJobs);
     }
 
     /**

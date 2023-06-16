@@ -66,4 +66,6 @@ public class NewRepair extends BaseEntity
 
     /** 区域划分id */
     private Long regionId;
+
+    private Long userId;
 }

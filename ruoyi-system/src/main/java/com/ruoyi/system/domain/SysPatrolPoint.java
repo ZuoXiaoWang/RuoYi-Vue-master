@@ -77,4 +77,7 @@ public class SysPatrolPoint extends BaseEntity {
     private Long regionId;
 
 
+    private Long userId;
+
+
 }
