@@ -7,7 +7,7 @@
     <resultMap type="InspectionRoutePointRel" id="InspectionRoutePointRelResult">
         <result property="irpRelId"    column="irp_rel_id"    />
         <result property="inspectionRouteId"    column="inspection_route_id"    />
-        <result property="inspectionId"    column="inspection_id"    />
+        <result property="patrolPointId"    column="patrol_point_id"    />
         <result property="regionId"    column="region_id"    />
         <result property="statusCd"    column="status_cd"    />
         <result property="pointStartTime"    column="point_start_time"    />
@@ -20,14 +20,14 @@
     </resultMap>
 
     <sql id="selectInspectionRoutePointRelVo">
-        select irp_rel_id, inspection_route_id, inspection_id, region_id, status_cd, point_start_time, point_end_time, sort_number, create_time, create_by, update_by, update_time from inspection_route_point_rel
+        select irp_rel_id, inspection_route_id, patrol_point_id, region_id, status_cd, point_start_time, point_end_time, sort_number, create_time, create_by, update_by, update_time from inspection_route_point_rel
     </sql>
 
     <select id="selectInspectionRoutePointRelList" parameterType="InspectionRoutePointRel" resultMap="InspectionRoutePointRelResult">
         <include refid="selectInspectionRoutePointRelVo"/>
         <where>
             <if test="inspectionRouteId != null  and inspectionRouteId != ''"> and inspection_route_id = #{inspectionRouteId}</if>
-            <if test="inspectionId != null  and inspectionId != ''"> and inspection_id = #{inspectionId}</if>
+            <if test="patrolPointId != null  and patrolPointId != ''"> and patrol_point_id = #{patrolPointId}</if>
             <if test="regionId != null "> and region_id = #{regionId}</if>
             <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
             <if test="pointStartTime != null  and pointStartTime != ''"> and point_start_time = #{pointStartTime}</if>
@@ -46,12 +46,18 @@
         where irp_rel_id = #{irpRelId}
     </select>
 
+    <select id="selectInspectionRoutePointRelIds" parameterType="String" resultType="Long">
+        SELECT inspection_route_point_rel.patrol_point_id
+        FROM inspection_route_point_rel
+        WHERE inspection_route_point_rel.inspection_route_id = #{inspectionRouteId}
+    </select>
+
     <insert id="insertInspectionRoutePointRel" parameterType="InspectionRoutePointRel">
         insert into inspection_route_point_rel
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="irpRelId != null">irp_rel_id,</if>
             <if test="inspectionRouteId != null and inspectionRouteId != ''">inspection_route_id,</if>
-            <if test="inspectionId != null and inspectionId != ''">inspection_id,</if>
+            <if test="patrolPointId != null and patrolPointId != ''">patrol_point_id,</if>
             <if test="regionId != null">region_id,</if>
             <if test="statusCd != null and statusCd != ''">status_cd,</if>
             <if test="pointStartTime != null">point_start_time,</if>
@@ -65,7 +71,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="irpRelId != null">#{irpRelId},</if>
             <if test="inspectionRouteId != null and inspectionRouteId != ''">#{inspectionRouteId},</if>
-            <if test="inspectionId != null and inspectionId != ''">#{inspectionId},</if>
+            <if test="patrolPointId != null and patrolPointId != ''">#{patrolPointId},</if>
             <if test="regionId != null">#{regionId},</if>
             <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
             <if test="pointStartTime != null">#{pointStartTime},</if>
@@ -82,7 +88,7 @@
         update inspection_route_point_rel
         <trim prefix="SET" suffixOverrides=",">
             <if test="inspectionRouteId != null and inspectionRouteId != ''">inspection_route_id = #{inspectionRouteId},</if>
-            <if test="inspectionId != null and inspectionId != ''">inspection_id = #{inspectionId},</if>
+            <if test="patrolPointId != null and patrolPointId != ''">patrol_point_id = #{patrolPointId},</if>
             <if test="regionId != null">region_id = #{regionId},</if>
             <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
             <if test="pointStartTime != null">point_start_time = #{pointStartTime},</if>
@@ -109,13 +115,23 @@
 
 
     <delete id="deleteInspectionRoutePointRelByInspectionRouteId" parameterType="String">
-        delete from inspection_route_point_rel where inspection_id = #{inspectionId}
+        delete from inspection_route_point_rel where inspection_route_id = #{inspectionRouteId}
     </delete>
 
     <delete id="deleteInspectionRoutePointRelByInspectionRouteIds" parameterType="String">
-        delete from inspection_route_point_rel where inspection_id in
-        <foreach item="inspectionId" collection="array" open="(" separator="," close=")">
-            #{inspectionId}
+        delete from inspection_route_point_rel where inspection_route_id in
+        <foreach item="inspectionRouteId" collection="array" open="(" separator="," close=")">
+            #{inspectionRouteId}
         </foreach>
     </delete>
+
+    <insert id="batchInsertInspectionRouteRel">
+        insert into inspection_route_point_rel(irp_rel_id, inspection_route_id, patrol_point_id, region_id,
+        status_cd,sort_number) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.irpRelId},#{item.inspectionRouteId},#{item.patrolPointId},#{item.regionId},#{item.statusCd},#{item.sortNumber})
+        </foreach>
+    </insert>
+
+
 </mapper>

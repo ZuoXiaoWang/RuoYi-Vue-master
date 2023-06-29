@@ -26,4 +26,11 @@ public interface IInspectionRouteService
 
     //删除路线
     public int deleteInspectionRouteByInspectionRouteId(String inspectionRouteId);
+
+    //删除巡检点
+    public int deleteInspectionRouteByInspectionRouteRel(String[] inspectionRouteRelIds);
+
+
+    //查询路线下巡检点
+    public Long[] selectInspectionRoutePointRelIds(String routeId);
 }

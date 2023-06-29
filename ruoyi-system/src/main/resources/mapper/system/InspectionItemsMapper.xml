@@ -44,7 +44,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="itemId != null">item_id,</if>
             <if test="itemName != null and itemName != ''">item_name,</if>
-            <if test="communityId != null and communityId != ''">community_id,</if>
+            <if test="regionId != null and regionId != ''">region_id,</if>
             <if test="remark != null">remark,</if>
             <if test="statusCd != null and statusCd != ''">status_cd,</if>
             <if test="createBy != null">create_by,</if>
@@ -55,7 +55,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="itemId != null">#{itemId},</if>
             <if test="itemName != null and itemName != ''">#{itemName},</if>
-            <if test="communityId != null and communityId != ''">#{communityId},</if>
+            <if test="regionId != null and regionId != ''">#{regionId},</if>
             <if test="remark != null">#{remark},</if>
             <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -69,7 +69,7 @@
         update inspection_item
         <trim prefix="SET" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
-            <if test="communityId != null and communityId != ''">community_id = #{communityId},</if>
+            <if test="regionId != null and regionId != ''">region_id = #{regionId},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
             <if test="createBy != null">create_by = #{createBy},</if>

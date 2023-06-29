@@ -23,7 +23,7 @@
         <where>
             <if test="titleId != null  and titleId != ''"> and title_id = #{titleId}</if>
             <if test="itemValue != null  and itemValue != ''"> and item_value = #{itemValue}</if>
-            <if test="communityId != null  and communityId != ''"> and community_id = #{communityId}</if>
+            <if test="regionId != null  and regionId != ''"> and region_id = #{regionId}</if>
             <if test="seq != null "> and seq = #{seq}</if>
             <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
             <if test="userId != null  and userId != ''">
@@ -45,7 +45,7 @@
             <if test="valueId != null">value_id,</if>
             <if test="titleId != null and titleId != ''">title_id,</if>
             <if test="itemValue != null and itemValue != ''">item_value,</if>
-            <if test="communityId != null and communityId != ''">community_id,</if>
+            <if test="regionId != null and regionId != ''">region_id,</if>
             <if test="seq != null">seq,</if>
             <if test="createTime != null">create_time,</if>
             <if test="statusCd != null and statusCd != ''">status_cd,</if>
@@ -54,7 +54,7 @@
             <if test="valueId != null">#{valueId},</if>
             <if test="titleId != null and titleId != ''">#{titleId},</if>
             <if test="itemValue != null and itemValue != ''">#{itemValue},</if>
-            <if test="communityId != null and communityId != ''">#{communityId},</if>
+            <if test="regionId != null and regionId != ''">#{regionId},</if>
             <if test="seq != null">#{seq},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
@@ -66,7 +66,7 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="titleId != null and titleId != ''">title_id = #{titleId},</if>
             <if test="itemValue != null and itemValue != ''">item_value = #{itemValue},</if>
-            <if test="communityId != null and communityId != ''">community_id = #{communityId},</if>
+            <if test="regionId != null and regionId != ''">region_id = #{regionId},</if>
             <if test="seq != null">seq = #{seq},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
@@ -92,10 +92,10 @@
     </delete>
 
     <insert id="batchInspectionItemTitleValue">
-        insert into inspection_item_title_value(title_id, value_id,item_value,community_id,seq,create_time,status_cd)
+        insert into inspection_item_title_value(title_id, value_id,item_value,region_id,seq,create_time,status_cd)
         values
         <foreach item="item" index="index" collection="list" separator=",">
-            (#{item.titleId},#{item.valueId},#{item.communityId},#{item.seq},#{createTime},#{statusCd})
+            (#{item.titleId},#{item.valueId},#{item.region_id},#{item.seq},#{createTime},#{statusCd})
         </foreach>
     </insert>
 </mapper>

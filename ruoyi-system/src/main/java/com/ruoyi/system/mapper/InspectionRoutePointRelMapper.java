@@ -63,4 +63,9 @@ public interface InspectionRoutePointRelMapper
     public int deleteInspectionRoutePointRelByInspectionRouteIds(String[] inspectionRouteIds);
 
     public int deleteInspectionRoutePointRelByInspectionRouteId(String inspectionRouteId);
+
+    public int batchInsertInspectionRouteRel(List<InspectionRoutePointRel> inspectionRoutePointRels);
+
+
+    public Long[] selectInspectionRoutePointRelIds(String routeId);
 }

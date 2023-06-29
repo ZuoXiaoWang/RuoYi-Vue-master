@@ -25,7 +25,7 @@
             <if test="itemId != null  and itemId != ''"> and item_id = #{itemId}</if>
             <if test="itemTitle != null  and itemTitle != ''"> and item_title = #{itemTitle}</if>
             <if test="titleType != null  and titleType != ''"> and title_type = #{titleType}</if>
-            <if test="communityId != null  and communityId != ''"> and community_id = #{communityId}</if>
+            <if test="regionId != null  and regionId != ''"> and region_id = #{}</if>
             <if test="seq != null "> and seq = #{seq}</if>
             <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
             <if test="userId != null  and userId != ''">
@@ -48,7 +48,7 @@
             <if test="itemId != null and itemId != ''">item_id,</if>
             <if test="itemTitle != null and itemTitle != ''">item_title,</if>
             <if test="titleType != null and titleType != ''">title_type,</if>
-            <if test="communityId != null and communityId != ''">community_id,</if>
+            <if test="regionId != null and regionId != ''">region_id,</if>
             <if test="seq != null">seq,</if>
             <if test="createTime != null">create_time,</if>
             <if test="statusCd != null and statusCd != ''">status_cd,</if>
@@ -58,7 +58,7 @@
             <if test="itemId != null and itemId != ''">#{itemId},</if>
             <if test="itemTitle != null and itemTitle != ''">#{itemTitle},</if>
             <if test="titleType != null and titleType != ''">#{titleType},</if>
-            <if test="communityId != null and communityId != ''">#{communityId},</if>
+            <if test="regionId != null and regionId != ''">#{regionId},</if>
             <if test="seq != null">#{seq},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
@@ -71,7 +71,7 @@
             <if test="itemId != null and itemId != ''">item_id = #{itemId},</if>
             <if test="itemTitle != null and itemTitle != ''">item_title = #{itemTitle},</if>
             <if test="titleType != null and titleType != ''">title_type = #{titleType},</if>
-            <if test="communityId != null and communityId != ''">community_id = #{communityId},</if>
+            <if test="regionId != null and regionId != ''">region_id = #{regionId},</if>
             <if test="seq != null">seq = #{seq},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>

@@ -34,8 +34,10 @@ public class InspectionRoute extends BaseEntity
 
     /** 数据状态 */
     @Excel(name = "数据状态")
-    private String statusCd;
+    private String statusCd  = "0";
 
     private Long userId;
+
+    private Long[] PatrolPointIds;
 }
 

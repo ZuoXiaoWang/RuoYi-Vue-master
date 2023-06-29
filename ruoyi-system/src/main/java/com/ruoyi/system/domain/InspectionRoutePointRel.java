@@ -26,7 +26,7 @@ public class InspectionRoutePointRel extends BaseEntity
 
     /** 巡检点ID */
     @Excel(name = "巡检点ID")
-    private String inspectionId;
+    private Long patrolPointId;
 
     /** 小区ID */
     @Excel(name = "小区ID")
@@ -34,7 +34,7 @@ public class InspectionRoutePointRel extends BaseEntity
 
     /** 数据状态 */
     @Excel(name = "数据状态")
-    private String statusCd;
+    private String statusCd  = "0";
 
     /** 巡检点开始时间 */
     @Excel(name = "巡检点开始时间")

@@ -12,6 +12,5 @@ public class InspectionItem extends BaseEntity {
     private String remark;
     private Long regionId;
     private String statusCd = "0";
-
     private Long userId;
 }

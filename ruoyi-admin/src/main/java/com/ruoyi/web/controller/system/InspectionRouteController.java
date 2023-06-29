@@ -44,10 +44,29 @@ public class InspectionRouteController extends BaseController
     //查询路线点
     @GetMapping("/routePointList")
     public TableDataInfo routePointList(InspectionRoutePointRel inspectionRoutePointRel){
-        if (StringUtils.isEmpty(inspectionRoutePointRel.getInspectionId())){
-            return getDataTable(null);
+        if (StringUtils.isEmpty(inspectionRoutePointRel.getInspectionRouteId())){
+            return null;
         }
         startPage();
+        List<InspectionRoutePointRel> list = inspectionRouteService.selectInspectionRoutePointRel(inspectionRoutePointRel);
+        return getDataTable(list);
+    }
+
+
+    //查询详情
+    @GetMapping("/getRoute/{routeId}")
+    public AjaxResult getInfo(@PathVariable("routeId") String routeId)
+    {
+        return success(inspectionRouteService.selectInspectionRoutePointRelIds(routeId));
+    }
+
+    //查询详情
+    @GetMapping("/getRoutePoint/{routeId}")
+    public TableDataInfo getRoutePoint(@PathVariable("routeId") String routeId)
+    {
+        startPage();
+        InspectionRoutePointRel inspectionRoutePointRel = new InspectionRoutePointRel();
+        inspectionRoutePointRel.setInspectionRouteId(routeId);
         List<InspectionRoutePointRel> list = inspectionRouteService.selectInspectionRoutePointRel(inspectionRoutePointRel);
         return getDataTable(list);
     }
@@ -59,15 +78,6 @@ public class InspectionRouteController extends BaseController
             return AjaxResult.error();
         }
         return toAjax(inspectionRouteService.insertInspectionRoute(inspectionRoute));
-    }
-
-    //新增路线点
-    @PostMapping("/insertInspectionRoutePointRel")
-    public AjaxResult insertInspectionRoutePointRel(@RequestBody InspectionRoutePointRel inspectionRoutePointRel){
-        if (StringUtils.isEmpty(inspectionRoutePointRel.getInspectionId())||inspectionRoutePointRel.getRegionId() == 0L){
-            return AjaxResult.error();
-        }
-        return toAjax(inspectionRouteService.insertInspectionRoutePointRel(inspectionRoutePointRel));
     }
 
     //更新路线
@@ -84,5 +94,12 @@ public class InspectionRouteController extends BaseController
     @DeleteMapping("/{areaIds}")
     public AjaxResult deleteInspectionRouteByInspectionRouteIds(@PathVariable String[] areaIds){
         return toAjax(inspectionRouteService.deleteInspectionRouteByInspectionRouteIds(areaIds));
+    }
+
+
+    //删除巡检点
+    @DeleteMapping("route/{areaIds}")
+    public AjaxResult deleteInspectionRouteRelByInspectionRouteRelIds(@PathVariable String[] areaIds){
+        return toAjax(inspectionRouteService.deleteInspectionRouteByInspectionRouteRel(areaIds));
     }
 }

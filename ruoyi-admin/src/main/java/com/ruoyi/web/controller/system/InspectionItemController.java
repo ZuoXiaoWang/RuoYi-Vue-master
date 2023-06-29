@@ -72,6 +72,9 @@ public class InspectionItemController extends BaseController {
     //查询题目
     @GetMapping("/selectInspectionItemTitleList")
     public TableDataInfo selectInspectionItemTitleList(InspectionItemTitle inspectionItemTitle){
+        if (StringUtils.isEmpty(inspectionItemTitle.getItemId())){
+            return null;
+        }
         inspectionItemTitle.setUserId(getUserId());
         startPage();
         List<InspectionItemTitle> list = inspectionService.selectInspectionItemTitle(inspectionItemTitle);
@@ -82,7 +85,7 @@ public class InspectionItemController extends BaseController {
     @GetMapping("/selectInspectionItemTitleValueList")
     public TableDataInfo selectInspectionItemTitleValueList(InspectionItemTitleValue inspectionItemTitleValue){
         if (StringUtils.isEmpty(inspectionItemTitleValue.getTitleId())){
-            return getDataTable(null);
+            return null;
         }
         inspectionItemTitleValue.setUserId(getUserId());
         startPage();
