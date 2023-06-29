@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.PersonnelWithQuantity;
 import com.ruoyi.system.domain.SysPatrol;
 import com.ruoyi.system.domain.SysPatrolPatrolPointStatus;
 import com.ruoyi.system.domain.SysPatrolPoint;
@@ -78,4 +79,7 @@ public interface ISysPatrolService {
      * 查询所有已巡和未巡点
      */
     public List<SysPatrolPatrolPointStatus> selectPointStatusByPatrolId(Long patrolId);
+
+
+    public List<PersonnelWithQuantity> getPersonnelWithQuantity();
 }

@@ -82,6 +82,7 @@
             <if test="paidType != null  and paidType != ''"> and paid_type = #{paidType}</if>
             <if test="personnelId != null  and personnelId != ''"> and new_repair_from_personnel.personnel_id = #{personnelId}</if>
             <if test="regionId != null  and regionId != ''"> and new_repair.region_id = #{regionId}</if>
+            <if test="createTime != null "> and date_format(new_repair.create_time, '%y%m%d') = date_format(#{createTime}, '%y%m%d')</if>
             <if test="userId != null  and userId != ''">
                 AND new_repair.region_id IN (
                 SELECT region_id FROM sys_user_region WHERE user_id = #{userId}

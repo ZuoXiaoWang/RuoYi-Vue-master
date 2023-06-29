@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InspectionRoutePointRelMapper">
+
+    <resultMap type="InspectionRoutePointRel" id="InspectionRoutePointRelResult">
+        <result property="irpRelId"    column="irp_rel_id"    />
+        <result property="inspectionRouteId"    column="inspection_route_id"    />
+        <result property="inspectionId"    column="inspection_id"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="statusCd"    column="status_cd"    />
+        <result property="pointStartTime"    column="point_start_time"    />
+        <result property="pointEndTime"    column="point_end_time"    />
+        <result property="sortNumber"    column="sort_number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectInspectionRoutePointRelVo">
+        select irp_rel_id, inspection_route_id, inspection_id, region_id, status_cd, point_start_time, point_end_time, sort_number, create_time, create_by, update_by, update_time from inspection_route_point_rel
+    </sql>
+
+    <select id="selectInspectionRoutePointRelList" parameterType="InspectionRoutePointRel" resultMap="InspectionRoutePointRelResult">
+        <include refid="selectInspectionRoutePointRelVo"/>
+        <where>
+            <if test="inspectionRouteId != null  and inspectionRouteId != ''"> and inspection_route_id = #{inspectionRouteId}</if>
+            <if test="inspectionId != null  and inspectionId != ''"> and inspection_id = #{inspectionId}</if>
+            <if test="regionId != null "> and region_id = #{regionId}</if>
+            <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
+            <if test="pointStartTime != null  and pointStartTime != ''"> and point_start_time = #{pointStartTime}</if>
+            <if test="pointEndTime != null  and pointEndTime != ''"> and point_end_time = #{pointEndTime}</if>
+            <if test="sortNumber != null "> and sort_number = #{sortNumber}</if>
+            <if test="userId != null  and userId != ''">
+                AND inspection_item_title_value.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectInspectionRoutePointRelByIrpRelId" parameterType="String" resultMap="InspectionRoutePointRelResult">
+        <include refid="selectInspectionRoutePointRelVo"/>
+        where irp_rel_id = #{irpRelId}
+    </select>
+
+    <insert id="insertInspectionRoutePointRel" parameterType="InspectionRoutePointRel">
+        insert into inspection_route_point_rel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="irpRelId != null">irp_rel_id,</if>
+            <if test="inspectionRouteId != null and inspectionRouteId != ''">inspection_route_id,</if>
+            <if test="inspectionId != null and inspectionId != ''">inspection_id,</if>
+            <if test="regionId != null">region_id,</if>
+            <if test="statusCd != null and statusCd != ''">status_cd,</if>
+            <if test="pointStartTime != null">point_start_time,</if>
+            <if test="pointEndTime != null">point_end_time,</if>
+            <if test="sortNumber != null">sort_number,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="irpRelId != null">#{irpRelId},</if>
+            <if test="inspectionRouteId != null and inspectionRouteId != ''">#{inspectionRouteId},</if>
+            <if test="inspectionId != null and inspectionId != ''">#{inspectionId},</if>
+            <if test="regionId != null">#{regionId},</if>
+            <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
+            <if test="pointStartTime != null">#{pointStartTime},</if>
+            <if test="pointEndTime != null">#{pointEndTime},</if>
+            <if test="sortNumber != null">#{sortNumber},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateInspectionRoutePointRel" parameterType="InspectionRoutePointRel">
+        update inspection_route_point_rel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inspectionRouteId != null and inspectionRouteId != ''">inspection_route_id = #{inspectionRouteId},</if>
+            <if test="inspectionId != null and inspectionId != ''">inspection_id = #{inspectionId},</if>
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
+            <if test="pointStartTime != null">point_start_time = #{pointStartTime},</if>
+            <if test="pointEndTime != null">point_end_time = #{pointEndTime},</if>
+            <if test="sortNumber != null">sort_number = #{sortNumber},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where irp_rel_id = #{irpRelId}
+    </update>
+
+    <delete id="deleteInspectionRoutePointRelByIrpRelId" parameterType="String">
+        delete from inspection_route_point_rel where irp_rel_id = #{irpRelId}
+    </delete>
+
+    <delete id="deleteInspectionRoutePointRelByIrpRelIds" parameterType="String">
+        delete from inspection_route_point_rel where irp_rel_id in
+        <foreach item="irpRelId" collection="array" open="(" separator="," close=")">
+            #{irpRelId}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteInspectionRoutePointRelByInspectionRouteId" parameterType="String">
+        delete from inspection_route_point_rel where inspection_id = #{inspectionId}
+    </delete>
+
+    <delete id="deleteInspectionRoutePointRelByInspectionRouteIds" parameterType="String">
+        delete from inspection_route_point_rel where inspection_id in
+        <foreach item="inspectionId" collection="array" open="(" separator="," close=")">
+            #{inspectionId}
+        </foreach>
+    </delete>
+</mapper>

@@ -7,6 +7,10 @@
     <resultMap type="SysRegion" id="SysRegionResult">
         <result property="regionId"    column="region_id"    />
         <result property="name"    column="name"    />
+
+        <result property="regionLongitude" column="region_longitude"/>
+        <result property="regionLatitude" column="region_latitude"/>
+
         <result property="description"    column="description"    />
         <result property="parentId"    column="parent_id"    />
         <result property="createBy"    column="create_by"    />
@@ -16,7 +20,17 @@
     </resultMap>
 
     <sql id="selectSysRegionVo">
-        select region_id, name, description, parent_id, create_by, create_time, update_by, update_time from sys_region
+        select region_id,
+               name,
+               region_longitude,
+               region_latitude,
+               description,
+               parent_id,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from sys_region
     </sql>
 
     <select id="selectSysRegionList" parameterType="SysRegion" resultMap="SysRegionResult">
@@ -38,6 +52,8 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="regionId != null">region_id,</if>
             <if test="name != null and name != ''">name,</if>
+            <if test="regionLongitude != null and regionLongitude != ''">region_longitude,</if>
+            <if test="regionLatitude != null and regionLatitude != ''">region_latitude,</if>
             <if test="description != null and description != ''">description,</if>
             <if test="parentId != null">parent_id,</if>
             <if test="createBy != null">create_by,</if>
@@ -48,6 +64,8 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="regionId != null">#{regionId},</if>
             <if test="name != null and name != ''">#{name},</if>
+            <if test="regionLongitude != null and regionLongitude != ''">#{regionLongitude},</if>
+            <if test="regionLatitude != null and regionLatitude != ''">#{regionLatitude},</if>
             <if test="description != null and description != ''">#{description},</if>
             <if test="parentId != null">#{parentId},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -61,6 +79,8 @@
         update sys_region
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>
+            <if test="regionLongitude != null and regionLongitude != ''">region_longitude = #{regionLongitude},</if>
+            <if test="regionLatitude != null and regionLatitude != ''">region_latitude = #{regionLatitude},</if>
             <if test="description != null and description != ''">description = #{description},</if>
             <if test="parentId != null">parent_id = #{parentId},</if>
             <if test="createBy != null">create_by = #{createBy},</if>

@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.PersonnelWithQuantity;
 import com.ruoyi.system.domain.SysPatrol;
 import com.ruoyi.system.domain.SysPatrolPoint;
 
@@ -67,5 +68,6 @@ public interface SysPatrolMapper {
      */
     public int deleteSysPatrolByPatrolIds(Long[] patrolIds);
 
+    public List<PersonnelWithQuantity>  getPersonnelWithQuantity();
 
 }

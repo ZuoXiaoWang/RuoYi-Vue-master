@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InspectionItemTitleMapper">
+
+    <resultMap type="InspectionItemTitle" id="InspectionItemTitleResult">
+        <result property="titleId"    column="title_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="itemTitle"    column="item_title"    />
+        <result property="titleType"    column="title_type"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="seq"    column="seq"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="statusCd"    column="status_cd"    />
+    </resultMap>
+
+    <sql id="selectInspectionItemTitleVo">
+        select title_id, item_id, item_title, title_type, region_id, seq, create_time, status_cd from inspection_item_title
+    </sql>
+
+    <select id="selectInspectionItemTitleList" parameterType="InspectionItemTitle" resultMap="InspectionItemTitleResult">
+        <include refid="selectInspectionItemTitleVo"/>
+        <where>
+            <if test="itemId != null  and itemId != ''"> and item_id = #{itemId}</if>
+            <if test="itemTitle != null  and itemTitle != ''"> and item_title = #{itemTitle}</if>
+            <if test="titleType != null  and titleType != ''"> and title_type = #{titleType}</if>
+            <if test="communityId != null  and communityId != ''"> and community_id = #{communityId}</if>
+            <if test="seq != null "> and seq = #{seq}</if>
+            <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
+            <if test="userId != null  and userId != ''">
+                AND inspection_item_title.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectInspectionItemTitleByTitleId" parameterType="String" resultMap="InspectionItemTitleResult">
+        <include refid="selectInspectionItemTitleVo"/>
+        where title_id = #{titleId}
+    </select>
+
+    <insert id="insertInspectionItemTitle" parameterType="InspectionItemTitle">
+        insert into inspection_item_title
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="titleId != null">title_id,</if>
+            <if test="itemId != null and itemId != ''">item_id,</if>
+            <if test="itemTitle != null and itemTitle != ''">item_title,</if>
+            <if test="titleType != null and titleType != ''">title_type,</if>
+            <if test="communityId != null and communityId != ''">community_id,</if>
+            <if test="seq != null">seq,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="statusCd != null and statusCd != ''">status_cd,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="titleId != null">#{titleId},</if>
+            <if test="itemId != null and itemId != ''">#{itemId},</if>
+            <if test="itemTitle != null and itemTitle != ''">#{itemTitle},</if>
+            <if test="titleType != null and titleType != ''">#{titleType},</if>
+            <if test="communityId != null and communityId != ''">#{communityId},</if>
+            <if test="seq != null">#{seq},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
+        </trim>
+    </insert>
+
+    <update id="updateInspectionItemTitle" parameterType="InspectionItemTitle">
+        update inspection_item_title
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">item_id = #{itemId},</if>
+            <if test="itemTitle != null and itemTitle != ''">item_title = #{itemTitle},</if>
+            <if test="titleType != null and titleType != ''">title_type = #{titleType},</if>
+            <if test="communityId != null and communityId != ''">community_id = #{communityId},</if>
+            <if test="seq != null">seq = #{seq},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
+        </trim>
+        where title_id = #{titleId}
+    </update>
+
+    <delete id="deleteInspectionItemTitleByTitleId" parameterType="String">
+        delete from inspection_item_title where title_id = #{titleId}
+    </delete>
+
+    <delete id="deleteInspectionItemTitleByTitleIds" parameterType="String">
+        delete from inspection_item_title where title_id in
+        <foreach item="titleId" collection="array" open="(" separator="," close=")">
+            #{titleId}
+        </foreach>
+    </delete>
+</mapper>

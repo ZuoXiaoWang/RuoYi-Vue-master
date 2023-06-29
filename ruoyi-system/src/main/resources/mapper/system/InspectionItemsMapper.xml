@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InspectionItemMapper">
+
+    <resultMap type="InspectionItem" id="InspectionItemResult">
+        <result property="itemId"    column="item_id"    />
+        <result property="itemName"    column="item_name"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="statusCd"    column="status_cd"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectInspectionItemVo">
+        select item_id, item_name, region_id, remark, status_cd, create_by, create_time, update_by, update_time from inspection_item
+    </sql>
+
+    <select id="selectInspectionItemList" parameterType="InspectionItem" resultMap="InspectionItemResult">
+        <include refid="selectInspectionItemVo"/>
+        <where>
+            <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="regionId != null  and regionId != ''"> and region_id = #{regionId}</if>
+            <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
+            <if test="userId != null  and userId != ''">
+                AND inspection_item.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectInspectionItemByItemId" parameterType="String" resultMap="InspectionItemResult">
+        <include refid="selectInspectionItemVo"/>
+        where item_id = #{itemId}
+    </select>
+
+    <insert id="insertInspectionItem" parameterType="InspectionItem">
+        insert into inspection_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="communityId != null and communityId != ''">community_id,</if>
+            <if test="remark != null">remark,</if>
+            <if test="statusCd != null and statusCd != ''">status_cd,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="communityId != null and communityId != ''">#{communityId},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateInspectionItem" parameterType="InspectionItem">
+        update inspection_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+            <if test="communityId != null and communityId != ''">community_id = #{communityId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where item_id = #{itemId}
+    </update>
+
+    <delete id="deleteInspectionItemByItemId" parameterType="String">
+        delete from inspection_item where item_id = #{itemId}
+    </delete>
+
+    <delete id="deleteInspectionItemByItemIds" parameterType="String">
+        delete from inspection_item where item_id in
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InspectionRouteMapper">
+
+    <resultMap type="InspectionRoute" id="InspectionRouteResult">
+        <result property="inspectionRouteId"    column="inspection_route_id"    />
+        <result property="routeName"    column="route_name"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="seq"    column="seq"    />
+        <result property="remark"    column="remark"    />
+        <result property="statusCd"    column="status_cd"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectInspectionRouteVo">
+        select inspection_route_id, route_name, region_id, seq, remark, status_cd, create_time, create_by, update_by, update_time from inspection_route
+    </sql>
+
+    <select id="selectInspectionRouteList" parameterType="InspectionRoute" resultMap="InspectionRouteResult">
+        <include refid="selectInspectionRouteVo"/>
+        <where>
+            <if test="routeName != null  and routeName != ''"> and route_name like concat('%', #{routeName}, '%')</if>
+            <if test="regionId != null "> and region_id = #{regionId}</if>
+            <if test="seq != null  and seq != ''"> and seq = #{seq}</if>
+            <if test="statusCd != null  and statusCd != ''"> and status_cd = #{statusCd}</if>
+            <if test="userId != null  and userId != ''">
+                AND inspection_item_title_value.region_id IN (
+                SELECT region_id FROM sys_user_region WHERE user_id = #{userId}
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectInspectionRouteByInspectionRouteId" parameterType="String" resultMap="InspectionRouteResult">
+        <include refid="selectInspectionRouteVo"/>
+        where inspection_route_id = #{inspectionRouteId}
+    </select>
+
+    <insert id="insertInspectionRoute" parameterType="InspectionRoute">
+        insert into inspection_route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inspectionRouteId != null">inspection_route_id,</if>
+            <if test="routeName != null and routeName != ''">route_name,</if>
+            <if test="regionId != null">region_id,</if>
+            <if test="seq != null and seq != ''">seq,</if>
+            <if test="remark != null">remark,</if>
+            <if test="statusCd != null and statusCd != ''">status_cd,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inspectionRouteId != null">#{inspectionRouteId},</if>
+            <if test="routeName != null and routeName != ''">#{routeName},</if>
+            <if test="regionId != null">#{regionId},</if>
+            <if test="seq != null and seq != ''">#{seq},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="statusCd != null and statusCd != ''">#{statusCd},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateInspectionRoute" parameterType="InspectionRoute">
+        update inspection_route
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">route_name = #{routeName},</if>
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="seq != null and seq != ''">seq = #{seq},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="statusCd != null and statusCd != ''">status_cd = #{statusCd},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+
+        </trim>
+        where inspection_route_id = #{inspectionRouteId}
+    </update>
+
+    <delete id="deleteInspectionRouteByInspectionRouteId" parameterType="String">
+        delete from inspection_route where inspection_route_id = #{inspectionRouteId}
+    </delete>
+
+    <delete id="deleteInspectionRouteByInspectionRouteIds" parameterType="String">
+        delete from inspection_route where inspection_route_id in
+        <foreach item="inspectionRouteId" collection="array" open="(" separator="," close=")">
+            #{inspectionRouteId}
+        </foreach>
+    </delete>
+</mapper>

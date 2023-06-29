@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 区域管理对象 sys_region
  *
@@ -25,6 +27,10 @@ public class SysRegion extends BaseEntity
     /** 区域名称 */
     @Excel(name = "区域名称")
     private String name;
+
+    private BigDecimal regionLongitude;
+
+    private BigDecimal regionLatitude;
 
     /** 描述 */
     @Excel(name = "描述")

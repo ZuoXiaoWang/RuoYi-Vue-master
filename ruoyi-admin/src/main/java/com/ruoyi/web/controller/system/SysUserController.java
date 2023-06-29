@@ -61,6 +61,9 @@ public class SysUserController extends BaseController {
     public TableDataInfo list(SysUser user) {
         startPage();
         List<SysUser> list = userService.selectUserList(user);
+        System.out.println(user.getCreateTime());
+        System.out.println(user.getParams());
+
         return getDataTable(list);
     }
 

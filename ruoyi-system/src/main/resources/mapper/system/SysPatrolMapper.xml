@@ -29,6 +29,13 @@
     <resultMap type="SysPatrolPoint" id="SysPatrolPointResult">
         <result property="patrolPointId" column="patrol_point_id"/>
         <result property="patrolPointName" column="patrol_point_name"/>
+        <result property="patrolPointLongitude" column="patrol_point_longitude"/>
+        <result property="patrolPointLatitude" column="patrol_point_latitude"/>
+    </resultMap>
+
+    <resultMap id="PersonnelWithQuantityResult" type="PersonnelWithQuantity">
+        <result property="name" column="personnel_name"/>
+        <result property="quantity" column="quantity"/>
     </resultMap>
 
     <sql id="selectSysPatrolVo">
@@ -50,6 +57,8 @@
                sys_personnel.personnel_name,
                sys_personnel.personnel_phone,
                sys_patrol_point.patrol_point_name,
+               sys_patrol_point.patrol_point_longitude,
+               sys_patrol_point.patrol_point_latitude,
                sys_patrol.patrol_actual_start_time,
                sys_patrol.patrol_actual_end_time
         FROM sys_patrol
@@ -133,11 +142,12 @@
             <if test="patrolPrincipal != null  and patrolPrincipal != ''">and sys_patrol.patrol_principal =
                 #{patrolPrincipal}
             </if>
-            <if test="patrolPhone != null  and patrolPhone != ''">and psys_patrol.atrol_phone = #{patrolPhone}</if>
+            <if test="patrolPhone != null  and patrolPhone != ''">and sys_patrol.patrol_phone = #{patrolPhone}</if>
             <if test="patrolStatus != null  and patrolStatus != ''">and sys_patrol.patrol_status = #{patrolStatus}</if>
             <if test="patrolStartTime != null ">and sys_patrol.create_time <![CDATA[>=]]> #{patrolStartTime}</if>
             <if test="patrolEndTime != null ">and sys_patrol.create_time <![CDATA[<=]]> #{patrolEndTime}</if>
             <if test="patrolCreateTime != null ">and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
+            <if test="updateTime != null">and date_format(sys_patrol.update_time, '%y%m%d') = date_format(#{updateTime}, '%y%m%d')</if>
             <if test="regionId != null "> and sys_patrol.region_id = #{regionId}</if>
             <if test="userId != null  and userId != ''">
                 AND sys_patrol.region_id IN (
@@ -242,4 +252,27 @@
             #{patrolId}
         </foreach>
     </delete>
+
+    <select id="getPersonnelWithQuantity" resultMap="PersonnelWithQuantityResult">
+        SELECT
+            sys_personnel.personnel_name,
+            COUNT(*) AS quantity
+        FROM
+            sys_patrol
+                INNER JOIN
+            sys_patrol_personnel
+            ON
+                sys_patrol.patrol_id = sys_patrol_personnel.patrol_id
+                INNER JOIN
+            sys_personnel
+            ON
+                sys_patrol_personnel.personnel_id = sys_personnel.personnel_id
+        WHERE
+            patrol_status = 2
+        GROUP BY
+            sys_personnel.personnel_name
+        ORDER BY
+            quantity DESC
+        LIMIT 10;
+    </select>
 </mapper>

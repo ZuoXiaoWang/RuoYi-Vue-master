@@ -244,6 +244,11 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         return sysPatrolPatrolPointStatusMapper.selectPointStatusByPatrolId(patrolId);
     }
 
+    @Override
+    public List<PersonnelWithQuantity> getPersonnelWithQuantity() {
+        return sysPatrolMapper.getPersonnelWithQuantity();
+    }
+
 
     /**
      * 新增巡更任务员工关联
