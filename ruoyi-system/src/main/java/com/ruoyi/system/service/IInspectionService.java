@@ -45,5 +45,5 @@ public interface IInspectionService {
     public InspectionItemTitle selectInspectionItemTitleByTitleId(String titleId);
 
     //根据itemId查询itemTitle和itemTitleValue
-    public InspectionItemTitle selectInspectionItemTitleAndValueByItemId(String itemId);
+    public List<InspectionItemTitle> selectInspectionItemTitleAndValueByItemId(String itemId);
 }

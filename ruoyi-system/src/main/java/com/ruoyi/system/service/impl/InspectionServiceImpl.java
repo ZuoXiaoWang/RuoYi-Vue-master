@@ -105,13 +105,17 @@ public class InspectionServiceImpl implements IInspectionService {
     }
 
     @Override
-    public InspectionItemTitle selectInspectionItemTitleAndValueByItemId(String itemId) {
-        InspectionItemTitle inspectionItemTitle = inspectionItemTitleMapper.selectInspectionItemTitleByItemId(itemId);
-        InspectionItemTitleValue inspectionItemTitleValue = new InspectionItemTitleValue();
-        inspectionItemTitleValue.setTitleId(inspectionItemTitle.getTitleId());
-        List<InspectionItemTitleValue> list = inspectionItemTitleValueMapper.selectInspectionItemTitleValueList(inspectionItemTitleValue);
-        inspectionItemTitle.setInspectionItemTitleValue(list);
-        return inspectionItemTitle;
+    public List<InspectionItemTitle> selectInspectionItemTitleAndValueByItemId(String itemId) {
+        List<InspectionItemTitle> inspectionItemTitles = inspectionItemTitleMapper.selectInspectionItemTitleByItemId(itemId);
+        for (InspectionItemTitle inspectionItemTitle: inspectionItemTitles
+             ) {
+            InspectionItemTitleValue inspectionItemTitleValue = new InspectionItemTitleValue();
+            inspectionItemTitleValue.setTitleId(inspectionItemTitle.getTitleId());
+            List<InspectionItemTitleValue> list = inspectionItemTitleValueMapper.selectInspectionItemTitleValueList(inspectionItemTitleValue);
+            inspectionItemTitle.setInspectionItemTitleValue(list);
+        }
+
+        return inspectionItemTitles;
     }
 
     //添加多个题目

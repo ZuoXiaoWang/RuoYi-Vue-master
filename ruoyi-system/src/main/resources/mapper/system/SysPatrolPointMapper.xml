@@ -19,6 +19,7 @@
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
         <result property="remark" column="remark"/>
+        <result property="itemId" column="item_id"/>
 
         <result property="regionId" column="region_id"/>
     </resultMap>
@@ -69,8 +70,6 @@
             <if test="patrolPointDescribe != null  and patrolPointDescribe != ''">and patrol_point_describe =
                 #{patrolPointDescribe}
             </if>
-
-
             <if test="patrolPointUrl != null  and patrolPointUrl != ''">and patrol_point_url = #{patrolPointUrl}</if>
             <if test="patrolPointLatitude != null ">and patrol_point_latitude = #{patrolPointLatitude}</if>
             <if test="patrolPointLongitude != null ">and patrol_point_longitude = #{patrolPointLongitude}</if>
@@ -89,7 +88,7 @@
 
     <select id="selectSysPatrolPointByPatrolPointId" parameterType="Long" resultMap="SysPatrolPointResult">
         <include refid="selectSysPatrolPointVo"/>
-        where patrol_point_id = #{patrolPointId}
+        where sys_patrol_point.patrol_point_id = #{patrolPointId}
     </select>
 
     <insert id="insertSysPatrolPoint" parameterType="SysPatrolPoint" useGeneratedKeys="true"

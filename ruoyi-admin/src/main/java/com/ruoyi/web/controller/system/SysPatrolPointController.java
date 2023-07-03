@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.controller.AppBaseController;
 import com.ruoyi.common.utils.QrCodeCreateUtil;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.system.domain.*;
@@ -129,11 +130,14 @@ public class SysPatrolPointController extends AppBaseController {
     @PreAuthorize("@ss.hasPermi('system:point:query')")
     @GetMapping(value = "/{patrolPointId}")
     public AjaxResult getInfo(@PathVariable("patrolPointId") Long patrolPointId) {
-        SysPatrolPoint sysPatrolPoint = sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId);
-        InspectionItemTitle inspectionItemTitle = inspectionService.selectInspectionItemTitleAndValueByItemId(sysPatrolPoint.getItemId());
         AjaxResult ajaxResult = AjaxResult.success();
+        SysPatrolPoint sysPatrolPoint = sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId);
         ajaxResult.put(AjaxResult.DATA_TAG,sysPatrolPoint);
-        ajaxResult.put("inspectionItemTitle",inspectionItemTitle);
+        if (StringUtils.isNotEmpty(sysPatrolPoint.getItemId())){
+            List<InspectionItemTitle> inspectionItemTitles = inspectionService.selectInspectionItemTitleAndValueByItemId(sysPatrolPoint.getItemId());
+            ajaxResult.put("inspectionItemTitles",inspectionItemTitles);
+
+        }
         return ajaxResult;
     }
 
