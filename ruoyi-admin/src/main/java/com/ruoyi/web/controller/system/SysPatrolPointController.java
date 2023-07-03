@@ -17,6 +17,7 @@ import com.ruoyi.common.utils.QrCodeCreateUtil;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.service.IInspectionService;
 import com.ruoyi.system.service.IRegionsByUserIdService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,9 @@ public class SysPatrolPointController extends AppBaseController {
 
     @Autowired
     private IRegionsByUserIdService regionsByUserIdService;
+
+    @Autowired
+    private IInspectionService inspectionService;
 
     /**
      * 查询巡更点管理列表
@@ -125,7 +129,12 @@ public class SysPatrolPointController extends AppBaseController {
     @PreAuthorize("@ss.hasPermi('system:point:query')")
     @GetMapping(value = "/{patrolPointId}")
     public AjaxResult getInfo(@PathVariable("patrolPointId") Long patrolPointId) {
-        return success(sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId));
+        SysPatrolPoint sysPatrolPoint = sysPatrolPointService.selectSysPatrolPointByPatrolPointId(patrolPointId);
+        InspectionItemTitle inspectionItemTitle = inspectionService.selectInspectionItemTitleAndValueByItemId(sysPatrolPoint.getItemId());
+        AjaxResult ajaxResult = AjaxResult.success();
+        ajaxResult.put(AjaxResult.DATA_TAG,sysPatrolPoint);
+        ajaxResult.put("inspectionItemTitle",inspectionItemTitle);
+        return ajaxResult;
     }
 
 

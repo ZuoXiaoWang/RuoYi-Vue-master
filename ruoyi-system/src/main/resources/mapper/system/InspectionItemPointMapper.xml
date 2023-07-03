@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InspectionItemPointMapper">
+
+    <resultMap type="InspectionItemPoint" id="InspectionItemPointResult">
+        <result property="patrolPointId"    column="patrol_point_id"    />
+        <result property="itemId"    column="item_id"    />
+    </resultMap>
+
+    <sql id="selectInspectionItemPointVo">
+        select patrol_point_id, item_id from inspection_item_point
+    </sql>
+
+    <select id="selectInspectionItemPointList" parameterType="InspectionItemPoint" resultMap="InspectionItemPointResult">
+        <include refid="selectInspectionItemPointVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectInspectionItemPointByPatrolPointId" parameterType="Long" resultMap="InspectionItemPointResult">
+        <include refid="selectInspectionItemPointVo"/>
+        where patrol_point_id = #{patrolPointId}
+    </select>
+
+    <insert id="insertInspectionItemPoint" parameterType="InspectionItemPoint" useGeneratedKeys="true" keyProperty="patrolPointId">
+        insert into inspection_item_point
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateInspectionItemPoint" parameterType="InspectionItemPoint">
+        update inspection_item_point
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+        </trim>
+        where patrol_point_id = #{patrolPointId}
+    </update>
+
+    <delete id="deleteInspectionItemPointByPatrolPointId" parameterType="Long">
+        delete from inspection_item_point where patrol_point_id = #{patrolPointId}
+    </delete>
+
+    <delete id="deleteInspectionItemPointByPatrolPointIds" parameterType="String">
+        delete from inspection_item_point where patrol_point_id in
+        <foreach item="patrolPointId" collection="array" open="(" separator="," close=")">
+            #{patrolPointId}
+        </foreach>
+    </delete>
+</mapper>

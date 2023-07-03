@@ -19,6 +19,9 @@ public interface InspectionItemTitleMapper
      */
     public InspectionItemTitle selectInspectionItemTitleByTitleId(String titleId);
 
+
+    public InspectionItemTitle selectInspectionItemTitleByItemId(String itemId);
+
     /**
      * 查询【请填写功能名称】列表
      *

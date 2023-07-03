@@ -33,4 +33,17 @@ public interface IInspectionService {
 
     //删除题目
     public int deleteInspectionItemTitle(String[] ids);
+
+    //根据itemId查询巡检项目
+    public InspectionItem selectInspectionItemByItemId(String itemId);
+
+
+    //添加itemValues
+    public void insertItemValues(List<InspectionItemTitleValue> inspectionItemTitleValues);
+
+    //查询itemTitle根据titleId
+    public InspectionItemTitle selectInspectionItemTitleByTitleId(String titleId);
+
+    //根据itemId查询itemTitle和itemTitleValue
+    public InspectionItemTitle selectInspectionItemTitleAndValueByItemId(String itemId);
 }

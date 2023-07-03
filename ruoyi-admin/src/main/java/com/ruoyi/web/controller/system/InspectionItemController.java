@@ -22,8 +22,8 @@ public class InspectionItemController extends BaseController {
 
     //新增巡检项目
     @PostMapping("/addInspectionItem")
-    public AjaxResult addInspectionItem(@RequestBody InspectionItem inspectionItem){
-        if (inspectionItem.getRegionId()==0L){
+    public AjaxResult addInspectionItem(@RequestBody InspectionItem inspectionItem) {
+        if (inspectionItem.getRegionId() == 0L) {
             return AjaxResult.error();
         }
         int rows = inspectionService.addInspectionItem(inspectionItem);
@@ -32,18 +32,26 @@ public class InspectionItemController extends BaseController {
 
     //新增题目
     @PostMapping("/addInspectionItemTitle")
-    public AjaxResult addInspectionItemTitle(@RequestBody InspectionItemTitle inspectionItemTitle){
-        if (StringUtils.isEmpty(inspectionItemTitle.getTitleId())||inspectionItemTitle.getRegionId()==0L){
+    public AjaxResult addInspectionItemTitle(@RequestBody InspectionItemTitle inspectionItemTitle) {
+        if (StringUtils.isEmpty(inspectionItemTitle.getItemId())) {
             return AjaxResult.error();
         }
         int rows = inspectionService.addInspectionItemTitle(inspectionItemTitle);
         return toAjax(rows);
     }
 
+
+    //新增题目
+    @PostMapping("/addInspectionItemTitleValue")
+    public AjaxResult addInspectionItemTitleValue(@RequestBody List<InspectionItemTitleValue> inspectionItemTitleValues) {
+        inspectionService.insertItemValues(inspectionItemTitleValues);
+        return AjaxResult.success();
+    }
+
     //修改巡检项目
-    @PutMapping ("/editInspectionItem")
-    public AjaxResult editInspectionItem(@RequestBody InspectionItem inspectionItem){
-        if (StringUtils.isEmpty(inspectionItem.getItemId())||inspectionItem.getRegionId()==0L){
+    @PutMapping("/editInspectionItem")
+    public AjaxResult editInspectionItem(@RequestBody InspectionItem inspectionItem) {
+        if (StringUtils.isEmpty(inspectionItem.getItemId()) || inspectionItem.getRegionId() == 0L) {
             return AjaxResult.error();
         }
         int rows = inspectionService.editInspectionItem(inspectionItem);
@@ -51,9 +59,11 @@ public class InspectionItemController extends BaseController {
     }
 
     //修改题目
-    @PutMapping ("/editInspectionItemTitle")
-    public AjaxResult editInspectionItemTitle(@RequestBody InspectionItemTitle inspectionItemTitle){
-        if (StringUtils.isEmpty(inspectionItemTitle.getItemId())||inspectionItemTitle.getRegionId()==0L){
+    @PutMapping("/editInspectionItemTitle")
+    public AjaxResult editInspectionItemTitle(@RequestBody InspectionItemTitle inspectionItemTitle) {
+        InspectionItem inspectionItem = inspectionService.selectInspectionItemByItemId(inspectionItemTitle.getItemId());
+        inspectionItemTitle.setRegionId(inspectionItem.getRegionId());
+        if (StringUtils.isEmpty(inspectionItemTitle.getItemId())) {
             return AjaxResult.error();
         }
         int rows = inspectionService.editInspectionItemTitle(inspectionItemTitle);
@@ -62,7 +72,7 @@ public class InspectionItemController extends BaseController {
 
     //查询巡检项目
     @GetMapping("/selectInspectionItemList")
-    public TableDataInfo selectInspectionItemList(InspectionItem inspectionItem){
+    public TableDataInfo selectInspectionItemList(InspectionItem inspectionItem) {
         inspectionItem.setUserId(getUserId());
         startPage();
         List<InspectionItem> list = inspectionService.selectInspectionItemList(inspectionItem);
@@ -71,8 +81,8 @@ public class InspectionItemController extends BaseController {
 
     //查询题目
     @GetMapping("/selectInspectionItemTitleList")
-    public TableDataInfo selectInspectionItemTitleList(InspectionItemTitle inspectionItemTitle){
-        if (StringUtils.isEmpty(inspectionItemTitle.getItemId())){
+    public TableDataInfo selectInspectionItemTitleList(InspectionItemTitle inspectionItemTitle) {
+        if (StringUtils.isEmpty(inspectionItemTitle.getItemId())) {
             return null;
         }
         inspectionItemTitle.setUserId(getUserId());
@@ -81,10 +91,21 @@ public class InspectionItemController extends BaseController {
         return getDataTable(list);
     }
 
+    //查询value根据titleId
+    @GetMapping("/getValueByItemId/{titleId}")
+    public AjaxResult getValueByItemId(@PathVariable String titleId){
+//        InspectionItemTitle inspectionItemTitle = inspectionService.selectInspectionItemTitleByTitleId(titleId);
+        InspectionItemTitleValue inspectionItemTitleValue = new InspectionItemTitleValue();
+        inspectionItemTitleValue.setTitleId(titleId);
+        List<InspectionItemTitleValue> list = inspectionService.selectInspectionItemTitleValue(inspectionItemTitleValue);
+        AjaxResult success = AjaxResult.success();
+        return success.put(AjaxResult.DATA_TAG,list);
+    }
+
     //查询value
     @GetMapping("/selectInspectionItemTitleValueList")
-    public TableDataInfo selectInspectionItemTitleValueList(InspectionItemTitleValue inspectionItemTitleValue){
-        if (StringUtils.isEmpty(inspectionItemTitleValue.getTitleId())){
+    public TableDataInfo selectInspectionItemTitleValueList(InspectionItemTitleValue inspectionItemTitleValue) {
+        if (StringUtils.isEmpty(inspectionItemTitleValue.getTitleId())) {
             return null;
         }
         inspectionItemTitleValue.setUserId(getUserId());
@@ -95,15 +116,13 @@ public class InspectionItemController extends BaseController {
 
     //删除巡检项目
     @DeleteMapping("/inspectionItem/{areaIds}")
-    public AjaxResult deleteInspectionItem(@PathVariable String[] areaIds)
-    {
+    public AjaxResult deleteInspectionItem(@PathVariable String[] areaIds) {
         return toAjax(inspectionService.deleteInspectionItem(areaIds));
     }
 
     //删除题目
     @DeleteMapping("/inspectionItemTitle/{areaIds}")
-    public AjaxResult deleteInspectionItemTitle(@PathVariable String[] areaIds)
-    {
+    public AjaxResult deleteInspectionItemTitle(@PathVariable String[] areaIds) {
         return toAjax(inspectionService.deleteInspectionItemTitle(areaIds));
     }
 }

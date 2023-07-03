@@ -95,7 +95,7 @@
         insert into inspection_item_title_value(title_id, value_id,item_value,region_id,seq,create_time,status_cd)
         values
         <foreach item="item" index="index" collection="list" separator=",">
-            (#{item.titleId},#{item.valueId},#{item.region_id},#{item.seq},#{createTime},#{statusCd})
+            (#{item.titleId},#{item.valueId},#{item.itemValue},#{item.regionId},#{item.seq},#{item.createTime},#{item.statusCd})
         </foreach>
     </insert>
 </mapper>

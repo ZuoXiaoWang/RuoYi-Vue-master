@@ -3,13 +3,13 @@ package com.ruoyi.system.service.impl;
 import java.util.List;
 
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.system.domain.PersonnelAndPatrolOrder;
-import com.ruoyi.system.domain.SysPatrolPersonnel;
-import com.ruoyi.system.domain.SysRepairPersonnel;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.InspectionItemMapper;
+import com.ruoyi.system.mapper.InspectionItemPointMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPatrolPointMapper;
-import com.ruoyi.system.domain.SysPatrolPoint;
 import com.ruoyi.system.service.ISysPatrolPointService;
 
 /**
@@ -22,6 +22,10 @@ import com.ruoyi.system.service.ISysPatrolPointService;
 public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     @Autowired
     private SysPatrolPointMapper sysPatrolPointMapper;
+
+
+    @Autowired
+    private InspectionItemPointMapper inspectionItemPointMapper;
 
     /**
      * 查询巡更点管理
@@ -54,7 +58,14 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     @Override
     public int insertSysPatrolPoint(SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setCreateTime(DateUtils.getNowDate());
-        return sysPatrolPointMapper.insertSysPatrolPoint(sysPatrolPoint);
+        int row = sysPatrolPointMapper.insertSysPatrolPoint(sysPatrolPoint);
+        if (StringUtils.isNotEmpty(sysPatrolPoint.getItemId())){
+            InspectionItemPoint inspectionItemPoint = new InspectionItemPoint();
+            inspectionItemPoint.setItemId(sysPatrolPoint.getItemId());
+            inspectionItemPoint.setPatrolPointId(sysPatrolPoint.getPatrolPointId());
+            inspectionItemPointMapper.insertInspectionItemPoint(inspectionItemPoint);
+        }
+        return row;
     }
 
     /**
@@ -66,7 +77,17 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
     @Override
     public int updateSysPatrolPoint(SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setUpdateTime(DateUtils.getNowDate());
-        return sysPatrolPointMapper.updateSysPatrolPoint(sysPatrolPoint);
+        //删除所有此点位的巡检项目关联
+        inspectionItemPointMapper.deleteInspectionItemPointByPatrolPointId(sysPatrolPoint.getPatrolPointId());
+        int row = sysPatrolPointMapper.updateSysPatrolPoint(sysPatrolPoint);
+        //添加关联
+        if (StringUtils.isNotEmpty(sysPatrolPoint.getItemId())){
+            InspectionItemPoint inspectionItemPoint = new InspectionItemPoint();
+            inspectionItemPoint.setItemId(sysPatrolPoint.getItemId());
+            inspectionItemPoint.setPatrolPointId(sysPatrolPoint.getPatrolPointId());
+            inspectionItemPointMapper.insertInspectionItemPoint(inspectionItemPoint);
+        }
+        return row;
     }
 
     /**
@@ -77,6 +98,8 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
      */
     @Override
     public int deleteSysPatrolPointByPatrolPointIds(Long[] patrolPointIds) {
+        //删除所有此点位的巡检项目关联
+        inspectionItemPointMapper.deleteInspectionItemPointByPatrolPointIds(patrolPointIds);
         return sysPatrolPointMapper.deleteSysPatrolPointByPatrolPointIds(patrolPointIds);
     }
 
@@ -88,6 +111,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
      */
     @Override
     public int deleteSysPatrolPointByPatrolPointId(Long patrolPointId) {
+        inspectionItemPointMapper.deleteInspectionItemPointByPatrolPointId(patrolPointId);
         return sysPatrolPointMapper.deleteSysPatrolPointByPatrolPointId(patrolPointId);
     }
 

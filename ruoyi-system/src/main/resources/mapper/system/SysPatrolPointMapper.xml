@@ -38,7 +38,7 @@
     </resultMap>
 
     <sql id="selectSysPatrolPointVo">
-        select patrol_point_id,
+        SELECT sys_patrol_point.patrol_point_id,
                patrol_point_name,
                patrol_point_describe,
                patrol_point_url,
@@ -51,8 +51,13 @@
                update_by,
                update_time,
                remark,
-               region_id
-        from sys_patrol_point
+               region_id,
+               inspection_item_point.item_id
+        FROM sys_patrol_point
+                 LEFT JOIN
+             inspection_item_point
+             ON
+                     sys_patrol_point.patrol_point_id = inspection_item_point.patrol_point_id
     </sql>
 
     <select id="selectSysPatrolPointList" parameterType="SysPatrolPoint" resultMap="SysPatrolPointResult">

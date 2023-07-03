@@ -85,6 +85,35 @@ public class InspectionServiceImpl implements IInspectionService {
         return inspectionItemTitleMapper.deleteInspectionItemTitleByTitleIds(ids);
     }
 
+    @Override
+    public InspectionItem selectInspectionItemByItemId(String itemId) {
+        return inspectionItemMapper.selectInspectionItemByItemId(itemId);
+    }
+
+    @Override
+    public void insertItemValues(List<InspectionItemTitleValue> inspectionItemTitleValues) {
+        for (InspectionItemTitleValue inspectionItemTitleValue : inspectionItemTitleValues
+        ) {
+            inspectionItemTitleValue.setValueId(UUID.fastUUID().toString());
+        }
+        inspectionItemTitleValueMapper.batchInspectionItemTitleValue(inspectionItemTitleValues);
+    }
+
+    @Override
+    public InspectionItemTitle selectInspectionItemTitleByTitleId(String titleId) {
+        return inspectionItemTitleMapper.selectInspectionItemTitleByTitleId(titleId);
+    }
+
+    @Override
+    public InspectionItemTitle selectInspectionItemTitleAndValueByItemId(String itemId) {
+        InspectionItemTitle inspectionItemTitle = inspectionItemTitleMapper.selectInspectionItemTitleByItemId(itemId);
+        InspectionItemTitleValue inspectionItemTitleValue = new InspectionItemTitleValue();
+        inspectionItemTitleValue.setTitleId(inspectionItemTitle.getTitleId());
+        List<InspectionItemTitleValue> list = inspectionItemTitleValueMapper.selectInspectionItemTitleValueList(inspectionItemTitleValue);
+        inspectionItemTitle.setInspectionItemTitleValue(list);
+        return inspectionItemTitle;
+    }
+
     //添加多个题目
     public void insertInspectionItemTitleValues(InspectionItemTitle inspectionItemTitle) {
         List<InspectionItemTitleValue> inspectionItemTitleValues = inspectionItemTitle.getInspectionItemTitleValue();
@@ -94,6 +123,8 @@ public class InspectionServiceImpl implements IInspectionService {
                     ) {
                 inspectionItemTitleValue.setValueId(UUID.fastUUID().toString());
                 inspectionItemTitleValue.setTitleId(inspectionItemTitle.getTitleId());
+                inspectionItemTitleValue.setRegionId(inspectionItemTitle.getRegionId());
+                inspectionItemTitleValue.setCreateTime(DateUtils.getNowDate());
                 list.add(inspectionItemTitleValue);
             }
             inspectionItemTitleValueMapper.batchInspectionItemTitleValue(list);

@@ -41,6 +41,11 @@
         where title_id = #{titleId}
     </select>
 
+    <select id="selectInspectionItemTitleByItemId" parameterType="String" resultMap="InspectionItemTitleResult">
+        <include refid="selectInspectionItemTitleVo"/>
+        where item_id = #{ItemId}
+    </select>
+
     <insert id="insertInspectionItemTitle" parameterType="InspectionItemTitle">
         insert into inspection_item_title
         <trim prefix="(" suffix=")" suffixOverrides=",">
