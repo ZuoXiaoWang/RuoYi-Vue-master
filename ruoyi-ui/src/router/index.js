@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import Visualization from "@/layout/visualization"
 
 /**
  * Note: 路由配置项
@@ -62,7 +63,20 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '',
+    path: '/',
+    component: Visualization,
+    redirect: 'visualization',
+    children: [
+      {
+        path: 'visualization',
+        component: () => import('@/views/visualization/index'),
+        name: 'visualization',
+        meta: {title: '可视化', icon: 'visualization', affix: true}
+      }
+    ]
+  },
+  {
+    path: '/dashboard',
     component: Layout,
     redirect: 'index',
     children: [

@@ -127,7 +127,6 @@ public class SysPatrolPointController extends AppBaseController {
     /**
      * 获取巡更点管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:point:query')")
     @GetMapping(value = "/{patrolPointId}")
     public AjaxResult getInfo(@PathVariable("patrolPointId") Long patrolPointId) {
         AjaxResult ajaxResult = AjaxResult.success();

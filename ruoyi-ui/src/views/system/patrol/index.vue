@@ -662,6 +662,7 @@ export default {
       this.reset();
       const patrolId = row.patrolId || this.ids;
       getPatrol(patrolId).then((response) => {
+        console.log(response);
         this.form = response.data;
         this.personnelOptions = response.personnels;
         this.$set(this.form, "personnelIds", response.personnelIds);
