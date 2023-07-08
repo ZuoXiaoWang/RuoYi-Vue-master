@@ -23,6 +23,7 @@
         <result property="patrolActualStartTime" column="patrol_actual_start_time"/>
         <result property="patrolActualEndTime" column="patrol_actual_end_time"/>
         <result property="type" column="type"/>
+        <result property="inspectionRouteId" column="inspection_route_id"/>
         <collection property="PatrolPoints" javaType="java.util.List" resultMap="SysPatrolPointResult"/>
     </resultMap>
 
@@ -60,7 +61,8 @@
                sys_patrol_point.patrol_point_longitude,
                sys_patrol_point.patrol_point_latitude,
                sys_patrol.patrol_actual_start_time,
-               sys_patrol.patrol_actual_end_time
+               sys_patrol.patrol_actual_end_time,
+               sys_patrol.inspection_route_id
         FROM sys_patrol
                  LEFT JOIN
              sys_patrol_personnel
@@ -192,6 +194,8 @@
             <if test="type != null">type,</if>
 
             <if test="regionId != null">region_id,</if>
+
+            <if test="inspectionRouteId != null">inspection_route_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patrolName != null and patrolName != ''">#{patrolName},</if>
@@ -214,6 +218,8 @@
             <if test="type != null">#{type},</if>
 
             <if test="regionId != null">#{regionId},</if>
+
+            <if test="inspectionRouteId != null">#{inspectionRouteId}</if>
         </trim>
     </insert>
 
@@ -236,6 +242,8 @@
 
             <if test="patrolActualStartTime != null">patrol_actual_start_time = #{patrolActualStartTime},</if>
             <if test="patrolActualEndTime != null">patrol_actual_end_time = #{patrolActualEndTime},</if>
+
+            <if test="inspectionRouteId != null">inspection_route_id = #{inspectionRouteId},</if>
         </trim>
         where patrol_id = #{patrolId}
     </update>

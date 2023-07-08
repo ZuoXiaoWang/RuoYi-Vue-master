@@ -24,12 +24,14 @@
         where patrol_point_id = #{patrolPointId}
     </select>
 
-    <insert id="insertInspectionItemPoint" parameterType="InspectionItemPoint" useGeneratedKeys="true" keyProperty="patrolPointId">
+    <insert id="insertInspectionItemPoint" parameterType="InspectionItemPoint" keyProperty="patrolPointId">
         insert into inspection_item_point
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patrolPointId != null">patrol_point_id,</if>
             <if test="itemId != null">item_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patrolPointId != null">#{patrolPointId},</if>
             <if test="itemId != null">#{itemId},</if>
         </trim>
     </insert>

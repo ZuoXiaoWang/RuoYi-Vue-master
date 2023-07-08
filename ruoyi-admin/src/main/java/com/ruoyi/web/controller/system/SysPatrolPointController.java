@@ -135,7 +135,6 @@ public class SysPatrolPointController extends AppBaseController {
         if (StringUtils.isNotEmpty(sysPatrolPoint.getItemId())){
             List<InspectionItemTitle> inspectionItemTitles = inspectionService.selectInspectionItemTitleAndValueByItemId(sysPatrolPoint.getItemId());
             ajaxResult.put("inspectionItemTitles",inspectionItemTitles);
-
         }
         return ajaxResult;
     }

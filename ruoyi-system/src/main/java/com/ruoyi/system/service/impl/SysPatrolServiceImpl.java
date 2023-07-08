@@ -12,12 +12,9 @@ import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.*;
-import com.ruoyi.system.mapper.SysPatrolPatrolPointMapper;
-import com.ruoyi.system.mapper.SysPatrolPatrolPointStatusMapper;
-import com.ruoyi.system.mapper.SysPatrolPersonnelMapper;
+import com.ruoyi.system.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.SysPatrolMapper;
 import com.ruoyi.system.service.ISysPatrolService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +37,9 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
 
     @Autowired
     private SysPatrolPatrolPointStatusMapper sysPatrolPatrolPointStatusMapper;
+
+    @Autowired
+    private InspectionRoutePointRelMapper inspectionRoutePointRelMapper;
 
 
     @Autowired
@@ -100,6 +100,11 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         int row = sysPatrolMapper.insertSysPatrol(sysPatrol);
         //新增巡更任务和员工关联
         insertPatrolPersonnel(sysPatrol);
+
+        //根据线路id查询点位
+        Long[] longs = inspectionRoutePointRelMapper.selectInspectionRoutePointRelIds(sysPatrol.getInspectionRouteId());
+        sysPatrol.setPatrolPointIds(longs);
+
         //新增巡更任务和点位关联
         insertPatrolPatrolPoint(sysPatrol);
 
@@ -182,6 +187,11 @@ public class SysPatrolServiceImpl implements ISysPatrolService {
         insertPatrolPersonnel(sysPatrol);
         //删除巡更和点位
         sysPatrolPatrolPointMapper.deleteSysPatrolPatrolPointByPatrolId(patrolId);
+
+        //根据线路id查询点位
+        Long[] longs = inspectionRoutePointRelMapper.selectInspectionRoutePointRelIds(sysPatrol.getInspectionRouteId());
+        sysPatrol.setPatrolPointIds(longs);
+
         //新增巡更和点位
         insertPatrolPatrolPoint(sysPatrol);
 

@@ -110,4 +110,6 @@ public class SysPatrol extends BaseEntity {
 
     private Long userId;
 
+    private String inspectionRouteId;
+
 }

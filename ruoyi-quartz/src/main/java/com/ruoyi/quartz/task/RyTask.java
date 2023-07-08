@@ -3,6 +3,7 @@ package com.ruoyi.quartz.task;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.domain.SysPatrol;
+import com.ruoyi.system.service.IInspectionRouteService;
 import com.ruoyi.system.service.ISysPatrolPointService;
 import com.ruoyi.system.service.ISysPatrolService;
 import com.ruoyi.system.service.ISysPersonnelService;
@@ -33,6 +34,9 @@ public class RyTask {
     @Autowired
     private ISysPatrolPointService patrolPointService;
 
+    @Autowired
+    private IInspectionRouteService inspectionRouteService;
+
     public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
     }
@@ -51,6 +55,8 @@ public class RyTask {
 //        根据patrolId查询模板任务
         SysPatrol template = patrolService.selectSysPatrolTemplateByPatrolId(patrolId);
         List<Long> personnelList = personnelService.selectPersonnelListByPatrolId(patrolId);
+//        Long[] longs = inspectionRouteService.selectInspectionRoutePointRelIds(template.getInspectionRouteId());
+
         List<Long> patrolPointList = patrolPointService.selectPatrolPointListByPatrolId(patrolId);
         SysPatrol sysPatrol = new SysPatrol();
         //template.setPatrolId(null);

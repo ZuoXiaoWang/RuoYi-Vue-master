@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysPatrolPointMapper;
 import com.ruoyi.system.service.ISysPatrolPointService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 巡更点管理Service业务层处理
@@ -56,6 +57,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertSysPatrolPoint(SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setCreateTime(DateUtils.getNowDate());
         int row = sysPatrolPointMapper.insertSysPatrolPoint(sysPatrolPoint);
@@ -75,6 +77,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateSysPatrolPoint(SysPatrolPoint sysPatrolPoint) {
         sysPatrolPoint.setUpdateTime(DateUtils.getNowDate());
         //删除所有此点位的巡检项目关联
@@ -97,6 +100,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteSysPatrolPointByPatrolPointIds(Long[] patrolPointIds) {
         //删除所有此点位的巡检项目关联
         inspectionItemPointMapper.deleteInspectionItemPointByPatrolPointIds(patrolPointIds);
@@ -110,6 +114,7 @@ public class SysPatrolPointServiceImpl implements ISysPatrolPointService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteSysPatrolPointByPatrolPointId(Long patrolPointId) {
         inspectionItemPointMapper.deleteInspectionItemPointByPatrolPointId(patrolPointId);
         return sysPatrolPointMapper.deleteSysPatrolPointByPatrolPointId(patrolPointId);

@@ -255,6 +255,16 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="巡检项目" prop="itemId">
+          <el-select v-model="form.itemId" placeholder="请选择巡检项目" clearable>
+            <el-option
+              v-for="item in itemList"
+              :key="item.itemId"
+              :label="item.itemName"
+              :value="item.itemId"
+            />
+          </el-select>
+        </el-form-item>
         <!--<el-form-item label="巡更点编号" prop="patrolPointId">-->
         <!--  <el-input v-model="form.patrolPointId" placeholder="请输入巡更点编号"/>-->
         <!--</el-form-item>-->
@@ -330,6 +340,7 @@ import {
 } from "@/api/system/point";
 import {listRegion, listRegionAll} from "@/api/system/region";
 import { saveAs } from "file-saver";
+import { listItem } from '@/api/system/item'
 
 export default {
   name: "Point",
@@ -366,6 +377,14 @@ export default {
         patrolPointAltitude: null,
         patrolPointStatus: null,
       },
+      // 巡更项目表格数据
+      itemList: [],
+      // 查询参数
+      itemQueryParams: {
+        itemName: null,
+        regionId: null,
+        statusCd: null,
+      },
       // 表单参数
       form: {},
       // 表单校验
@@ -374,6 +393,9 @@ export default {
         // patrolPointId: [
         //   { required: true,message: "巡更点编号不能为空", trigger: "blur"}
         // ],
+        itemId: [
+          { required: true, message: "巡更项目不能为空", trigger: "blur"},
+        ],
         patrolPointName: [
           { required: true, message: "巡更点名称不能为空", trigger: "blur" },
         ],
@@ -399,8 +421,15 @@ export default {
   created() {
     this.getList();
     this.regionListQuery();
+    this.getItemList();
   },
   methods: {
+    //查询item列表
+    getItemList(){
+      listItem(this.itemQueryParams).then((response) => {
+        this.itemList = response.rows;
+      });
+    },
     //查询区域列表
     regionListQuery() {
       listRegionAll().then((response) => {
