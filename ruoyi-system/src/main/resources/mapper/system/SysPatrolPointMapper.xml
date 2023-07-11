@@ -236,7 +236,7 @@
 
     <select id="selectSysPatrolPointByPatrolPointIds" parameterType="String" resultMap="SysPatrolPointResult">
         <include refid="selectSysPatrolPointVo"/>
-        where patrol_point_id in
+        where sys_patrol_point.patrol_point_id in
         <foreach item="patrolPointId" collection="array" open="(" separator="," close=")">
             #{patrolPointId}
         </foreach>
