@@ -498,29 +498,19 @@
           >
           </el-date-picker>
         </el-form-item>
-        <!--<el-form-item label="点位" prop="PatrolPointId">-->
-        <!--  <el-select-->
-        <!--    v-model="patrolFrom.patrolPointIds"-->
-        <!--    multiple-->
-        <!--    placeholder="请选择点位"-->
-        <!--  >-->
-        <!--    <el-option-->
-        <!--      v-for="item in patrolPointOptions"-->
-        <!--      :key="item.patrolPointId"-->
-        <!--      :label="item.patrolPointName"-->
-        <!--      :value="item.patrolPointId"-->
-        <!--      :disabled="item.status == 1"-->
-        <!--    ></el-option>-->
-        <!--  </el-select>-->
-        <!--</el-form-item>-->
-        <el-form-item label="巡检路线" prop="inspectionRouteId">
-          <el-select v-model="patrolFrom.inspectionRouteId" placeholder="巡检路线" clearable>
+        <el-form-item label="点位" prop="PatrolPointId">
+          <el-select
+            v-model="patrolFrom.patrolPointIds"
+            multiple
+            placeholder="请选择点位"
+          >
             <el-option
-              v-for="item in inspectionRouteList"
-              :key="item.inspectionRouteId"
-              :label="item.routeName"
-              :value="item.inspectionRouteId"
-            />
+              v-for="item in patrolPointOptions"
+              :key="item.patrolPointId"
+              :label="item.patrolPointName"
+              :value="item.patrolPointId"
+              :disabled="item.status == 1"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -549,7 +539,6 @@ import {
   runJob,
   changeJobStatus,
 } from "@/api/monitor/job";
-import {listRoute} from "@/api/system/route"
 import {listRegion, listRegionAll} from "@/api/system/region";
 import Crontab from "@/components/Crontab";
 import {
@@ -592,8 +581,6 @@ export default {
       personnelOptions: [],
       // 点位选项
       patrolPointOptions: [],
-      // 线路选项
-      inspectionRouteList: [],
       // 弹出层标题
       patrolFromTitle: "",
       // 是否显示弹出层
@@ -611,13 +598,6 @@ export default {
         jobName: undefined,
         jobGroup: undefined,
         status: undefined,
-      },
-      // 巡更路线查询参数
-      inspectionRouteQueryParams: {
-        routeName: null,
-        regionId: null,
-        seq: null,
-        statusCd: null,
       },
       // 表单参数
       form: {},
@@ -655,15 +635,8 @@ export default {
   created() {
     this.getList();
     this.regionListQuery();
-    this.getInspectionRouteList();
   },
   methods: {
-    //查询路线列表
-    getInspectionRouteList(){
-      listRoute(this.inspectionRouteQueryParams).then((response) => {
-        this.inspectionRouteList = response.rows;
-      });
-    },
     //查询区域列表
     regionListQuery() {
       listRegionAll().then((response) => {

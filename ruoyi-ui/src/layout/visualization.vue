@@ -151,6 +151,7 @@ import {
   getPointsList,
   getEverydayComplete,
   getPotinStatusByPatrolId,
+  regionId,
 } from "@/api/visualization";
 import Time from "../views/visualization/time.vue";
 import * as echarts from "echarts";
@@ -224,27 +225,30 @@ export default {
     };
   },
   mounted() {
-    countLastWeekRepairAndFrom().then((res) => {
-      this.repairReported = res;
-      let weekBefore = [
-        this.formatTime(new Date(new Date().getTime() - 86400000 * 7)),
-        this.formatTime(new Date(new Date().getTime() - 86400000 * 6)),
-        this.formatTime(new Date(new Date().getTime() - 86400000 * 5)),
-        this.formatTime(new Date(new Date().getTime() - 86400000 * 4)),
-        this.formatTime(new Date(new Date().getTime() - 86400000 * 3)),
-        this.formatTime(new Date(new Date().getTime() - 86400000 * 2)),
-        this.formatTime(new Date(new Date().getTime() - 86400000)),
-      ];
-      getEverydayComplete().then((data) => {
-        this.videoChart(weekBefore, res, data);
-      });
-    });
     this.initMap();
+    this.countLast();
   },
   created() {
     this.init();
   },
   methods: {
+    countLast() {
+      countLastWeekRepairAndFrom().then((res) => {
+        this.repairReported = res;
+        let weekBefore = [
+          this.formatTime(new Date(new Date().getTime() - 86400000 * 7)),
+          this.formatTime(new Date(new Date().getTime() - 86400000 * 6)),
+          this.formatTime(new Date(new Date().getTime() - 86400000 * 5)),
+          this.formatTime(new Date(new Date().getTime() - 86400000 * 4)),
+          this.formatTime(new Date(new Date().getTime() - 86400000 * 3)),
+          this.formatTime(new Date(new Date().getTime() - 86400000 * 2)),
+          this.formatTime(new Date(new Date().getTime() - 86400000)),
+        ];
+        getEverydayComplete().then((data) => {
+          this.videoChart(weekBefore, res, data);
+        });
+      });
+    },
     yesterday() {
       this.textContent = `您好，该区域共有${this.pointListNum}个巡更点位、${this.routeListNum}项巡更任务；`;
       this.yesterdayText = `昨日共有${this.repairReported.repairFrom7}个报修，其中已完成维修数量为${this.repairReported.repair7}；
@@ -252,6 +256,15 @@ export default {
     },
     //点击查看区域
     areaView(row) {
+      let _this = this;
+      let data = {
+        regionId: row.regionId,
+      };
+      regionId(data).then((res) => {
+        _this.init();
+        _this.countLast();
+      });
+      console.log(row);
       this.map.getView().animate({
         center: [
           row.regionLongitude + 0.00631647071057,
@@ -270,7 +283,10 @@ export default {
       if (this.layer != null) {
         this.map.removeLayer(this.layer);
       }
-      patrolInfo(row.patrolId).then((res) => {
+      let data = {
+        patrolId: row.patrolId,
+      };
+      patrolInfo(data).then((res) => {
         let coordinateList = [];
         let ids = [];
         for (let i = 0; i < res.data.patrolPoints.length; i++) {
@@ -279,7 +295,10 @@ export default {
             res.data.patrolPoints[i].patrolPointLatitude + 0.00139113431802,
           ]);
         }
-        getPotinStatusByPatrolId(row.patrolId).then((data) => {
+        let data = {
+          patrolId: row.patrolId,
+        };
+        getPotinStatusByPatrolId(data).then((data) => {
           for (let i = 0; i < data.pointListStatus.length; i++) {
             const element = data.pointListStatus[i];
             ids.push(element.patrolPatrolPointStatus);

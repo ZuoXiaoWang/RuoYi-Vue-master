@@ -314,14 +314,6 @@ export default {
     this.getList();
     this.regionListQuery();
     this.topicListQuery();
-
-  },
-  watch:{
-    $route(to,from){
-      if(to.path === '/system/title'){
-        this.getList()
-      }
-    }
   },
   methods: {
     removeDomain(item) {

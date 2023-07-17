@@ -160,6 +160,7 @@
         </where>
     </select>
 
+
     <select id="selectSysPatrolByPatrolId" parameterType="Long" resultMap="SysPatrolResult">
         <include refid="selectSysPatrolVo"/>
         where sys_patrol.patrol_id = #{patrolId}

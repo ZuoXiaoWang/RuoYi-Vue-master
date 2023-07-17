@@ -358,11 +358,11 @@ export default {
     getList() {
       this.loading = true;
       selectRepairPersonnelAll(this.queryParams).then(response => {
-        this.personnelList = response.rows;
+        this.personnelList = response.OwnerPersonnel;
         this.personnelList.map((val, i) => {
           this.personnelList[i].avatar = this.getImg(val.avatar);
         });
-        this.total = response.total;
+        this.total = response.OwnerPersonnel.length;
         this.loading = false;
       });
     },

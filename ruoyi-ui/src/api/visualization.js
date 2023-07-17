@@ -17,10 +17,11 @@ export function patrolList() {
 }
 
 // 获取巡更任务详情
-export function patrolInfo(patrolId) {
+export function patrolInfo(data) {
     return request({
-        url: '/ui/patrol/' + patrolId,
-        method: 'get',
+        url: '/ui/patrol',
+        method: 'post',
+        data: data
     })
 }
 
@@ -81,9 +82,18 @@ export function getEverydayComplete() {
 }
 
 //获取当前任务的所有已巡和未巡点
-export function getPotinStatusByPatrolId(patrolId) {
+export function getPotinStatusByPatrolId(data) {
     return request({
-        url: '/ui/getPotinStatusByPatrolId/' + patrolId,
-        method: 'get',
+        url: '/ui/getPotinStatusByPatrolId',
+        method: 'post',
+        data: data
+    })
+}
+
+export function regionId(data) {
+    return request({
+        url: '/ui/regionId',
+        method: 'post',
+        data: data
     })
 }
