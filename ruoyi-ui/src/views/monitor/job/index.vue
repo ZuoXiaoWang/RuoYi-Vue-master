@@ -50,10 +50,10 @@
           icon="el-icon-search"
           size="mini"
           @click="handleQuery"
-          >搜索</el-button
+        >搜索</el-button
         >
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
+        >重置</el-button
         >
       </el-form-item>
     </el-form>
@@ -67,7 +67,7 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['monitor:job:add']"
-          >新增
+        >新增
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -79,7 +79,7 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['monitor:job:edit']"
-          >修改
+        >修改
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -91,7 +91,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['monitor:job:remove']"
-          >删除
+        >删除
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -102,7 +102,7 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['monitor:job:export']"
-          >导出
+        >导出
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -113,7 +113,7 @@
           size="mini"
           @click="handleJobLog"
           v-hasPermi="['monitor:job:query']"
-          >日志
+        >日志
         </el-button>
       </el-col>
       <right-toolbar
@@ -182,7 +182,7 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['monitor:job:edit']"
-            >修改
+          >修改
           </el-button>
           <el-button
             size="mini"
@@ -190,7 +190,7 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['monitor:job:remove']"
-            >删除
+          >删除
           </el-button>
           <el-dropdown
             size="mini"
@@ -198,26 +198,26 @@
             v-hasPermi="['monitor:job:changeStatus', 'monitor:job:query']"
           >
             <el-button size="mini" type="text" icon="el-icon-d-arrow-right"
-              >更多</el-button
+            >更多</el-button
             >
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 command="handleRun"
                 icon="el-icon-caret-right"
                 v-hasPermi="['monitor:job:changeStatus']"
-                >执行一次
+              >执行一次
               </el-dropdown-item>
               <el-dropdown-item
                 command="handleView"
                 icon="el-icon-view"
                 v-hasPermi="['monitor:job:query']"
-                >任务详细
+              >任务详细
               </el-dropdown-item>
               <el-dropdown-item
                 command="handleJobLog"
                 icon="el-icon-s-operation"
                 v-hasPermi="['monitor:job:query']"
-                >调度日志
+              >调度日志
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -346,7 +346,7 @@
                   v-for="dict in dict.type.sys_job_status"
                   :key="dict.value"
                   :label="dict.value"
-                  >{{ dict.label }}
+                >{{ dict.label }}
                 </el-radio>
               </el-radio-group>
             </el-form-item>
@@ -388,26 +388,26 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="任务分组：">{{
-              jobGroupFormat(form)
-            }}</el-form-item>
+                jobGroupFormat(form)
+              }}</el-form-item>
             <el-form-item label="创建时间：">{{
-              form.createTime
-            }}</el-form-item>
+                form.createTime
+              }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="cron表达式：">{{
-              form.cronExpression
-            }}</el-form-item>
+                form.cronExpression
+              }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="下次执行时间：">{{
-              parseTime(form.nextValidTime)
-            }}</el-form-item>
+                parseTime(form.nextValidTime)
+              }}</el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="调用目标方法：">{{
-              form.invokeTarget
-            }}</el-form-item>
+                form.invokeTarget
+              }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="任务状态：">
@@ -498,19 +498,29 @@
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="点位" prop="PatrolPointId">
-          <el-select
-            v-model="patrolFrom.patrolPointIds"
-            multiple
-            placeholder="请选择点位"
-          >
+        <!--<el-form-item label="点位" prop="PatrolPointId">-->
+        <!--  <el-select-->
+        <!--    v-model="patrolFrom.patrolPointIds"-->
+        <!--    multiple-->
+        <!--    placeholder="请选择点位"-->
+        <!--  >-->
+        <!--    <el-option-->
+        <!--      v-for="item in patrolPointOptions"-->
+        <!--      :key="item.patrolPointId"-->
+        <!--      :label="item.patrolPointName"-->
+        <!--      :value="item.patrolPointId"-->
+        <!--      :disabled="item.status == 1"-->
+        <!--    ></el-option>-->
+        <!--  </el-select>-->
+        <!--</el-form-item>-->
+        <el-form-item label="巡检路线" prop="inspectionRouteId">
+          <el-select v-model="patrolFrom.inspectionRouteId" placeholder="巡检路线" clearable>
             <el-option
-              v-for="item in patrolPointOptions"
-              :key="item.patrolPointId"
-              :label="item.patrolPointName"
-              :value="item.patrolPointId"
-              :disabled="item.status == 1"
-            ></el-option>
+              v-for="item in inspectionRouteList"
+              :key="item.inspectionRouteId"
+              :label="item.routeName"
+              :value="item.inspectionRouteId"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -539,6 +549,7 @@ import {
   runJob,
   changeJobStatus,
 } from "@/api/monitor/job";
+import {listRoute} from "@/api/system/route"
 import {listRegion, listRegionAll} from "@/api/system/region";
 import Crontab from "@/components/Crontab";
 import {
@@ -581,6 +592,8 @@ export default {
       personnelOptions: [],
       // 点位选项
       patrolPointOptions: [],
+      // 线路选项
+      inspectionRouteList: [],
       // 弹出层标题
       patrolFromTitle: "",
       // 是否显示弹出层
@@ -598,6 +611,13 @@ export default {
         jobName: undefined,
         jobGroup: undefined,
         status: undefined,
+      },
+      // 巡更路线查询参数
+      inspectionRouteQueryParams: {
+        routeName: null,
+        regionId: null,
+        seq: null,
+        statusCd: null,
       },
       // 表单参数
       form: {},
@@ -635,8 +655,15 @@ export default {
   created() {
     this.getList();
     this.regionListQuery();
+    this.getInspectionRouteList();
   },
   methods: {
+    //查询路线列表
+    getInspectionRouteList(){
+      listRoute(this.inspectionRouteQueryParams).then((response) => {
+        this.inspectionRouteList = response.rows;
+      });
+    },
     //查询区域列表
     regionListQuery() {
       listRegionAll().then((response) => {

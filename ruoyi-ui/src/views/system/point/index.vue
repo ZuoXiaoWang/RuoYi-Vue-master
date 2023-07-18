@@ -63,10 +63,10 @@
           icon="el-icon-search"
           size="mini"
           @click="handleQuery"
-          >搜索</el-button
+        >搜索</el-button
         >
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
+        >重置</el-button
         >
       </el-form-item>
     </el-form>
@@ -80,7 +80,7 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['system:point:add']"
-          >新增</el-button
+        >新增</el-button
         >
       </el-col>
       <el-col :span="1.5">
@@ -92,7 +92,7 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['system:point:edit']"
-          >修改
+        >修改
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -104,7 +104,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['system:point:remove']"
-          >删除
+        >删除
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -115,7 +115,7 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['system:point:export']"
-          >导出点位表</el-button
+        >导出点位表</el-button
         >
       </el-col>
       <el-col :span="1.5">
@@ -126,7 +126,7 @@
           size="mini"
           :disabled="multiple"
           @click="handelQRcode"
-          >导出二维码(此操作很慢请耐心等待几分钟，建议选择30列以下数据导出)</el-button
+        >导出二维码(此操作很慢请耐心等待几分钟，建议选择30列以下数据导出)</el-button
         >
       </el-col>
       <right-toolbar
@@ -190,7 +190,7 @@
             type="text"
             icon="el-icon-view"
             @click="seeInfo(scope.row)"
-            >查看
+          >查看
           </el-button>
           <el-button
             size="mini"
@@ -198,7 +198,7 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:point:edit']"
-            >修改
+          >修改
           </el-button>
           <el-button
             size="mini"
@@ -206,7 +206,7 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:point:remove']"
-            >删除
+          >删除
           </el-button>
         </template>
       </el-table-column>
@@ -255,6 +255,16 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="巡检项目" prop="itemId">
+          <el-select v-model="form.itemId" placeholder="请选择巡检项目" clearable>
+            <el-option
+              v-for="item in itemList"
+              :key="item.itemId"
+              :label="item.itemName"
+              :value="item.itemId"
+            />
+          </el-select>
+        </el-form-item>
         <!--<el-form-item label="巡更点编号" prop="patrolPointId">-->
         <!--  <el-input v-model="form.patrolPointId" placeholder="请输入巡更点编号"/>-->
         <!--</el-form-item>-->
@@ -298,7 +308,7 @@
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
               :label="dict.value"
-              >{{ dict.label }}
+            >{{ dict.label }}
             </el-radio>
           </el-radio-group>
         </el-form-item>
@@ -330,6 +340,7 @@ import {
 } from "@/api/system/point";
 import {listRegion, listRegionAll} from "@/api/system/region";
 import { saveAs } from "file-saver";
+import { listItem } from '@/api/system/item'
 
 export default {
   name: "Point",
@@ -366,6 +377,14 @@ export default {
         patrolPointAltitude: null,
         patrolPointStatus: null,
       },
+      // 巡更项目表格数据
+      itemList: [],
+      // 查询参数
+      itemQueryParams: {
+        itemName: null,
+        regionId: null,
+        statusCd: null,
+      },
       // 表单参数
       form: {},
       // 表单校验
@@ -374,6 +393,9 @@ export default {
         // patrolPointId: [
         //   { required: true,message: "巡更点编号不能为空", trigger: "blur"}
         // ],
+        itemId: [
+          { required: true, message: "巡更项目不能为空", trigger: "blur"},
+        ],
         patrolPointName: [
           { required: true, message: "巡更点名称不能为空", trigger: "blur" },
         ],
@@ -399,8 +421,15 @@ export default {
   created() {
     this.getList();
     this.regionListQuery();
+    this.getItemList();
   },
   methods: {
+    //查询item列表
+    getItemList(){
+      listItem(this.itemQueryParams).then((response) => {
+        this.itemList = response.rows;
+      });
+    },
     //查询区域列表
     regionListQuery() {
       listRegionAll().then((response) => {
