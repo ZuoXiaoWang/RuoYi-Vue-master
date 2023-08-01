@@ -41,7 +41,7 @@ public class UiController extends AppBaseController {
 
     @PostMapping("/regionId")
     public AjaxResult regionId(@RequestBody RegionVo regionVo) {
-        if (redisCache.getCacheObject("regionId") == null){
+        if (redisCache.getCacheObject("regionId") == null) {
             redisCache.setCacheObject("regionId", regionVo.getRegionId(), 1, TimeUnit.DAYS);
         }
         return AjaxResult.success();
@@ -157,15 +157,26 @@ public class UiController extends AppBaseController {
         NewRepairFrom newRepairFrom = new NewRepairFrom();
         Map<String, Object> stringObjectMap = new HashMap<>();
         newRepairFrom.setRegionId(regionId);
+        SysPatrol sysPatrol = new SysPatrol();
+        // 区域id
+        sysPatrol.setRegionId(regionId);
+        // 巡更任务状态已完成数量
+        sysPatrol.setPatrolStatus("2");
         for (int i = 1; i <= 7; i++) {
             calendar.add(Calendar.DATE, -i);
             Date date = calendar.getTime();
             newRepair.setCreateTime(date);
             newRepairFrom.setCreateTime(date);
+            sysPatrol.setCreateTime(date);
+            // 维修单数量
             List<NewRepair> newRepairs = newRepairService.selectNewRepairList(newRepair);
+            // 报修单数量
             List<NewRepairFrom> newRepairFroms = newRepairFromService.selectNewRepairFromList(newRepairFrom);
+           // 巡更任务完成量
+            List<SysPatrol> selectSysPatrolList = patrolService.selectSysPatrolList(sysPatrol);
             ajax.put("repair" + i, newRepairs.size());
             ajax.put("repairFrom" + i, newRepairFroms.size());
+            ajax.put("PatrolNum" + i, selectSysPatrolList.size());
             calendar.setTime(new Date());
             calendar.set(Calendar.HOUR_OF_DAY, 0);  // 清除时
             calendar.set(Calendar.MINUTE, 0);       // 清除分

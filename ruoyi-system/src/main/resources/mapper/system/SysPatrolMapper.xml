@@ -100,7 +100,7 @@
             <if test="patrolStatus != null  and patrolStatus != ''">and sys_patrol.patrol_status = #{patrolStatus}</if>
             <if test="patrolStartTime != null ">and sys_patrol.patrol_start_time = #{patrolStartTime}</if>
             <if test="patrolEndTime != null ">and sys_patrol.patrol_end_time = #{patrolEndTime}</if>
-            <if test="patrolCreateTime != null ">and sys_patrol.patrol_create_time = #{patrolCreateTime}</if>
+            <if test="createTime != null "> and date_format(sys_patrol.create_time, '%y%m%d') = date_format(#{createTime}, '%y%m%d')</if>
             <if test="patrolActualStartTime != null ">and sys_patrol.patrol_actual_start_time = #{patrolActualStartTime}</if>
             <if test="patrolActualEndTime != null ">and sys_patrol.patrol_actual_end_time = #{patrolActualEndTime}</if>
             and sys_patrol.type = 0
